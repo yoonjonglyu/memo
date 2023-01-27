@@ -24,12 +24,18 @@
     "url": "https://github.com/yoonjonglyu/webpack-init-template/issues"
   },
   "homepage": "https://github.com/yoonjonglyu/webpack-init-template#readme",
-  "dependencies": {},
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
     "autoprefixer": "^10.4.4",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.4",
