@@ -12,6 +12,7 @@
         "useBuiltIns": "usage",
         "corejs": "3.19.0"
       }
-    ]
+    ],
+    "@babel/preset-typescript"
   ]
 }
