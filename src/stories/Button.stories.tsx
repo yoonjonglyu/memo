@@ -1,5 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { within, userEvent } from '@storybook/testing-library';
 
 import { Button } from './Button';
 
@@ -22,10 +23,23 @@ Primary.args = {
   primary: true,
   label: 'Button',
 };
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const button = canvas.getByText('Button');
+
+  await userEvent.type(button, 'hover', { delay: 200 });
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  userEvent.click(button);
+};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  label: 'Button',
+  label: 'fail',
+};
+Secondary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const button = canvas.getByText('fail');
+  userEvent.click(button);
 };
 
 export const Large = Template.bind({});

@@ -1,8 +1,8 @@
 {
-  "name": "webpack-init-template",
+  "name": "memo",
   "version": "1.0.0",
-  "description": "> 기본 환경 템플릿",
-  "main": "index.js",
+  "description": "크로스 플랫폼 메모",
+  "main": "index.tsx",
   "scripts": {
     "dev": "webpack-dev-server --env env=dev",
     "dev:bundleanalyzer": "npm run dev -- --env addons=bundleanalyzer",
