@@ -1,0 +1,44 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const Box = styled.section`
+  width: 180px;
+  min-height: 150px;
+  max-height: 240px;
+  padding: 8px;
+  border: 1px solid;
+  box-shadow: 1px 1px gray;
+  word-break: break-all;
+  overflow: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+const Text = styled.textarea`
+  min-height: 150px;
+  max-height: 240px;
+  resize: none;
+  outline: none;
+  border: none;
+  word-break: break-all;
+  overflow: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+// 심플하면서 모던 한 느낌을 줄려면 입체감을 주는게 맞을거 같다.
+export interface MemoProps {}
+
+const Memo: React.FC<MemoProps> = () => {
+  return (
+    <Box>
+      <Text>
+        asdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasddasdadssdaasdsdadsadsasdasdadsdsdasadsadsdaasdd
+      </Text>
+    </Box>
+  );
+};
+
+export default Memo;
