@@ -3,9 +3,12 @@ import styled from 'styled-components';
 
 const Board = styled.main`
   display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 8px;
   width: 100%;
   min-height: 500px;
-  gap: 8px;
 `;
 
 interface BoardLayoutProps {
