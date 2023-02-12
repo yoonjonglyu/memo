@@ -11,4 +11,7 @@ export default {
 const template: ComponentStory<typeof Memo> = args => <Memo {...args} />;
 
 export const Basic = template.bind({});
-Basic.args = {};
+Basic.args = {
+  value: '메모를 해보자.',
+  onChange: () => alert('메모의 value와 onChange는 props')
+};
