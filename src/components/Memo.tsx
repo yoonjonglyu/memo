@@ -5,6 +5,7 @@ const Box = styled.section`
   width: 180px;
   min-height: 150px;
   max-height: 240px;
+  margin: 0;
   padding: 8px;
   border: 1px solid;
   box-shadow: 1px 1px gray;
