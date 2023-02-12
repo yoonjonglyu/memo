@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Box = styled.section`
-  width: 180px;
+  max-width: 180px;
+  width: 100%;
   min-height: 150px;
   max-height: 240px;
   margin: 0;
@@ -13,6 +14,9 @@ const Box = styled.section`
   overflow: hidden;
   &::-webkit-scrollbar {
     display: none;
+  }
+  @media screen and (max-width: 920px) {
+    max-width: unset
   }
 `;
 const Text = styled.textarea`
