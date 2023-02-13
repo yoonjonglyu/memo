@@ -7,7 +7,7 @@ const Box = styled.section`
   min-height: 150px;
   max-height: 240px;
   margin: 0;
-  padding: 8px;
+  padding: 4px;
   border: 1px solid;
   box-shadow: 1px 1px gray;
   word-break: break-all;
