@@ -1,31 +1,40 @@
 import React, { useState } from 'react';
 
 import BoardLayout from '../../components/layouts/BoardLayout';
+import MemoItem from './MemoItem';
 
-interface MemoListProps {
+interface MemoProps {
   idx: string;
-  type: 'memo' | 'todo';
-}
-interface MemoProps extends MemoListProps {
   type: 'memo';
   props: string;
 }
-interface TodoProps extends MemoListProps {
+interface TodoProps {
+  idx: string;
   type: 'todo';
-  props: Array<{ isAvill: boolean; todo: string }>;
+  props: Array<{ isAvail: boolean; todo: string }>;
 }
 
 export interface MemoFeatureProps {}
 
 const MemoFeature: React.FC<MemoFeatureProps> = () => {
   const [memoList, setMemoList] = useState<Array<MemoProps | TodoProps>>([
-    { idx: 'aa', type: 'memo', props: 'ss' },
-    { idx: 'aa', type: 'todo', props: [{ isAvill: true, todo: 'aaa' }] },
+    { idx: 'a1', type: 'memo', props: 'ss' },
+    { idx: 'a2', type: 'todo', props: [{ isAvail: true, todo: 'aaa' }] },
   ]);
 
   return (
     <BoardLayout>
-      <div></div>
+      {memoList.map((item, index) => {
+        return (
+          <MemoItem
+            key={item.idx}
+            index={index}
+            type={item.type}
+            props={item.props}
+            memoHandler={setMemoList}
+          />
+        );
+      })}
     </BoardLayout>
   );
 };
