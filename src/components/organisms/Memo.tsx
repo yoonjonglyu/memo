@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import MemoBox from './atoms/MemoBox';
+import MemoBox from '../atoms/MemoBox';
 
 const Text = styled.textarea`
   min-height: 150px;

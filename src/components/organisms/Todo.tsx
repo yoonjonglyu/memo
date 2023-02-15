@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import MemoBox from './atoms/MemoBox';
+import MemoBox from '../atoms/MemoBox';
 
 const TodoInput = styled.input`
   width: calc(100% - 8px);
