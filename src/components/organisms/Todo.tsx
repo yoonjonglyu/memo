@@ -33,7 +33,7 @@ const DelectBtn = styled.button`
 `;
 
 export interface TodoProps {
-  todoItem: Array<{ isAvill: boolean; todo: string }>;
+  todoItem: Array<{ isAvail: boolean; todo: string }>;
   addItemHandler: (todo: string) => void;
   checkItemHandler: (idx: number) => void;
   deleteItemHandler: (idx: number) => void;
@@ -47,8 +47,10 @@ const Todo: React.FC<TodoProps> = props => {
   const handleInsert: React.KeyboardEventHandler<HTMLInputElement> = event => {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
-      addItemHandler(input.value);
-      input.value = '';
+      if(input.value.trim().length > 0){
+        addItemHandler(input.value);
+        input.value = '';
+      }
     }
   };
 
@@ -61,8 +63,9 @@ const Todo: React.FC<TodoProps> = props => {
             <li key={idx}>
               <CheckedTodo
                 type="checkbox"
-                checked={item.isAvill}
+                checked={item.isAvail}
                 onClick={() => checkItemHandler(idx)}
+                readOnly
               />
               {item.todo}
               <DelectBtn onClick={() => deleteItemHandler(idx)}>X</DelectBtn>
