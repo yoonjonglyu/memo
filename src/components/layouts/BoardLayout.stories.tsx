@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import BoardLayout from './BoardLayout';
-import Memo from '../Memo';
+import Memo from '../organisms/Memo';
 
 export default {
   title: '메모/레이아웃/보드',
