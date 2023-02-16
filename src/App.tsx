@@ -1,7 +1,8 @@
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 
 const App: React.FC = () => {
-  return <div>app</div>;
+  return <RecoilRoot>app</RecoilRoot>;
 };
 
 export default App;
