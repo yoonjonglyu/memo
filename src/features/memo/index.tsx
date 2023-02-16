@@ -3,24 +3,12 @@ import React, { useState } from 'react';
 import BoardLayout from '../../components/layouts/BoardLayout';
 import MemoItem from './MemoItem';
 
-interface MemoProps {
-  idx: string;
-  type: 'memo';
-  props: string;
-}
-interface TodoProps {
-  idx: string;
-  type: 'todo';
-  props: Array<{ isAvail: boolean; todo: string }>;
-}
+import useMemo from '../../hooks/useMemo';
 
 export interface MemoFeatureProps {}
 
 const MemoFeature: React.FC<MemoFeatureProps> = () => {
-  const [memoList, setMemoList] = useState<Array<MemoProps | TodoProps>>([
-    { idx: 'a1', type: 'memo', props: 'ss' },
-    { idx: 'a2', type: 'todo', props: [{ isAvail: true, todo: 'aaa' }] },
-  ]);
+  const { memoList } = useMemo();
 
   return (
     <BoardLayout>
@@ -31,7 +19,6 @@ const MemoFeature: React.FC<MemoFeatureProps> = () => {
             index={index}
             type={item.type}
             props={item.props}
-            memoHandler={setMemoList}
           />
         );
       })}

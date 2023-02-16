@@ -14,5 +14,6 @@ const template: ComponentStory<typeof MemoItem> = args => (
 
 export const Basic = template.bind({});
 Basic.args = {
-  type: 'todo'
+  type: 'todo',
+  index: 0,
 };
