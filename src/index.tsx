@@ -7,6 +7,11 @@ import App from './App';
 // createRoot(document.querySelector('#app') || document.body).render(
 //   <App />
 // );
+import { worker } from './mocks/worker';
+if(process.env.NODE_ENV === 'development'){
+  worker.start();
+}
+
 const Root = document.querySelector('#app');
 if (Root !== null) {
   createRoot(Root).render(<App />);
