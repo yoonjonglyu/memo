@@ -24,6 +24,14 @@ class MemoApi {
       } else return JSON.parse(check);
     }
   }
+  async setMemoList(memoList: Array<any>) {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.post(`${this.url}/memoList`, memoList);
+      return res;
+    } else {
+      localStorage.setItem('MEMO_LIST', JSON.stringify(memoList));
+    }
+  }
 }
 
 export default MemoApi;
