@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --env env=prod",
     "build:bundleanalyzer": "npm run build -- --env addons=bundleanalyzer",
     "test": "jest --watchAll",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",
     "test-storybook": "test-storybook --watch"
   },
@@ -75,6 +75,7 @@
     "jest-environment-jsdom": "^29.4.1",
     "mini-css-extract-plugin": "^0.11.3",
     "msw": "^1.0.1",
+    "msw-storybook-addon": "^1.7.0",
     "postcss": "^8.4.12",
     "postcss-loader": "^4.3.0",
     "prettier": "^2.6.1",
