@@ -8,7 +8,12 @@ import { createPortal } from 'react-dom';
  * 좋습니다. 상태관리도구의 경우 컴포넌트 내부에서 hook을 호출하는 방법으로 모달을 조작해야합니다.
  */
 const ModalContext = createContext<HTMLDivElement | null>(null);
-
+/**
+ * 프론트엔드에서 타입스크립트를 적용할 경우 타입이나 인터페이스를 사용하게 됩니다. 보통 인터페이스로 표현하는걸 개인적으로 선호하는 편이긴하지만
+ * 반드시 interface를 사용할 필요는 없는 것 같습니다. 다만 보통 해당 컴포넌트 이름 + props로 컴포넌트 타입을 명명하는 편인데
+ * 아래와 같이 같은 파일(이나 네임스페이스) 내의 공통된 관심사를 가진 컴포넌트들을 묶어서 모듈화 하는 경우가 꽤 있기 때문입니다.
+ * 명명 작업에 드는 에너지를 절약하고 충돌문제를 줄일 수 있다는 점에서 나쁘지 않은 컨벤션이라고 생각합니다.
+ */
 export interface ModalProviderProps {
   children: React.ReactNode;
 }
