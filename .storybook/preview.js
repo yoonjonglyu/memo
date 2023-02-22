@@ -2,6 +2,7 @@ import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { RecoilRoot } from 'recoil';
 
 import { handlers } from '../src/mocks/handlers';
+import { ModalProvider } from '../src/providers/ModalProvider';
 
 initialize();
 
@@ -15,7 +16,7 @@ export const parameters = {
   },
   msw: {
     handlers: {
-      memo: handlers
+      memo: handlers,
     },
   },
 };
@@ -24,7 +25,9 @@ export const decorators = [
   Story => {
     return (
       <RecoilRoot>
-        <Story />
+        <ModalProvider>
+          <Story />
+        </ModalProvider>
       </RecoilRoot>
     );
   },
