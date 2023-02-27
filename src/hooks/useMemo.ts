@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 
-import memoListState from '../store/memo/memoListState';
+import memoListState, { MemoListStateProps } from '../store/memo/memoListState';
 
 /**
  * 상태는 필연적으로 그 상태를 처리하는 로직이 파생된다.
@@ -12,6 +12,15 @@ import memoListState from '../store/memo/memoListState';
 function useMemo() {
   const [memoList, setMemoList] = useRecoilState(memoListState);
 
+  const hanleNewMemo = (memo: MemoListStateProps) => {
+    setMemoList(prev => [...prev, memo]);
+  };
+  const handleDeleteMemo = (idx: number) => {
+    setMemoList(prev => [
+      ...prev.slice(0, idx),
+      ...prev.slice(idx + 1, prev.length),
+    ]);
+  };
   const handleMemo = (index: number, value: string) => {
     setMemoList(prev => {
       const next = JSON.parse(JSON.stringify(prev));
@@ -57,6 +66,8 @@ function useMemo() {
   };
   return {
     memoList,
+    hanleNewMemo,
+    handleDeleteMemo,
     handleMemo,
     handleAddTodo,
     handleCheckTodo,
