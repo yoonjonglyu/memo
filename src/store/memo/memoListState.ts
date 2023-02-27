@@ -11,7 +11,9 @@ interface TodoProps {
   props: Array<{ isAvail: boolean; todo: string }>;
 }
 
-const memoListState = atom<Array<MemoProps | TodoProps>>({
+export type MemoListStateProps = MemoProps | TodoProps;
+
+const memoListState = atom<Array<MemoListStateProps>>({
   key: 'memoList',
   default: [
     { idx: 'a1', type: 'memo', props: 'ss' },
