@@ -4,11 +4,13 @@ import FloatBtn from '../../components/atoms/FloatBtn';
 import Modal from '../../components/molecules/Modal';
 
 import { ModalPortal } from '../../providers/ModalProvider';
+import useMemo from '../../hooks/useMemo';
 
 export interface MemoControlProps {}
 
 const MemoControl: React.FC<MemoControlProps> = () => {
   const [isModal, setIsModal] = useState(false);
+  const { hanleNewMemo } = useMemo();
 
   return (
     <ModalPortal>
@@ -24,10 +26,30 @@ const MemoControl: React.FC<MemoControlProps> = () => {
               <strong>Select Memo Type</strong>
               <ul>
                 <li>
-                  <button>Memo</button>
+                  <button
+                    onClick={() =>
+                      hanleNewMemo({
+                        idx: Date.now().toString(),
+                        type: 'memo',
+                        props: '',
+                      })
+                    }
+                  >
+                    Memo
+                  </button>
                 </li>
                 <li>
-                  <button>Todo</button>
+                  <button
+                    onClick={() =>
+                      hanleNewMemo({
+                        idx: Date.now().toString(),
+                        type: 'todo',
+                        props: [],
+                      })
+                    }
+                  >
+                    Todo
+                  </button>
                 </li>
               </ul>
             </>
