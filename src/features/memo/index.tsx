@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import BoardLayout from '../../components/layouts/BoardLayout';
 import MemoItem from './MemoItem';
+import MemoControl from './MemoControl';
 
 import useMemo from '../../hooks/useMemo';
 
@@ -22,6 +23,7 @@ const MemoFeature: React.FC<MemoFeatureProps> = () => {
           />
         );
       })}
+      <MemoControl />
     </BoardLayout>
   );
 };
