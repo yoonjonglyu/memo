@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import Todo from './Todo';
 
 export default {
-  title: '메모/Ui/Todo',
+  title: '메모/Ui/Organisms/Todo',
   component: Todo,
 } as ComponentMeta<typeof Todo>;
 

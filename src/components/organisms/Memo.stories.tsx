@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import Memo from './Memo';
 
 export default {
-  title: '메모/UI/메모',
+  title: '메모/UI/Organisms/메모',
   component: Memo,
 } as ComponentMeta<typeof Memo>;
 
