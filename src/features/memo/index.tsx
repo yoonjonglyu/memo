@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import BoardLayout from '../../components/layouts/BoardLayout';
 import MemoItem from './MemoItem';
@@ -9,7 +9,11 @@ import useMemo from '../../hooks/useMemo';
 export interface MemoFeatureProps {}
 
 const MemoFeature: React.FC<MemoFeatureProps> = () => {
-  const { memoList } = useMemo();
+  const { memoList, initMemo } = useMemo();
+
+  useEffect(() => {
+    initMemo();
+  }, [])
 
   return (
     <BoardLayout>

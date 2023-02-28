@@ -16,6 +16,10 @@ function useMemo() {
   const MemoSignal = new MemoApi();
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
+  const initMemo = async () => {
+    const data = await MemoSignal.getMemoList();
+    setMemoList(data);
+  };
   const hanleNewMemo = async (memo: MemoListStateProps) => {
     const state = [...memoList, memo];
     setMemoList(state);
@@ -73,6 +77,7 @@ function useMemo() {
   };
   return {
     memoList,
+    initMemo,
     hanleNewMemo,
     handleDeleteMemo,
     handleMemo,

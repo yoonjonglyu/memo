@@ -19,8 +19,12 @@ class MemoApi {
     } else {
       const check = localStorage.getItem('MEMO_LIST');
       if (check === null) {
-        localStorage.setItem('MEMO_LIST', JSON.stringify([]));
-        return [];
+        const newData = [
+          { idx: 'a1', type: 'memo', props: '여기다 메모를 작성해보세요.' },
+          { idx: 'a2', type: 'todo', props: [{ isAvail: true, todo: '메모장을 켜기' }, { isAvail: false, todo: '새로운 메모를 작성해보세요.' }] },
+        ];
+        localStorage.setItem('MEMO_LIST', JSON.stringify(newData));
+        return newData;
       } else return JSON.parse(check);
     }
   }
