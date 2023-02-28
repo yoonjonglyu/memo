@@ -2,6 +2,8 @@ import { useRecoilState } from 'recoil';
 
 import memoListState, { MemoListStateProps } from '../store/memo/memoListState';
 
+import MemoApi from '../api/memoApi';
+
 /**
  * 상태는 필연적으로 그 상태를 처리하는 로직이 파생된다.
  * 그런 로직은 규모에 따라 다르지만 같은 갈래의 관심사를 가지는 경우가 많다.
@@ -11,58 +13,63 @@ import memoListState, { MemoListStateProps } from '../store/memo/memoListState';
  */
 function useMemo() {
   const [memoList, setMemoList] = useRecoilState(memoListState);
-
-  const hanleNewMemo = (memo: MemoListStateProps) => {
-    setMemoList(prev => [...prev, memo]);
+  const MemoSignal = new MemoApi();
+  // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
+  // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
+  const hanleNewMemo = async (memo: MemoListStateProps) => {
+    const state = [...memoList, memo];
+    setMemoList(state);
+    await MemoSignal.setMemoList(state);
   };
-  const handleDeleteMemo = (idx: number) => {
-    setMemoList(prev => [
-      ...prev.slice(0, idx),
-      ...prev.slice(idx + 1, prev.length),
-    ]);
+  const handleDeleteMemo = async (idx: number) => {
+    const state = [
+      ...memoList.slice(0, idx),
+      ...memoList.slice(idx + 1, memoList.length),
+    ];
+    setMemoList(state);
+    await MemoSignal.setMemoList(state);
   };
-  const handleMemo = (index: number, value: string) => {
-    setMemoList(prev => {
-      const next = JSON.parse(JSON.stringify(prev));
-      next[index].props = value;
-      return next;
-    });
+  const handleMemo = async (index: number, value: string) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    state[index].props = value;
+    // 본래라면 이런 세부 사항의 요청의 경우 전체를 클라이언트에서 보내서 갱신하기보다는
+    // 제한된 쿼리를 바탕으로 벡엔드 내부에서 처리를 하는게 정상이지만 해당 앱은 벡엔드 서버가 없으니 대충 처리했다.
+    // 에러 핸들링이나 데이터 동기화 문제 역시 생략
+    setMemoList(state);
+    await MemoSignal.setMemoList(state);
   };
-  const handleAddTodo = (index: number, value: string) => {
-    setMemoList(prev => {
-      const next = JSON.parse(JSON.stringify(prev));
-      const change = next[index];
-      if (change.type === 'todo') {
-        change.props.push({
-          isAvail: false,
-          todo: value,
-        });
-      }
-      return next;
-    });
+  const handleAddTodo = async (index: number, value: string) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = state[index];
+    if (change.type === 'todo') {
+      change.props.push({
+        isAvail: false,
+        todo: value,
+      });
+    }
+    setMemoList(state);
+    await MemoSignal.setMemoList(state);
   };
-  const handleDeleteTodo = (index: number, idx: number) => {
-    setMemoList(prev => {
-      const next = JSON.parse(JSON.stringify(prev));
-      const change = next[index];
-      if (change.type === 'todo') {
-        change.props = [
-          ...next[index].props.slice(0, idx),
-          ...next[index].props.slice(idx + 1, next[index].props.length),
-        ];
-      }
-      return next;
-    });
+  const handleDeleteTodo = async (index: number, idx: number) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = state[index];
+    if (change.type === 'todo') {
+      change.props = [
+        ...state[index].props.slice(0, idx),
+        ...state[index].props.slice(idx + 1, state[index].props.length),
+      ];
+    }
+    setMemoList(state);
+    await MemoSignal.setMemoList(state);
   };
-  const handleCheckTodo = (index: number, idx: number) => {
-    setMemoList(prev => {
-      const next = JSON.parse(JSON.stringify(prev));
-      const change = next[index];
-      if (change.type === 'todo') {
-        change.props[idx].isAvail = !change.props[idx].isAvail;
-      }
-      return next;
-    });
+  const handleCheckTodo = async (index: number, idx: number) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = state[index];
+    if (change.type === 'todo') {
+      change.props[idx].isAvail = !change.props[idx].isAvail;
+    }
+    setMemoList(state);
+    await MemoSignal.setMemoList(state);
   };
   return {
     memoList,
