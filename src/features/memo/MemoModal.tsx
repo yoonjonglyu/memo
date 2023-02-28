@@ -6,9 +6,9 @@ import Modal from '../../components/molecules/Modal';
 import { ModalPortal } from '../../providers/ModalProvider';
 import useMemo from '../../hooks/useMemo';
 
-export interface MemoControlProps {}
+export interface MemoModalProps {}
 
-const MemoControl: React.FC<MemoControlProps> = () => {
+const MemoModal: React.FC<MemoModalProps> = () => {
   const [isModal, setIsModal] = useState(false);
   const { hanleNewMemo } = useMemo();
 
@@ -27,26 +27,28 @@ const MemoControl: React.FC<MemoControlProps> = () => {
               <ul>
                 <li>
                   <button
-                    onClick={() =>
+                    onClick={() => {
                       hanleNewMemo({
                         idx: Date.now().toString(),
                         type: 'memo',
                         props: '',
-                      })
-                    }
+                      });
+                      setIsModal(false);
+                    }}
                   >
                     Memo
                   </button>
                 </li>
                 <li>
                   <button
-                    onClick={() =>
+                    onClick={() => {
                       hanleNewMemo({
                         idx: Date.now().toString(),
                         type: 'todo',
                         props: [],
-                      })
-                    }
+                      });
+                      setIsModal(false);
+                    }}
                   >
                     Todo
                   </button>
@@ -61,4 +63,4 @@ const MemoControl: React.FC<MemoControlProps> = () => {
   );
 };
 
-export default MemoControl;
+export default MemoModal;
