@@ -1,4 +1,5 @@
 import { useRecoilState } from 'recoil';
+import _ from 'lodash';
 
 import memoListState, { MemoListStateProps } from '../store/memo/memoListState';
 
@@ -11,9 +12,13 @@ import MemoApi from '../api/memoApi';
  * 또 추가로 view model 또는 controller 정도 레이어에 해당하는 레이어를 기본적으로 가지는게
  * 보편적인 웹프로그램 개발 방법론과 유사하기에 여러모로 좋다.
  */
+const MemoSignal = new MemoApi();
+const handleSetMemo = _.debounce(
+  async args => await MemoSignal.setMemoList(args),
+  500
+);
 function useMemo() {
   const [memoList, setMemoList] = useRecoilState(memoListState);
-  const MemoSignal = new MemoApi();
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
   const initMemo = async () => {
@@ -23,7 +28,7 @@ function useMemo() {
   const hanleNewMemo = async (memo: MemoListStateProps) => {
     const state = [...memoList, memo];
     setMemoList(state);
-    await MemoSignal.setMemoList(state);
+    await handleSetMemo(state);
   };
   const handleDeleteMemo = async (idx: number) => {
     const state = [
@@ -31,7 +36,7 @@ function useMemo() {
       ...memoList.slice(idx + 1, memoList.length),
     ];
     setMemoList(state);
-    await MemoSignal.setMemoList(state);
+    await handleSetMemo(state);
   };
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -40,7 +45,7 @@ function useMemo() {
     // 제한된 쿼리를 바탕으로 벡엔드 내부에서 처리를 하는게 정상이지만 해당 앱은 벡엔드 서버가 없으니 대충 처리했다.
     // 에러 핸들링이나 데이터 동기화 문제 역시 생략
     setMemoList(state);
-    await MemoSignal.setMemoList(state);
+    await handleSetMemo(state);
   };
   const handleAddTodo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -52,7 +57,7 @@ function useMemo() {
       });
     }
     setMemoList(state);
-    await MemoSignal.setMemoList(state);
+    await handleSetMemo(state);
   };
   const handleDeleteTodo = async (index: number, idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -64,7 +69,7 @@ function useMemo() {
       ];
     }
     setMemoList(state);
-    await MemoSignal.setMemoList(state);
+    await handleSetMemo(state);
   };
   const handleCheckTodo = async (index: number, idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -73,7 +78,7 @@ function useMemo() {
       change.props[idx].isAvail = !change.props[idx].isAvail;
     }
     setMemoList(state);
-    await MemoSignal.setMemoList(state);
+    await handleSetMemo(state);
   };
   return {
     memoList,
