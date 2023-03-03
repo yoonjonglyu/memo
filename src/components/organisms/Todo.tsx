@@ -10,7 +10,6 @@ const TodoInput = styled.input`
 const TodoList = styled.ul`
   display: flex;
   flex-flow: column nowrap;
-  max-height: 240px;
   margin: 0;
   padding: 0;
   list-style: none;
