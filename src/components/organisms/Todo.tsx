@@ -10,7 +10,8 @@ const TodoInput = styled.input`
 const TodoList = styled.ul`
   display: flex;
   flex-flow: column nowrap;
-  margin: 0;
+  gap: 3px;
+  margin: 3px auto;
   padding: 0;
   list-style: none;
   overflow: none;
@@ -21,14 +22,20 @@ const TodoList = styled.ul`
   & li {
     display: flex;
     margin: 0;
+    padding: 3px;
+    font-size: 0.8rem;
+    background: #80808037;
+    border-radius: 3px;
   }
 `;
 const CheckedTodo = styled.input``;
 const DelectBtn = styled.button`
-  margin-left: auto;
+  height: 24px;
+  margin: auto;
+  margin-right: 0;
   background: none;
-  border: 0.5px solid gray;
-  border-radius: 4px;
+  border: 0.5px solid #00000053;
+  border-radius: 2px;
 `;
 
 export interface TodoProps {
@@ -46,7 +53,7 @@ const Todo: React.FC<TodoProps> = props => {
   const handleInsert: React.KeyboardEventHandler<HTMLInputElement> = event => {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
-      if(input.value.trim().length > 0){
+      if (input.value.trim().length > 0) {
         addItemHandler(input.value);
         input.value = '';
       }
