@@ -7,7 +7,7 @@ const Board = styled.main`
   align-items: flex-start;
   align-content: flex-start;
   gap: 8px;
-  max-width: 1200px;
+  max-width: 1232px;
   width: 100%;
   min-height: 100vh;
   padding-bottom: 88px;
