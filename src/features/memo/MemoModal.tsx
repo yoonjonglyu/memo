@@ -10,7 +10,6 @@ export interface MemoModalProps {}
 
 const MemoModal: React.FC<MemoModalProps> = () => {
   const [isModal, setIsModal] = useState(false);
-  const { hanleNewMemo } = useMemo();
 
   return (
     <ModalPortal>
@@ -22,44 +21,62 @@ const MemoModal: React.FC<MemoModalProps> = () => {
         <Modal
           header="Add Memo"
           children={
-            <>
-              <strong>Select Memo Type</strong>
-              <ul>
-                <li>
-                  <button
-                    onClick={() => {
-                      hanleNewMemo({
-                        idx: Date.now().toString(),
-                        type: 'memo',
-                        props: '',
-                      });
-                      setIsModal(false);
-                    }}
-                  >
-                    Memo
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      hanleNewMemo({
-                        idx: Date.now().toString(),
-                        type: 'todo',
-                        props: [],
-                      });
-                      setIsModal(false);
-                    }}
-                  >
-                    Todo
-                  </button>
-                </li>
-              </ul>
-            </>
+            <ModalContents handleCloseModal={() => setIsModal(false)} />
           }
           footer={<button onClick={() => setIsModal(false)}>취소</button>}
         />
       ) : null}
     </ModalPortal>
+  );
+};
+/**
+ * 관심사 분리는 중요하다. 그렇다고 너무 세세하게 쪼개는 것은 역시 적절한 관심사 분리라고 보긴힘들다.
+ * 결국 목적은 (이해하기 쉽고)유지보수하기 편한 코드를 작성하는 것이니 비슷한 관심사이며 재사용성이 낮을 경우
+ * 같은 파일에서 관리 하는 것이 더 알아보기 쉽기 때문 렌더훅 같은 경우 성능적인 차이가 있어서 따로 컴포넌트로
+ * 빼주는게 보통 더 좋기도 하다.
+ * 이 경우는 위의 모달 컴포넌트는 플롯버튼 이벤트로 모달을 호출하는 관심사를 가지고 아래 컨텐츠는 그 모달의 내용에 해당한다.
+ * 그리고 이 파일 자체는 MemoModal이라는 이름처럼 메모라는 도메인의 모달이라는 관심사를 가진다고 간략하게 설명 할 수 있다.
+ */
+interface ModalContentsProps {
+  handleCloseModal: VoidFunction;
+}
+
+const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
+  const { hanleNewMemo } = useMemo();
+  return (
+    <>
+      <strong>Select Memo Type</strong>
+      <ul>
+        <li>
+          <button
+            onClick={() => {
+              hanleNewMemo({
+                idx: Date.now().toString(),
+                type: 'memo',
+                props: '',
+              });
+              handleCloseModal();
+            }}
+          >
+            Memo
+          </button>
+        </li>
+        <li>
+          <button
+            onClick={() => {
+              hanleNewMemo({
+                idx: Date.now().toString(),
+                type: 'todo',
+                props: [],
+              });
+              handleCloseModal();
+            }}
+          >
+            Todo
+          </button>
+        </li>
+      </ul>
+    </>
   );
 };
 
