@@ -7,8 +7,14 @@ const Board = styled.main`
   align-items: flex-start;
   align-content: flex-start;
   gap: 8px;
+  max-width: 1200px;
   width: 100%;
-  min-height: 500px;
+  min-height: 100vh;
+  padding-bottom: 88px;
+  margin: 0 auto;
+  border: 1px solid #9c9b9b4f;
+  border-top: none;
+  border-bottom: none;
 `;
 
 interface BoardLayoutProps {
