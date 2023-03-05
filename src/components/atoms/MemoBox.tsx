@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Box = styled.section`
-  max-width: 180px;
+  max-width: 240px;
   width: 100%;
   height: 200px;
   margin: 0;

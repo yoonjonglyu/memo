@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import MemoBox from '../atoms/MemoBox';
 
 const Text = styled.textarea`
+  width: 100%;
   height: 100%;
   resize: none;
   outline: none;
   border: none;
+  font-size: 0.9rem;
   word-break: break-all;
   overflow: hidden;
   overflow-y: auto;
