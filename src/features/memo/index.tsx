@@ -20,7 +20,7 @@ const MemoFeature: React.FC<MemoFeatureProps> = () => {
   // 여기서 UI 상세를 구축하면 동일한 추상화 단계가 아니다.
   return (
     <>
-      <MemoHeader handleEdit={() => setIsEdit(true)} />
+      <MemoHeader handleEdit={() => setIsEdit(prev => !prev)} />
       <BoardLayout>
         {memoList.map((item, index) => {
           return (
@@ -29,6 +29,7 @@ const MemoFeature: React.FC<MemoFeatureProps> = () => {
               index={index}
               type={item.type}
               props={item.props}
+              isEdit={isEdit}
             />
           );
         })}
