@@ -13,6 +13,7 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",
     "test-storybook": "test-storybook --watch",
+    "pub-storybook": "npx chromatic --project-token=17c2c6124865",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
@@ -63,6 +64,7 @@
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.4",
     "chalk": "^4.1.2",
+    "chromatic": "^6.17.1",
     "core-js": "^3.21.1",
     "cross-env": "^7.0.3",
     "css-loader": "^4.3.0",
