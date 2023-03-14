@@ -21,6 +21,7 @@ const TodoList = styled.ul`
   }
   & li {
     display: flex;
+    align-items: center;
     margin: 0;
     padding: 3px;
     font-size: 0.8rem;
