@@ -10,3 +10,7 @@ package-lock.json
 
 # 테스트 관련
 /coverage
+out/
+
+# 빌드
+/dist
