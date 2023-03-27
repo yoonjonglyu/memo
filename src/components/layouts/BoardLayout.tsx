@@ -17,7 +17,7 @@ const Board = styled.main`
   border-bottom: none;
 `;
 
-interface BoardLayoutProps {
+export interface BoardLayoutProps {
   children: React.ReactNode;
 }
 
