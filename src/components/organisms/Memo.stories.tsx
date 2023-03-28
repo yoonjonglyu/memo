@@ -14,8 +14,8 @@ export default {
  * 일단 사실 해당 기술 스택에 대한 양질의 자료가 부족한점이 제일 크고 ㅎㅎ
  * jest와 react-test-library를 활용한다는 측면에서는 동일하지만 storybook이라는 환경을
  * 추가적으로 고려했을때 컴포넌트를 어느 범주부터 테스트를 해야할지?
- * 또는 각 인프라에서 어디서 어디까지관리를 할지 등?
- * 부분들 일단 스모크 테스트라는 부분이 있으므로 컴포넌트에 대한 UI나 간단한 동작 테스트의 경우
+ * 또는 각 인프라에서 어디서 어디까지관리를 할지 등? 부분들
+ * 일단 스모크 테스트라는 부분이 있으므로 컴포넌트에 대한 UI나 간단한 동작 테스트의 경우
  * 스토리북과 스토리북 테스트러너를 그대로 활용하는게 적절하다고 판단된다.
  * 결국 인터렉션이라고 볼 수 있는 동작을 검증해야하는 컴포넌트 수준에서나
  * 추가적인 인터랙션에 대한 테스트를 추가할 필요가 있는데
@@ -32,7 +32,9 @@ const template: ComponentStory<typeof Memo> = args => {
 };
 
 export const Basic = template.bind({});
-Basic.args = {};
+Basic.args = {
+  value: '메모를 해보자.',
+};
 Basic.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   userEvent.type(canvas.getByRole('textbox'), '메모를 해보자.');
