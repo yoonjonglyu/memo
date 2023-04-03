@@ -4,8 +4,20 @@ import styled from 'styled-components';
 import MemoBox from '../atoms/MemoBox';
 
 const TodoInput = styled.input`
-  width: calc(100% - 8px);
+  float: left;
+  width: calc(100% - 30px);
+  height: 1rem;
+  padding: 1px 2px;
   margin: 0 auto;
+  font-size: 1rem;
+`;
+const InputButton = styled.button`
+  width: 20px;
+  height: 21px;
+  padding: 1px 2px;
+  margin: 0 auto;
+  margin-left: 2px;
+  font-size: 1rem;
 `;
 const TodoList = styled.ul`
   display: flex;
@@ -54,16 +66,28 @@ const Todo: React.FC<TodoProps> = props => {
   const handleInsert: React.KeyboardEventHandler<HTMLInputElement> = event => {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
-      if (input.value.trim().length > 0) {
-        addItemHandler(input.value);
-        input.value = '';
-      }
+      handleAddTodo(input);
+    }
+  };
+  const handleAddTodo = (input: HTMLInputElement) => {
+    if (input.value.trim().length > 0) {
+      addItemHandler(input.value);
+      input.value = '';
     }
   };
 
   return (
     <MemoBox>
       <TodoInput onKeyUp={handleInsert} />
+      <InputButton
+        type="button"
+        onClick={e => {
+          const input = e.target as HTMLButtonElement;
+          handleAddTodo(input.previousElementSibling as HTMLInputElement);
+        }}
+      >
+        ↵
+      </InputButton>
       <TodoList>
         {todoItem?.map((item, idx) => {
           return (
