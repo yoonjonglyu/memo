@@ -5,19 +5,25 @@ import MemoBox from '../atoms/MemoBox';
 
 const TodoInput = styled.input`
   float: left;
-  width: calc(100% - 30px);
-  height: 1rem;
-  padding: 1px 2px;
-  margin: 0 auto;
-  font-size: 1rem;
-`;
-const InputButton = styled.button`
-  width: 20px;
+  width: calc(100% - 22px);
   height: 21px;
   padding: 1px 2px;
   margin: 0 auto;
-  margin-left: 2px;
   font-size: 1rem;
+  border: 0.5px solid #00000053;
+  box-sizing: border-box;
+`;
+const InputButton = styled.button`
+  clear: both;
+  width: 20px;
+  height: 21px;
+  padding: 0;
+  margin: 0 auto;
+  margin-left: 2px;
+  font-size: 13px;
+  color: #222222d3;
+  vertical-align: top;
+  border: 0.5px solid #00000053;
 `;
 const TodoList = styled.ul`
   display: flex;
