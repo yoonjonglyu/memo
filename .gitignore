@@ -1,1 +1,4 @@
 node_modules/
+# 패키지 매니저관련 무시
+yarn.lock
+package-lock.json
