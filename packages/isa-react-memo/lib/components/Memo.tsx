@@ -5,12 +5,24 @@ import MemoBox from './MemoBox';
 export interface MemoProps {
   value: string;
   onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
+  containerProps?: React.HTMLAttributes<HTMLDivElement>;
+  textAreaProps?: React.HTMLAttributes<HTMLTextAreaElement>;
 }
 
-const Memo: React.FC<MemoProps> = ({ value, onChange }) => {
+const Memo: React.FC<MemoProps> = ({
+  value,
+  onChange,
+  containerProps,
+  textAreaProps,
+}) => {
   return (
     <MemoBox>
-      <textarea className='textarea' value={value} onChange={onChange} />
+      <textarea
+        {...textAreaProps}
+        className={`textarea ${textAreaProps?.className}`}
+        value={value}
+        onChange={onChange}
+      />
     </MemoBox>
   );
 };

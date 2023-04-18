@@ -24,7 +24,7 @@
   }
 }
 
-.textarea {
+.memobox .textarea {
   width: 100%;
   height: 100%;
   resize: none;
@@ -35,11 +35,11 @@
   overflow: hidden;
   overflow-y: auto;
 }
-.textarea::-webkit-scrollbar {
+.memobox .textarea::-webkit-scrollbar {
   display: none;
 }
 
-.todoinput {
+.memobox .todoinput {
   float: left;
   width: calc(100% - 22px);
   height: 21px;
@@ -49,7 +49,7 @@
   border: 0.5px solid #00000053;
   box-sizing: border-box;
 }
-.todo-inputButton {
+.memobox .todo-inputButton {
   clear: both;
   width: 20px;
   height: 21px;
@@ -61,7 +61,7 @@
   vertical-align: top;
   border: 0.5px solid #00000053;
 }
-.todolist {
+.memobox .todolist {
   display: flex;
   flex-flow: column nowrap;
   gap: 3px;
@@ -71,10 +71,10 @@
   overflow: none;
   overflow-y: auto;
 }
-.todolist::-webkit-scrollbar {
+.memobox .todolist::-webkit-scrollbar {
   display: none;
 }
-.todolist li {
+.memobox .todolist li {
   display: flex;
   align-items: center;
   margin: 0;
@@ -83,7 +83,7 @@
   background: #80808037;
   border-radius: 3px;
 }
-.todo-delectbutton {
+.memobox .todo-delectbutton {
   height: 24px;
   margin: auto;
   margin-right: 0;

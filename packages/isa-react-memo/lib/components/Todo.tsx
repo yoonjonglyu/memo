@@ -7,7 +7,9 @@ export interface TodoProps {
   addItemHandler: (todo: string) => void;
   checkItemHandler: (idx: number) => void;
   deleteItemHandler: (idx: number) => void;
+  containerProps?: React.HTMLAttributes<HTMLDivElement>;
   inputProps?: React.HTMLAttributes<HTMLInputElement>;
+  listProps?: React.HTMLAttributes<HTMLUListElement>;
 }
 
 const Todo: React.FC<TodoProps> = (props) => {
@@ -16,7 +18,9 @@ const Todo: React.FC<TodoProps> = (props) => {
     addItemHandler,
     checkItemHandler,
     deleteItemHandler,
+    containerProps,
     inputProps,
+    listProps,
   } = props;
 
   const handleInsert: React.KeyboardEventHandler<HTMLInputElement> = (
@@ -35,7 +39,7 @@ const Todo: React.FC<TodoProps> = (props) => {
   };
 
   return (
-    <MemoBox>
+    <MemoBox {...containerProps}>
       <input
         {...inputProps}
         className={`todoinput ${inputProps?.className}`}
@@ -51,7 +55,7 @@ const Todo: React.FC<TodoProps> = (props) => {
         }}>
         ↵
       </button>
-      <ul className='todolist'>
+      <ul {...listProps} className={`todolist ${listProps?.className}`}>
         {todoItem?.map((item, idx) => {
           return (
             <li key={idx}>
