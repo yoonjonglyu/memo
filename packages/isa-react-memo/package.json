@@ -9,7 +9,9 @@
   "author": "Isa <yunjonglyu@gmail.com> (yunjongryu)",
   "homepage": "https://github.com/yoonjonglyu/memo#readme",
   "license": "MIT",
-  "main": "lib/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,7 +24,8 @@
     "url": "git+https://github.com/yoonjonglyu/memo.git"
   },
   "scripts": {
-    "publish:npm": "rimraf dist && babel lib -d dist --extensions \".tsx\" --ignore **/*.test.ts"
+    "publish:npm": "rimraf dist && babel lib -d dist -x .tsx,.ts -D --ignore **/*.test.ts",
+    "postpublish:npm": "tsc --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "bugs": {
     "url": "https://github.com/yoonjonglyu/memo/issues"

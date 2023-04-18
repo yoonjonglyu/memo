@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports["default"]=void 0;var _isaReactMemo=_interopRequireDefault(require("./isa-react-memo"));function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{"default":obj}}var _default=_isaReactMemo["default"];exports["default"]=_default;
