@@ -2,6 +2,8 @@ import React from 'react';
 
 import MemoBox from './MemoBox';
 
+import style from '../style.module.css';
+
 export interface TodoProps {
   todoItem: Array<{ isAvail: boolean; todo: string }>;
   addItemHandler: (todo: string) => void;
@@ -42,12 +44,12 @@ const Todo: React.FC<TodoProps> = (props) => {
     <MemoBox {...containerProps}>
       <input
         {...inputProps}
-        className={`todoinput ${inputProps?.className}`}
+        className={`${style.todoinput} ${inputProps?.className}`}
         onKeyUp={handleInsert}
       />
 
       <button
-        className='todo-inputButton'
+        className={style.todoInputButton}
         type='button'
         onClick={(e) => {
           const input = e.target as HTMLButtonElement;
@@ -55,7 +57,9 @@ const Todo: React.FC<TodoProps> = (props) => {
         }}>
         ↵
       </button>
-      <ul {...listProps} className={`todolist ${listProps?.className}`}>
+      <ul
+        {...listProps}
+        className={`${style.todolist} ${listProps?.className}`}>
         {todoItem?.map((item, idx) => {
           return (
             <li key={idx}>

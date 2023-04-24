@@ -1,5 +1,4 @@
 import React from 'react';
-import './style.css';
 
 import Memo, { MemoProps } from './components/Memo';
 import Todo, { TodoProps } from './components/Todo';

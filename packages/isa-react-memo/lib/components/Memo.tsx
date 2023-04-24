@@ -2,6 +2,8 @@ import React from 'react';
 
 import MemoBox from './MemoBox';
 
+import style from '../style.module.css';
+
 export interface MemoProps {
   value: string;
   onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
@@ -19,7 +21,7 @@ const Memo: React.FC<MemoProps> = ({
     <MemoBox>
       <textarea
         {...textAreaProps}
-        className={`textarea ${textAreaProps?.className}`}
+        className={`${style.textarea} ${textAreaProps?.className}`}
         value={value}
         onChange={onChange}
       />
