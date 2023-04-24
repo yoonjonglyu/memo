@@ -44,7 +44,7 @@ const Todo: React.FC<TodoProps> = (props) => {
     <MemoBox {...containerProps}>
       <input
         {...inputProps}
-        className={`${style.todoinput} ${inputProps?.className}`}
+        className={[style.todoinput, inputProps?.className].join(' ')}
         onKeyUp={handleInsert}
       />
 
@@ -59,7 +59,7 @@ const Todo: React.FC<TodoProps> = (props) => {
       </button>
       <ul
         {...listProps}
-        className={`${style.todolist} ${listProps?.className}`}>
+        className={[style.todolist, listProps?.className].join(' ')}>
         {todoItem?.map((item, idx) => {
           return (
             <li key={idx}>
@@ -71,7 +71,7 @@ const Todo: React.FC<TodoProps> = (props) => {
               />
               {item.todo}
               <button
-                className='todo-delectbutton'
+                className={style.todoDelectbutton}
                 onClick={() => deleteItemHandler(idx)}>
                 X
               </button>

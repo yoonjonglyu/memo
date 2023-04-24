@@ -21,7 +21,7 @@ const Memo: React.FC<MemoProps> = ({
     <MemoBox>
       <textarea
         {...textAreaProps}
-        className={`${style.textarea} ${textAreaProps?.className}`}
+        className={[style.textarea, textAreaProps?.className].join(' ')}
         value={value}
         onChange={onChange}
       />
