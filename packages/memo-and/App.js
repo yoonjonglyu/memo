@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Platform } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>test abc</Text>
-      <StatusBar style="auto" />
+  return Platform.OS === 'web' ? (
+    <iframe src='https://yoonjonglyu.github.io/memo/' height={'100%'} width={'100%'} />
+  ) : (
+    <View style={{ flex: 1 }}>
+      <WebView
+        source={{ uri: 'https://yoonjonglyu.github.io/memo/' }}
+        style={{ marginTop: 22, flex: 1 }}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
