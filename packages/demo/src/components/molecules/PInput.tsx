@@ -7,8 +7,11 @@ const Wrap = styled.div`
 `;
 const P = styled.div`
   width: 100%;
-  min-height: 80px;
+  min-height: 1.5rem;
   outline: none;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  font-family: Arial, Helvetica, sans-serif;
 `;
 export interface PInputProps {
   value?: string;
@@ -31,7 +34,7 @@ const PInput: React.FC<PInputProps> = ({ value, setValue }) => {
   return (
     <Wrap>
       <P contentEditable="true" onKeyUp={handleType}>
-        {pValue}
+        {value}
       </P>
     </Wrap>
   );
