@@ -1,16 +1,13 @@
 import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import InputWrap from './InputWrap';
 
-export default {
+const meta: Meta<typeof InputWrap> = {
   title: '메모/Ui/Molecules/InputWrap',
   component: InputWrap,
-} as ComponentMeta<typeof InputWrap>;
+};
+export default meta;
+type Story = StoryObj<typeof InputWrap>;
 
-const teamplte: ComponentStory<typeof InputWrap> = args => (
-  <InputWrap {...args} />
-);
-
-export const Basic = teamplte.bind({});
-Basic.args = {};
+export const Basic: Story = {};

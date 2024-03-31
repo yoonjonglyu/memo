@@ -1,17 +1,15 @@
 import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import BoardLayout from './BoardLayout';
 import Memo from '../organisms/Memo';
 
-export default {
+const meta: Meta<typeof BoardLayout> = {
   title: '메모/레이아웃/보드',
   component: BoardLayout,
-} as ComponentMeta<typeof BoardLayout>;
-
-const template: ComponentStory<typeof BoardLayout> = args => (
-  <BoardLayout {...args} />
-);
+};
+export default meta;
+type Story = StoryObj<typeof BoardLayout>;
 
 const Dummy = (
   <Memo
@@ -21,7 +19,8 @@ const Dummy = (
     }}
   />
 );
-export const Basic = template.bind({});
-Basic.args = {
-  children: Array.from({ length: 25 }, () => Dummy),
+export const Basic = {
+  args: {
+    children: Array.from({ length: 25 }, () => Dummy),
+  },
 };
