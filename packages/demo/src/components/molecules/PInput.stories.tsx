@@ -10,10 +10,4 @@ export default meta;
 type Story = StoryObj<typeof PInput>;
 
 export const Basic: Story = {
-  render: args => (
-    <>
-      <PInput {...args} />
-      <PInput {...args} />
-    </>
-  ),
 };
