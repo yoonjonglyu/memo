@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export interface UseTypeProps {
   value: string;
   setValue: Function;
-  delay: number
+  delay: number;
 }
 let prev: any = null;
 
@@ -17,8 +17,8 @@ function useType({ value, setValue, delay }: UseTypeProps) {
   };
 
   useEffect(() => {
-    setValue(typeValue);
-  }, [typeValue]);
+    if (value !== typeValue) setValue(typeValue);
+  }, [value, typeValue]);
 
   return {
     handleType,
