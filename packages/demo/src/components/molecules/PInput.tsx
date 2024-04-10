@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
+import useType from '../../hooks/useType';
 
 const Wrap = styled.div`
   margin: 8px;
@@ -14,22 +16,17 @@ const P = styled.div`
   font-family: Arial, Helvetica, sans-serif;
 `;
 export interface PInputProps {
-  value?: string;
-  setValue?: Function;
+  value: string;
+  setValue: Function;
 }
 let prev: any = null;
 
 const PInput: React.FC<PInputProps> = ({ value, setValue }) => {
-  const [pValue, setPValue] = useState(value || '');
-  const handleType: React.KeyboardEventHandler<HTMLDivElement> = e => {
-    const target = e.target as HTMLDivElement;
-    if (prev !== null) clearTimeout(prev);
-    prev = setTimeout(() => setPValue(target.textContent || ''), 500);
-  };
-
-  useEffect(() => {
-    if (setValue) setValue(pValue);
-  }, [pValue]);
+  const { handleType } = useType({
+    value: value,
+    setValue: setValue,
+    delay: 500,
+  });
 
   return (
     <Wrap>

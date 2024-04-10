@@ -10,4 +10,8 @@ export default meta;
 type Story = StoryObj<typeof PInput>;
 
 export const Basic: Story = {
+  args: {
+    value: 'p 입니다.',
+    setValue: (state: string) => console.log(state),
+  },
 };
