@@ -30,7 +30,7 @@ const H1: React.FC<H1Props> = ({ value, setValue }) => {
   });
   return (
     <Wrap>
-      <H contentEditable="true" onKeyUp={handleType}>{value}</H>
+      <H contentEditable="true" onKeyDown={handleType}>{value}</H>
     </Wrap>
   );
 };

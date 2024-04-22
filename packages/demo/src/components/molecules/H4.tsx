@@ -30,7 +30,7 @@ const H4: React.FC<H4Props> = ({ value, setValue }) => {
   });
   return (
     <Wrap>
-      <H contentEditable="true" onKeyUp={handleType}>
+      <H contentEditable="true" onKeyDown={handleType}>
         {value}
       </H>
     </Wrap>

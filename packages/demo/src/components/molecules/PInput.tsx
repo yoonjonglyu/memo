@@ -30,7 +30,7 @@ const PInput: React.FC<PInputProps> = ({ value, setValue }) => {
 
   return (
     <Wrap>
-      <P contentEditable="true" onKeyUp={handleType}>
+      <P contentEditable="true" onKeyDown={handleType}>
         {value}
       </P>
     </Wrap>
