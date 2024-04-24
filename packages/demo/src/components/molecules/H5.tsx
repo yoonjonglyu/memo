@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import useType from '../../hooks/useType';
+import useType, { FuncProps } from '../../hooks/useType';
 
 const Wrap = styled.div`
   margin: 8px;
@@ -20,17 +20,23 @@ const H = styled.h5`
 export interface H5Props {
   value: string;
   setValue: Function;
+  func: FuncProps;
 }
 
-const H5: React.FC<H5Props> = ({ value, setValue }) => {
+const H5: React.FC<H5Props> = ({ value, setValue, func }) => {
   const { handleType } = useType({
     value: value,
     setValue: setValue,
     delay: 500,
+    func: func,
   });
   return (
     <Wrap>
-      <H contentEditable="true" onKeyDown={handleType}>
+      <H
+        contentEditable="true"
+        onKeyDown={handleType}
+        suppressContentEditableWarning={true}
+      >
         {value}
       </H>
     </Wrap>

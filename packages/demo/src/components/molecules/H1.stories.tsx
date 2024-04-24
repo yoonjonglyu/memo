@@ -15,5 +15,8 @@ export const Basic: Story = {
   args: {
     value: 'H1 타이틀입니다.',
     setValue: (state: string) => console.log(state),
+    func: {
+      Enter: (e: any) => alert(e.target.textContent),
+    },
   },
 };

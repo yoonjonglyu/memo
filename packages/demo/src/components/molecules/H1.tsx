@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import useType from '../../hooks/useType';
+import useType, { FuncProps } from '../../hooks/useType';
 
 const Wrap = styled.div`
   margin: 8px;
@@ -20,17 +20,25 @@ const H = styled.h1`
 export interface H1Props {
   value: string;
   setValue: Function;
+  func: FuncProps;
 }
 
-const H1: React.FC<H1Props> = ({ value, setValue }) => {
+const H1: React.FC<H1Props> = ({ value, setValue, func }) => {
   const { handleType } = useType({
     value: value,
     setValue: setValue,
     delay: 500,
+    func: func,
   });
   return (
     <Wrap>
-      <H contentEditable="true" onKeyDown={handleType}>{value}</H>
+      <H
+        contentEditable="true"
+        onKeyDown={handleType}
+        suppressContentEditableWarning={true}
+      >
+        {value}
+      </H>
     </Wrap>
   );
 };

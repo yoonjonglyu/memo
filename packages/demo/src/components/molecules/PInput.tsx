@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import useType from '../../hooks/useType';
+import useType, { FuncProps } from '../../hooks/useType';
 
 const Wrap = styled.div`
   margin: 8px;
@@ -18,19 +18,25 @@ const P = styled.div`
 export interface PInputProps {
   value: string;
   setValue: Function;
+  func: FuncProps;
 }
 let prev: any = null;
 
-const PInput: React.FC<PInputProps> = ({ value, setValue }) => {
+const PInput: React.FC<PInputProps> = ({ value, setValue, func }) => {
   const { handleType } = useType({
     value: value,
     setValue: setValue,
     delay: 500,
+    func: func,
   });
 
   return (
     <Wrap>
-      <P contentEditable="true" onKeyDown={handleType}>
+      <P
+        contentEditable="true"
+        onKeyDown={handleType}
+        suppressContentEditableWarning={true}
+      >
         {value}
       </P>
     </Wrap>

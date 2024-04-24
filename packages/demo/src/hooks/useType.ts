@@ -4,7 +4,10 @@ export interface UseTypeProps {
   value: string;
   setValue: Function;
   delay: number;
-  func?: { Enter: Function };
+  func?: FuncProps
+}
+export interface FuncProps {
+  Enter: Function;
 }
 let prev: any = null;
 
