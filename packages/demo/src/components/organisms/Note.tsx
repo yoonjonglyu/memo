@@ -10,13 +10,16 @@ const Body = styled.div``;
 
 export interface NoteProps {}
 const Note: React.FC<NoteProps> = () => {
+  const func = {
+    Enter: (e: any) => alert(e.target.textContent)
+  }
   return (
     <MemoBox>
       <Header>
-        <H1 value="" setValue={(state: any) => console.log(state)} />
+        <H1 value="" setValue={(state: any) => console.log(state)} func={func} />
       </Header>
       <Body>
-        <PInput value="" setValue={(state: any) => console.log(state)} />
+        <PInput value="" setValue={(state: any) => console.log(state)} func={func} />
       </Body>
     </MemoBox>
   );
