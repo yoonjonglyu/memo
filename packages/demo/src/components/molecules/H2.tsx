@@ -10,6 +10,7 @@ const Wrap = styled.div`
 const H = styled.h2`
   width: 100%;
   min-height: 2rem;
+  margin: 3px 0;
   outline: none;
   font-size: 1.8rem;
   font-weight: bold;
