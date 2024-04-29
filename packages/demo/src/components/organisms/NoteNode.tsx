@@ -10,7 +10,7 @@ import H6 from '../molecules/H6';
 
 import type { FuncProps } from '../../hooks/useType';
 
-export interface NoteNodeProps extends HTMLDivElement {
+export interface NoteNodeProps extends React.HTMLAttributes<HTMLDivElement> {
   type: string;
   value: any;
   setValue: Function;
