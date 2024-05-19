@@ -10,13 +10,17 @@ interface TodoProps {
   type: 'todo';
   props: Array<{ isAvail: boolean; todo: string }>;
 }
+interface NoteProps {
+  idx: string;
+  type: 'note';
+  props: Array<{ idx: number; type: string; value: string }>;
+}
 
-export type MemoListStateProps = MemoProps | TodoProps;
+export type MemoListStateProps = MemoProps | TodoProps | NoteProps;
 
 const memoListState = atom<Array<MemoListStateProps>>({
   key: 'memoList',
-  default: [
-  ],
+  default: [],
 });
 
 export default memoListState;
