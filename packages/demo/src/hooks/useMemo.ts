@@ -80,6 +80,45 @@ function useMemo() {
     setMemoList(state);
     await handleSetMemo(state);
   };
+  const handleNote = async (
+    index: number,
+    value: Array<{ idx: number; type: string; value: string }>
+  ) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = state[index];
+    change.props = value;
+    await handleSetMemo(state);
+  };
+  /**
+   * @todo 중간에 삽입될 경우 내부 idx 정렬을 해야하나?; 글쎄;
+   */
+  const handleAddNoteItem = async (
+    index: number,
+    cdx: number,
+    type: string
+  ) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = state[index];
+    if (change.type === 'note') {
+      change.props.push({ idx: cdx, type: type, value: '' });
+      change.props.sort((a: any, b: any) => (a.idx > b.idx ? 1 : -1));
+    }
+    setMemoList(state);
+    await handleSetMemo(state);
+  };
+  const handleDeleteNoteItem = async (index: number, cdx: number) => {
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = state[index];
+    if (change.type === 'note') {
+      change.props = [
+        ...state[index].props.slice(0, cdx),
+        ...state[index].props.slice(cdx + 1, state[index].props.length),
+      ];
+      change.props.sort((a: any, b: any) => (a.idx > b.idx ? 1 : -1));
+    }
+    setMemoList(state);
+    await handleSetMemo(state);
+  };
   return {
     memoList,
     initMemo,
@@ -89,6 +128,9 @@ function useMemo() {
     handleAddTodo,
     handleCheckTodo,
     handleDeleteTodo,
+    handleNote,
+    handleAddNoteItem,
+    handleDeleteNoteItem,
   };
 }
 
