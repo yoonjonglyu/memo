@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Memo from '../../components/organisms/Memo';
-import Todo from '../../components/organisms/Todo';
-
+import Todo, { TodoValueProps } from '../../components/organisms/Todo';
+import Note, { NoteValueProps } from '../../components/organisms/Note';
 import useMemo from '../../hooks/useMemo';
 
 const ItemBox = styled.div`
@@ -24,8 +24,8 @@ const Button = styled.button`
 
 export interface MemoItemProps {
   index: number;
-  type: 'memo' | 'todo';
-  props: string | Array<{ isAvail: boolean; todo: string }>; // 보통 이런 예약어는 커스텀해서 안쓰는게 좋다.
+  type: 'memo' | 'todo' | 'note';
+  props: string | Array<TodoValueProps> | Array<NoteValueProps>; // 보통 이런 예약어는 커스텀해서 안쓰는게 좋다.
   isEdit: boolean;
 }
 
@@ -37,21 +37,33 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
     handleAddTodo,
     handleCheckTodo,
     handleDeleteTodo,
+    handleNote,
+    handleAddNoteItem,
   } = useMemo();
 
   return (
     <ItemBox>
-      {type === 'memo' ? (
+      {type === 'memo' && (
         <Memo
           value={props as string}
           onChange={e => handleMemo(index, e.target.value)}
         />
-      ) : (
+      )}
+      {type === 'todo' && (
         <Todo
-          todoItem={props as Array<{ isAvail: boolean; todo: string }>}
+          todoItem={props as Array<TodoValueProps>}
           addItemHandler={todo => handleAddTodo(index, todo)}
           checkItemHandler={idx => handleCheckTodo(index, idx)}
           deleteItemHandler={idx => handleDeleteTodo(index, idx)}
+        />
+      )}
+      {type === 'note' && (
+        <Note
+          value={props as Array<NoteValueProps>}
+          setValue={(value: Array<NoteValueProps>) => handleNote(index, value)}
+          func={{
+            Enter: (idx: number) => handleAddNoteItem(index, idx, 'p'),
+          }}
         />
       )}
       {isEdit ? (

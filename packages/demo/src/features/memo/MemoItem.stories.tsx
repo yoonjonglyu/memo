@@ -40,3 +40,16 @@ export const Memo: Story = {
     isEdit: false,
   },
 };
+
+export const Note: Story = {
+  args: {
+    type: 'note',
+    index: 0,
+    props: [
+      { idx: 0, type: 'h1', value: '타이틀입니다.' },
+      { idx: 1, type: 'p', value: 'p입니다.' },
+      { idx: 2, type: 'h2', value: 'h2입니다.' },
+    ],
+    isEdit: false,
+  },
+};

@@ -58,10 +58,14 @@ const DelectBtn = styled.button`
 `;
 
 export interface TodoProps {
-  todoItem: Array<{ isAvail: boolean; todo: string }>;
+  todoItem: Array<TodoValueProps>;
   addItemHandler: (todo: string) => void;
   checkItemHandler: (idx: number) => void;
   deleteItemHandler: (idx: number) => void;
+}
+export interface TodoValueProps {
+  isAvail: boolean;
+  todo: string;
 }
 
 const Todo: React.FC<TodoProps> = props => {

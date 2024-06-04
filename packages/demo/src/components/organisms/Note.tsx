@@ -12,7 +12,7 @@ const Body = styled.div``;
 
 export interface NoteProps {
   value: Array<NoteValueProps>;
-  setValue: React.Dispatch<React.SetStateAction<any>>;
+  setValue: Function;
   func: FuncProps;
 }
 export interface NoteValueProps {
@@ -29,30 +29,31 @@ const Note: React.FC<NoteProps> = ({ value, setValue, func }) => {
       <Header>
         <H1
           value={title.value}
-          setValue={(state: string) =>
-            setValue((prev: Array<NoteValueProps>) => {
-              const next = [...prev];
-              next[0].value = state;
-              return next;
-            })
-          }
-          func={func}
+          setValue={(state: string) => {
+            const next = JSON.parse(JSON.stringify(value));
+            next[0].value = state;
+            setValue(next);
+          }}
+          func={{
+            Enter: () => func.Enter(1),
+          }}
         />
       </Header>
       <Body>
-        {article.map(item => {
+        {article.map((item, idx) => {
           return (
             <NoteNode
+              key={item.idx}
               type={item.type}
               value={item.value}
-              setValue={(state: string) =>
-                setValue((prev: Array<NoteValueProps>) => {
-                  const next = [...prev];
-                  next[item.idx].value = state;
-                  return next;
-                })
-              }
-              func={func}
+              setValue={(state: string) => {
+                const next = JSON.parse(JSON.stringify(value));
+                next[idx].value = state;
+                setValue(next);
+              }}
+              func={{
+                Enter: () => func.Enter(idx + 2),
+              }}
             />
           );
         })}

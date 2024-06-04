@@ -89,9 +89,6 @@ function useMemo() {
     change.props = value;
     await handleSetMemo(state);
   };
-  /**
-   * @todo 중간에 삽입될 경우 내부 idx 정렬을 해야하나?; 글쎄;
-   */
   const handleAddNoteItem = async (
     index: number,
     cdx: number,
@@ -100,8 +97,11 @@ function useMemo() {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = state[index];
     if (change.type === 'note') {
-      change.props.push({ idx: cdx, type: type, value: '' });
-      change.props.sort((a: any, b: any) => (a.idx > b.idx ? 1 : -1));
+      change.props = [
+        ...state[index].props.slice(0, cdx),
+        { idx: Date.now(), type: type, value: '' },
+        ...state[index].props.slice(cdx, state[index].props.length),
+      ];
     }
     setMemoList(state);
     await handleSetMemo(state);
@@ -114,7 +114,6 @@ function useMemo() {
         ...state[index].props.slice(0, cdx),
         ...state[index].props.slice(cdx + 1, state[index].props.length),
       ];
-      change.props.sort((a: any, b: any) => (a.idx > b.idx ? 1 : -1));
     }
     setMemoList(state);
     await handleSetMemo(state);

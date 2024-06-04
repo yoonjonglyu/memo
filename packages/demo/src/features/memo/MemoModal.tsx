@@ -105,6 +105,20 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
             Todo
           </ModalButton>
         </li>
+        <li>
+          <ModalButton
+            onClick={() => {
+              hanleNewMemo({
+                idx: Date.now().toString(),
+                type: 'note',
+                props: [{ idx: Date.now(), type: 'h1', value: '' }],
+              });
+              handleCloseModal();
+            }}
+          >
+            Note
+          </ModalButton>
+        </li>
       </ModalList>
     </>
   );
