@@ -6,20 +6,25 @@ import Todo, { TodoValueProps } from '../../components/organisms/Todo';
 import Note, { NoteValueProps } from '../../components/organisms/Note';
 import useMemo from '../../hooks/useMemo';
 
-const ItemBox = styled.div`
+const ItemBox = styled.div<{ isEdit: boolean }>`
+  position: relative;
   max-width: 240px;
   width: 100%;
+  opacity: ${({ isEdit }) => (isEdit ? '84%' : '100%')};
   @media screen and (max-width: 920px) {
     max-width: unset;
   }
 `;
 const Button = styled.button`
+  position: absolute;
+  bottom: 0;
   width: 100%;
   padding: 6px 0;
   color: #fff;
   border: 1px solid gray;
   border-radius: 3px;
   background: #e94f4f;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 2px 1px, rgb(0 0 0 / 30%) 0px 4px 10px;
 `;
 
 export interface MemoItemProps {
@@ -42,7 +47,7 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
   } = useMemo();
 
   return (
-    <ItemBox>
+    <ItemBox isEdit={isEdit}>
       {type === 'memo' && (
         <Memo
           value={props as string}
