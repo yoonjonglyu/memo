@@ -21,7 +21,14 @@ class MemoApi {
       if (check === null) {
         const newData = [
           { idx: 'a1', type: 'memo', props: '여기다 메모를 작성해보세요.' },
-          { idx: 'a2', type: 'todo', props: [{ isAvail: true, todo: '메모장을 켜기' }, { isAvail: false, todo: '새로운 메모를 작성해보세요.' }] },
+          {
+            idx: 'a2',
+            type: 'todo',
+            props: [
+              { isAvail: true, todo: '메모장을 켜기' },
+              { isAvail: false, todo: '새로운 메모를 작성해보세요.' },
+            ],
+          },
         ];
         localStorage.setItem('MEMO_LIST', JSON.stringify(newData));
         return newData;
@@ -34,6 +41,44 @@ class MemoApi {
       return res;
     } else {
       localStorage.setItem('MEMO_LIST', JSON.stringify(memoList));
+    }
+  }
+  async updateMemoItem(index: number, value: any) {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.post(`${this.url}/memoItem`, value);
+      return res;
+    } else {
+      const prev = JSON.parse(localStorage.getItem('MEMO_LIST') || '[]');
+      prev[index] = value;
+      localStorage.setItem('MEMO_LIST', JSON.stringify(prev));
+    }
+  }
+  async updateMemoContext(index: number, value: any) {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.post(`${this.url}/memoContext`, value);
+      return res;
+    } else {
+      const prev = JSON.parse(localStorage.getItem('MEMO_LIST') || '[]');
+      prev[index].props = value;
+      localStorage.setItem('MEMO_LIST', JSON.stringify(prev));
+    }
+  }
+  async getMemoItem(index: number) {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.get(`${this.url}/memoItem/${index}`);
+      return res;
+    } else {
+      const state = JSON.parse(localStorage.getItem('MEMO_LIST') || '[]');
+      return state[index];
+    }
+  }
+  async getMemoContext(index: number) {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.get(`${this.url}/memoContext/${index}`);
+      return res;
+    } else {
+      const state = JSON.parse(localStorage.getItem('MEMO_LIST') || '[]');
+      return state[index].props;
     }
   }
 }
