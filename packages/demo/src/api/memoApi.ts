@@ -45,7 +45,7 @@ class MemoApi {
   }
   async updateMemoItem(index: number, value: any) {
     if (process.env.NODE_ENV === 'development') {
-      const res = await client.post(`${this.url}/memoItem`, value);
+      const res = await client.post(`${this.url}/memoItem`, { index, value });
       return res;
     } else {
       const prev = JSON.parse(localStorage.getItem('MEMO_LIST') || '[]');
@@ -55,7 +55,10 @@ class MemoApi {
   }
   async updateMemoContext(index: number, value: any) {
     if (process.env.NODE_ENV === 'development') {
-      const res = await client.post(`${this.url}/memoContext`, value);
+      const res = await client.post(`${this.url}/memoContext`, {
+        index,
+        value,
+      });
       return res;
     } else {
       const prev = JSON.parse(localStorage.getItem('MEMO_LIST') || '[]');

@@ -17,6 +17,14 @@ const handleSetMemo = _.debounce(
   async args => await MemoSignal.setMemoList(args),
   500
 );
+const handleSetMemoItem = _.debounce(
+  async (index, value) => await MemoSignal.updateMemoItem(index, value),
+  500
+);
+const handleSetMemoContext = _.debounce(
+  async (index, value) => await MemoSignal.updateMemoContext(index, value),
+  500
+);
 function useMemo() {
   const [memoList, setMemoList] = useRecoilState(memoListState);
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
@@ -41,11 +49,8 @@ function useMemo() {
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
     state[index].props = value;
-    // 본래라면 이런 세부 사항의 요청의 경우 전체를 클라이언트에서 보내서 갱신하기보다는
-    // 제한된 쿼리를 바탕으로 벡엔드 내부에서 처리를 하는게 정상이지만 해당 앱은 벡엔드 서버가 없으니 대충 처리했다.
-    // 에러 핸들링이나 데이터 동기화 문제 역시 생략
     setMemoList(state);
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, value);
   };
   const handleAddTodo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -57,7 +62,7 @@ function useMemo() {
       });
     }
     setMemoList(state);
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, change.props);
   };
   const handleDeleteTodo = async (index: number, idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -69,7 +74,7 @@ function useMemo() {
       ];
     }
     setMemoList(state);
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, change.props);
   };
   const handleCheckTodo = async (index: number, idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -78,7 +83,7 @@ function useMemo() {
       change.props[idx].isAvail = !change.props[idx].isAvail;
     }
     setMemoList(state);
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, change.props);
   };
   const handleNote = async (
     index: number,
@@ -87,7 +92,7 @@ function useMemo() {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = state[index];
     change.props = value;
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, change.props);
   };
   const handleAddNoteItem = async (
     index: number,
@@ -104,7 +109,7 @@ function useMemo() {
       ];
     }
     setMemoList(state);
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, change.props);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -116,7 +121,7 @@ function useMemo() {
       ];
     }
     setMemoList(state);
-    await handleSetMemo(state);
+    await handleSetMemoContext(index, change.props);
   };
   return {
     memoList,
