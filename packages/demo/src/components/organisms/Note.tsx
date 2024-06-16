@@ -12,7 +12,7 @@ const Body = styled.div``;
 
 export interface NoteProps {
   value: Array<NoteValueProps>;
-  setValue: Function;
+  setValue: (cdx: number, value: NoteValueProps) => void;
   func: FuncProps;
 }
 export interface NoteValueProps {
@@ -30,9 +30,9 @@ const Note: React.FC<NoteProps> = ({ value, setValue, func }) => {
         <H1
           value={title.value}
           setValue={(state: string) => {
-            const next = JSON.parse(JSON.stringify(value));
-            next[0].value = state;
-            setValue(next);
+            const next = JSON.parse(JSON.stringify(title));
+            next.value = state;
+            setValue(0, next);
           }}
           func={{
             Enter: () => func.Enter(1),
@@ -43,13 +43,13 @@ const Note: React.FC<NoteProps> = ({ value, setValue, func }) => {
         {article.map((item, idx) => {
           return (
             <NoteNode
-              key={item.idx}
+              key={`${item.idx}-${idx}`}
               type={item.type}
               value={item.value}
               setValue={(state: string) => {
-                const next = JSON.parse(JSON.stringify(value));
-                next[idx].value = state;
-                setValue(next);
+                const next = JSON.parse(JSON.stringify(value[idx + 1]));
+                next.value = state;
+                setValue(idx + 1, next);
               }}
               func={{
                 Enter: () => func.Enter(idx + 2),

@@ -23,7 +23,7 @@ const handleSetMemoItem = _.debounce(
 );
 const handleSetMemoContext = _.debounce(
   async (index, value) => await MemoSignal.updateMemoContext(index, value),
-  500
+  50
 );
 function useMemo() {
   const [memoList, setMemoList] = useRecoilState(memoListState);
@@ -34,17 +34,18 @@ function useMemo() {
     setMemoList(data);
   };
   const hanleNewMemo = async (memo: MemoListStateProps) => {
-    const state = [...memoList, memo];
+    const state = [...JSON.parse(JSON.stringify(memoList)), memo];
     setMemoList(state);
     await handleSetMemo(state);
   };
   const handleDeleteMemo = async (idx: number) => {
-    const state = [
-      ...memoList.slice(0, idx),
-      ...memoList.slice(idx + 1, memoList.length),
+    const state = JSON.parse(JSON.stringify(memoList));
+    const change = [
+      ...state.slice(0, idx),
+      ...state.slice(idx + 1, state.length),
     ];
-    setMemoList(state);
-    await handleSetMemo(state);
+    setMemoList(change);
+    await handleSetMemo(change);
   };
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -87,11 +88,13 @@ function useMemo() {
   };
   const handleNote = async (
     index: number,
-    value: Array<{ idx: number; type: string; value: string }>
+    cdx: number,
+    value: { idx: number; type: string; value: string }
   ) => {
+    const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index];
-    change.props = value;
+    const change = (state[index] = data);
+    change.props[cdx] = value;
     await handleSetMemoContext(index, change.props);
   };
   const handleAddNoteItem = async (
@@ -99,8 +102,9 @@ function useMemo() {
     cdx: number,
     type: string
   ) => {
+    const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index];
+    const change = (state[index] = data);
     if (change.type === 'note') {
       change.props = [
         ...state[index].props.slice(0, cdx),

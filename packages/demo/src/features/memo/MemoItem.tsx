@@ -65,7 +65,9 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
       {type === 'note' && (
         <Note
           value={props as Array<NoteValueProps>}
-          setValue={(value: Array<NoteValueProps>) => handleNote(index, value)}
+          setValue={(cdx: number, value: NoteValueProps) =>
+            handleNote(index, cdx, value)
+          }
           func={{
             Enter: (idx: number) => handleAddNoteItem(index, idx, 'p'),
           }}
