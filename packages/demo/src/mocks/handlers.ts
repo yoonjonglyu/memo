@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 const dumy = {
   MEMO_LIST: [
@@ -15,30 +15,36 @@ const dumy = {
 };
 
 export const handlers = [
-  rest.get('/memoList', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(dumy.MEMO_LIST));
+  http.get('/memoList', () => {
+    return HttpResponse.json(dumy.MEMO_LIST, { status: 200 });
   }),
-  rest.post('/memoList', async (req, res, ctx) => {
-    const body = await req.json();
-    dumy['MEMO_LIST'] = body;
-    return res(ctx.status(200), ctx.text('success save memo'));
+  http.post('/memoList', async ({ request }) => {
+    const body = await request.json();
+    dumy['MEMO_LIST'] = body as (typeof dumy)['MEMO_LIST'];
+    return HttpResponse.text('success save memo', { status: 200 });
   }),
-  rest.get('/memoItem/:index', (req, res, ctx) => {
-    const index = parseInt(req.params.index[0]);
-    return res(ctx.status(200), ctx.json(dumy.MEMO_LIST[index]));
+  http.get('/memoItem/:index', ({ params }) => {
+    const index = parseInt(params.index[0]);
+    return HttpResponse.json(dumy.MEMO_LIST[index], { status: 200 });
   }),
-  rest.post('/memoItem', async (req, res, ctx) => {
-    const { index, value } = await req.json();
+  http.post('/memoItem', async ({ request }) => {
+    const { index, value } = (await request.json()) as {
+      index: any;
+      value: any;
+    };
     dumy.MEMO_LIST[index] = value;
-    return res(ctx.status(200), ctx.text('success save memo'));
+    return HttpResponse.text('success save memo', { status: 200 });
   }),
-  rest.get('/memoContext/:index', (req, res, ctx) => {
-    const index = parseInt(req.params.index[0]);
-    return res(ctx.status(200), ctx.json(dumy.MEMO_LIST[index].props));
+  http.get('/memoContext/:index', ({ params }) => {
+    const index = parseInt(params.index[0]);
+    return HttpResponse.json(dumy.MEMO_LIST[index].props, { status: 200 });
   }),
-  rest.post('/memoContext', async (req, res, ctx) => {
-    const { index, value } = await req.json();
+  http.post('/memoContext', async ({ request }) => {
+    const { index, value } = (await request.json()) as {
+      index: any;
+      value: any;
+    };
     dumy.MEMO_LIST[index].props = value;
-    return res(ctx.status(200), ctx.text('success save memo'));
+    return HttpResponse.text('success save memo', { status: 200 });
   }),
 ];

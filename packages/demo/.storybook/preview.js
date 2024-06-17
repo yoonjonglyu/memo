@@ -1,10 +1,10 @@
-import { initialize, mswDecorator } from 'msw-storybook-addon';
+import { initialize, mswLoader } from 'msw-storybook-addon';
 import { RecoilRoot } from 'recoil';
 
 import { handlers } from '../src/mocks/handlers';
 import { ModalProvider } from '../src/providers/ModalProvider';
 
-initialize();
+initialize({ onUnhandledRequest: 'bypass' });
 
 export const parameters = {
   controls: {
@@ -19,8 +19,8 @@ export const parameters = {
     },
   },
 };
+export const loaders = [mswLoader];
 export const decorators = [
-  mswDecorator,
   Story => {
     return (
       <RecoilRoot>
