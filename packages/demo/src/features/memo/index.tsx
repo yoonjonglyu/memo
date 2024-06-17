@@ -12,6 +12,7 @@ export interface MemoFeatureProps {}
 const MemoFeature: React.FC<MemoFeatureProps> = () => {
   const { memoList, initMemo } = useMemo();
   const [isEdit, setIsEdit] = useState(false);
+  const [isSetting, setIsSetting] = useState(false);
 
   useEffect(() => {
     initMemo();
@@ -20,7 +21,10 @@ const MemoFeature: React.FC<MemoFeatureProps> = () => {
   // 여기서 UI 상세를 구축하면 동일한 추상화 단계가 아니다.
   return (
     <>
-      <MemoHeader handleEdit={() => setIsEdit(prev => !prev)} />
+      <MemoHeader
+        handleEdit={() => setIsEdit(prev => !prev)}
+        handleSetting={() => setIsSetting(prev => !prev)}
+      />
       <BoardLayout>
         {memoList.map((item, index) => {
           return (

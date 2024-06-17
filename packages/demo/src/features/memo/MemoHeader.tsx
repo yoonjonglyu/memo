@@ -29,14 +29,19 @@ const Button = styled.button`
 `;
 export interface MemoHeaderProps {
   handleEdit: VoidFunction;
+  handleSetting: VoidFunction;
 }
 
-const MemoHeader: React.FC<MemoHeaderProps> = ({ handleEdit }) => {
+const MemoHeader: React.FC<MemoHeaderProps> = ({
+  handleEdit,
+  handleSetting,
+}) => {
   return (
     <Header>
       <Title>Memo</Title>
       <ToolBox>
         <Button onClick={handleEdit}>편집</Button>
+        <Button onClick={handleSetting}>설정</Button>
       </ToolBox>
     </Header>
   );
