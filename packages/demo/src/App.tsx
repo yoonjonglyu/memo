@@ -1,7 +1,7 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
-import MemoFeature from './features/memo';
+import IndexPage from './pages';
 
 import { ModalProvider } from './providers/ModalProvider';
 
@@ -9,7 +9,7 @@ const App: React.FC = () => {
   return (
     <RecoilRoot>
       <ModalProvider>
-        <MemoFeature />
+        <IndexPage />
       </ModalProvider>
     </RecoilRoot>
   );
