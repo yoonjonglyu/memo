@@ -12,6 +12,11 @@ const ModalList = styled.ul`
   & li {
     margin: 8px 0;
   }
+  & li p {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #6c6c6c;
+  }
 `;
 const Button = styled.button`
   width: 100%;
@@ -44,11 +49,17 @@ const SettingModal: React.FC<SettingModalProps> = () => {
               <Button>Export</Button>
             </li>
             <li>
-              <p>Info(contract)</p>
+              <p>
+                <strong>App Info</strong>
+                <br />
+                <strong>version:</strong> v1.0.1
+                <br />
+                <strong>email:</strong> yunjonglyu@gmail.com
+              </p>
             </li>
           </ModalList>
         }
-        footer={<button>취소</button>}
+        footer={<Button>Cancel</Button>}
       />
     </ModalPortal>
   );
