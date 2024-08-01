@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Modal from '../../components/molecules/Modal';
+import LargeButton from '../../components/atoms/LargeButton';
 
 import { ModalPortal } from '../../providers/ModalProvider';
 
@@ -20,18 +21,6 @@ const ModalList = styled.ul`
     color: #6c6c6c;
   }
 `;
-const Button = styled.button`
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #47429b;
-  background: #a5a0f8;
-  border: none;
-  border-radius: 3px;
-  padding: 18px 8px;
-  font-size: 1.2rem;
-`;
 
 export interface SettingExportProps {}
 
@@ -42,19 +31,19 @@ const SettingExport: React.FC<SettingExportProps> = () => {
     children={
       <ModalList>
         <li>
-          <Button>
+          <LargeButton>
             JSON
-          </Button>
+          </LargeButton>
         </li>
         <li>
-          <Button>MD</Button>
+          <LargeButton>MD</LargeButton>
         </li>
         <li>
-          <Button>HTML</Button>
+          <LargeButton>HTML</LargeButton>
         </li>
       </ModalList>
     }
-    footer={<Button>Cancel</Button>}
+    footer={<LargeButton>Cancel</LargeButton>}
   />
 </ModalPortal>
 };

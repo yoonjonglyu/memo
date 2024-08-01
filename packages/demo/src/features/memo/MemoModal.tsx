@@ -3,20 +3,11 @@ import styled from 'styled-components';
 
 import FloatBtn from '../../components/atoms/FloatBtn';
 import Modal from '../../components/molecules/Modal';
+import LargeButton from '../../components/atoms/LargeButton';
 
 import { ModalPortal } from '../../providers/ModalProvider';
 import useMemo from '../../hooks/useMemo';
 
-const Button = styled.button`
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #47429b;
-  background: #a5a0f8;
-  border: none;
-  border-radius: 3px;
-`;
 
 export interface MemoModalProps {}
 
@@ -35,7 +26,7 @@ const MemoModal: React.FC<MemoModalProps> = () => {
           children={
             <ModalContents handleCloseModal={() => setIsModal(false)} />
           }
-          footer={<Button onClick={() => setIsModal(false)}>취소</Button>}
+          footer={<LargeButton onClick={() => setIsModal(false)}>취소</LargeButton>}
         />
       ) : null}
     </ModalPortal>
@@ -55,7 +46,7 @@ const ModalList = styled.ul`
     margin: 8px 0;
   }
 `;
-const ModalButton = styled(Button)`
+const ModalButton = styled(LargeButton)`
   padding: 18px 8px;
   font-size: 1.2rem;
 `;

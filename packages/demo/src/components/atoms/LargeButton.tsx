@@ -15,7 +15,7 @@ const Button = styled.button`
 `;
 
 export interface LargeButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement> {}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const LargeButton: React.FC<LargeButtonProps> = props => {
   return <Button {...props} />;
