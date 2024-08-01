@@ -7,13 +7,15 @@ import LargeButton from '../../components/atoms/LargeButton';
 import { ModalPortal } from '../../providers/ModalProvider';
 
 const ModalList = styled.ul`
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
   margin: 6px auto;
   padding: 0;
   list-style: none;
   & li {
     display: inline-block;
     width: 80px;
-    margin: 8px;
   }
   & li p {
     font-size: 0.9rem;
@@ -25,27 +27,27 @@ const ModalList = styled.ul`
 export interface SettingExportProps {}
 
 const SettingExport: React.FC<SettingExportProps> = () => {
-  return     <ModalPortal>
-  <Modal
-    header="Export Type"
-    children={
-      <ModalList>
-        <li>
-          <LargeButton>
-            JSON
-          </LargeButton>
-        </li>
-        <li>
-          <LargeButton>MD</LargeButton>
-        </li>
-        <li>
-          <LargeButton>HTML</LargeButton>
-        </li>
-      </ModalList>
-    }
-    footer={<LargeButton>Cancel</LargeButton>}
-  />
-</ModalPortal>
+  return (
+    <ModalPortal>
+      <Modal
+        header="Export Type"
+        children={
+          <ModalList>
+            <li>
+              <LargeButton>JSON</LargeButton>
+            </li>
+            <li>
+              <LargeButton>MD</LargeButton>
+            </li>
+            <li>
+              <LargeButton>HTML</LargeButton>
+            </li>
+          </ModalList>
+        }
+        footer={<LargeButton>Cancel</LargeButton>}
+      />
+    </ModalPortal>
+  );
 };
 
 export default SettingExport;
