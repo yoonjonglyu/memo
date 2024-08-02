@@ -20,9 +20,12 @@ const ModalList = styled.ul`
   }
 `;
 
-export interface SettingModalProps {}
+export interface SettingModalProps {
+  handleStep: Function;
+  closeModal: VoidFunction;
+}
 
-const SettingModal: React.FC<SettingModalProps> = () => {
+const SettingModal: React.FC<SettingModalProps> = ({ handleStep, closeModal }) => {
   return (
     <ModalPortal>
       <Modal
@@ -30,12 +33,16 @@ const SettingModal: React.FC<SettingModalProps> = () => {
         children={
           <ModalList>
             <li>
-              <LargeButton style={{ opacity: '0.5' }} aria-disabled="true">
+              <LargeButton
+                disabled={true}
+                style={{ opacity: '0.5' }}
+                aria-disabled="true"
+              >
                 Sync
               </LargeButton>
             </li>
             <li>
-              <LargeButton>Export</LargeButton>
+              <LargeButton onClick={() => handleStep(1)}>Export</LargeButton>
             </li>
             <li>
               <p>
@@ -48,7 +55,7 @@ const SettingModal: React.FC<SettingModalProps> = () => {
             </li>
           </ModalList>
         }
-        footer={<LargeButton>Cancel</LargeButton>}
+        footer={<LargeButton onClick={closeModal}>Cancel</LargeButton>}
       />
     </ModalPortal>
   );

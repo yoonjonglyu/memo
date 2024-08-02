@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import Modal from '../../components/molecules/Modal';
 import LargeButton from '../../components/atoms/LargeButton';
 
-import { ModalPortal } from '../../providers/ModalProvider';
-
 const ModalList = styled.ul`
   display: flex;
   justify-content: space-around;
@@ -24,29 +22,29 @@ const ModalList = styled.ul`
   }
 `;
 
-export interface SettingExportProps {}
+export interface SettingExportProps {
+  handleStep: Function;
+}
 
-const SettingExport: React.FC<SettingExportProps> = () => {
+const SettingExport: React.FC<SettingExportProps> = ({ handleStep }) => {
   return (
-    <ModalPortal>
-      <Modal
-        header="Export Type"
-        children={
-          <ModalList>
-            <li>
-              <LargeButton>JSON</LargeButton>
-            </li>
-            <li>
-              <LargeButton>MD</LargeButton>
-            </li>
-            <li>
-              <LargeButton>HTML</LargeButton>
-            </li>
-          </ModalList>
-        }
-        footer={<LargeButton>Cancel</LargeButton>}
-      />
-    </ModalPortal>
+    <Modal
+      header="Export Type"
+      children={
+        <ModalList>
+          <li>
+            <LargeButton>JSON</LargeButton>
+          </li>
+          <li>
+            <LargeButton>MD</LargeButton>
+          </li>
+          <li>
+            <LargeButton>HTML</LargeButton>
+          </li>
+        </ModalList>
+      }
+      footer={<LargeButton onClick={() => handleStep(0)}>Cancel</LargeButton>}
+    />
   );
 };
 

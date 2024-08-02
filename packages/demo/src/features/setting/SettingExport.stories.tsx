@@ -12,6 +12,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
+  args: {
+    handleStep: (a: any) => console.log(a),
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
   },
