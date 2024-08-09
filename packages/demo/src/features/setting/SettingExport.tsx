@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Modal from '../../components/molecules/Modal';
 import LargeButton from '../../components/atoms/LargeButton';
 
+import useExport from '../../hooks/useExport';
+
 const ModalList = styled.ul`
   display: flex;
   justify-content: space-around;
@@ -27,19 +29,21 @@ export interface SettingExportProps {
 }
 
 const SettingExport: React.FC<SettingExportProps> = ({ handleStep }) => {
+  const { exportJSON, exportHTML, exportMD } = useExport();
+
   return (
     <Modal
       header="Export Type"
       children={
         <ModalList>
           <li>
-            <LargeButton>JSON</LargeButton>
+            <LargeButton onClick={exportJSON}>JSON</LargeButton>
           </li>
           <li>
-            <LargeButton>MD</LargeButton>
+            <LargeButton onClick={exportMD}>MD</LargeButton>
           </li>
           <li>
-            <LargeButton>HTML</LargeButton>
+            <LargeButton onClick={exportHTML}>HTML</LargeButton>
           </li>
         </ModalList>
       }

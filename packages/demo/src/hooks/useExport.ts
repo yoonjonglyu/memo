@@ -1,13 +1,16 @@
 import MemoApi from '../api/memoApi';
 
+import type { MemoListStateProps } from '../store/memo/memoListState';
+
 const MemoSignal = new MemoApi();
 
 export interface UseExportProps {}
 
 const useExport = () => {
   const exportHTML = async () => {
-    const data = `data:text/html;charset=utf-8,
-    <html lang="en" />
+    const data = new Blob(
+      [
+        `    <html lang="en" />
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -97,31 +100,64 @@ const useExport = () => {
     <header>
       <h1>Memo</h1>
     </header>
-    ${encodeURIComponent(document.querySelector('main')?.outerHTML || '')}
+    ${document.querySelector('main')?.outerHTML}
     </body>
     </html>
-    `;
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute('href', data);
-    downloadAnchorNode.setAttribute('download', `Memo_${Date.now()}.html`);
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+    `,
+      ],
+      {
+        type: 'text/plain',
+      }
+    );
+    download(data, 'html');
   };
   const exportJSON = async () => {
-    +9;
-    const data = `data:text/json;charset=utf-8,${encodeURIComponent(
-      JSON.stringify(await MemoSignal.getMemoList())
-    )}`;
+    const data = new Blob([JSON.stringify(await MemoSignal.getMemoList())], {
+      type: 'text/plain',
+    });
+    download(data, 'json');
+  };
+  const exportMD = async () => {
+    const data = new Blob([ConvertToMarkdown(await MemoSignal.getMemoList())], {
+      type: 'text/plain',
+    });
+    window.URL.createObjectURL(data);
+    download(data, 'md');
+  };
+  const ConvertToMarkdown = (data: Array<MemoListStateProps>) => {
+    const result = data.reduce((r, c) => {
+      switch (c.type) {
+        case 'memo':
+          r += `\`${c.props}\`\n\n`;
+          break;
+        case 'todo':
+          r += `- ${c.props.map(item => item.todo).join(`\n- `)}\n\n`;
+          break;
+        case 'note':
+          r += `---\n${c.props
+            .map(
+              (item, idx) =>
+                `${idx} ${item.value}`
+            )
+            .join('\n')}\n\n---\n\n`;
+          break;
+        default:
+          break;
+      }
+
+      return r;
+    }, `# memo\n\n`);
+    return result;
+  };
+  const download = (data: Blob, type: string) => {
     const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute('href', data);
-    downloadAnchorNode.setAttribute('download', `Memo_${Date.now()}.json`);
+    const url = window.URL.createObjectURL(data);
+    downloadAnchorNode.setAttribute('href', url);
+    downloadAnchorNode.setAttribute('download', `Memo_${Date.now()}.${type}`);
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
-  };
-  const exportMD = async () => {
-    return;
+    window.URL.revokeObjectURL(url);
   };
   return {
     exportHTML,
