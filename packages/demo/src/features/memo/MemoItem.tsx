@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 import Memo from '../../components/organisms/Memo';
 import Todo, { TodoValueProps } from '../../components/organisms/Todo';
@@ -74,7 +76,7 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
         />
       )}
       {isEdit ? (
-        <Button onClick={() => handleDeleteMemo(index)}>삭제</Button>
+        <Button onClick={() => handleDeleteMemo(index)}><FontAwesomeIcon icon={faTrashCan} /></Button>
       ) : null}
     </ItemBox>
   );
