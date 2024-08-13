@@ -121,7 +121,6 @@ const useExport = () => {
     const data = new Blob([ConvertToMarkdown(await MemoSignal.getMemoList())], {
       type: 'text/plain',
     });
-    window.URL.createObjectURL(data);
     download(data, 'md');
   };
   const ConvertToMarkdown = (data: Array<MemoListStateProps>) => {
