@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 const Header = styled.header`
   display: flex;
@@ -26,6 +28,11 @@ const Button = styled.button`
   background: #566bb0b2;
   color: #eaeaea;
   box-shadow: 0.5px 0.5px gray, 0.5px 0.5px gray;
+  & img {
+    width: 100%;
+    height: 22px;
+    margin: 0;
+  }
 `;
 export interface MemoHeaderProps {
   handleEdit: VoidFunction;
@@ -40,8 +47,12 @@ const MemoHeader: React.FC<MemoHeaderProps> = ({
     <Header>
       <Title>Memo</Title>
       <ToolBox>
-        <Button onClick={handleEdit}>편집</Button>
-        <Button onClick={handleSetting}>설정</Button>
+        <Button onClick={handleEdit}>
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </Button>
+        <Button onClick={handleSetting}>
+          <FontAwesomeIcon icon={faGear} />
+        </Button>
       </ToolBox>
     </Header>
   );

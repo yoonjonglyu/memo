@@ -26,7 +26,7 @@ const MemoModal: React.FC<MemoModalProps> = () => {
           children={
             <ModalContents handleCloseModal={() => setIsModal(false)} />
           }
-          footer={<LargeButton onClick={() => setIsModal(false)}>취소</LargeButton>}
+          footer={<LargeButton onClick={() => setIsModal(false)}>Cancel</LargeButton>}
         />
       ) : null}
     </ModalPortal>
