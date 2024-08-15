@@ -1,3 +1,5 @@
+import { download } from 'isa-util';
+
 import MemoApi from '../api/memoApi';
 
 import type { MemoListStateProps } from '../store/memo/memoListState';
@@ -100,7 +102,9 @@ const useExport = () => {
     <header>
       <h1>Memo</h1>
     </header>
-    ${document.querySelector('main')?.outerHTML}
+    <main role="main">
+    ${convertToHTML(await MemoSignal.getMemoList())}
+    </main>
     </body>
     </html>
     `,
@@ -109,19 +113,19 @@ const useExport = () => {
         type: 'text/plain',
       }
     );
-    download(data, 'html');
+    download(data, `meme_${Date.now()}`, 'html');
   };
   const exportJSON = async () => {
     const data = new Blob([JSON.stringify(await MemoSignal.getMemoList())], {
       type: 'text/plain',
     });
-    download(data, 'json');
+    download(data, `meme_${Date.now()}`, 'json');
   };
   const exportMD = async () => {
     const data = new Blob([ConvertToMarkdown(await MemoSignal.getMemoList())], {
       type: 'text/plain',
     });
-    download(data, 'md');
+    download(data, `meme_${Date.now()}`, 'md');
   };
   const ConvertToMarkdown = (data: Array<MemoListStateProps>) => {
     const result = data.reduce((r, c) => {
@@ -134,10 +138,7 @@ const useExport = () => {
           break;
         case 'note':
           r += `---\n${c.props
-            .map(
-              (item, idx) =>
-                `${idx} ${item.value}`
-            )
+            .map((item, idx) => `${idx} ${item.value}`)
             .join('\n')}\n\n---\n\n`;
           break;
         default:
@@ -148,16 +149,35 @@ const useExport = () => {
     }, `# memo\n\n`);
     return result;
   };
-  const download = (data: Blob, type: string) => {
-    const downloadAnchorNode = document.createElement('a');
-    const url = window.URL.createObjectURL(data);
-    downloadAnchorNode.setAttribute('href', url);
-    downloadAnchorNode.setAttribute('download', `Memo_${Date.now()}.${type}`);
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-    window.URL.revokeObjectURL(url);
+  const convertToHTML = (data: Array<MemoListStateProps>) => {
+    const result = data.reduce((r, c) => {
+      switch (c.type) {
+        case 'memo':
+          r += `<section><textarea>${c.props}</textarea></section>`;
+          break;
+        case 'todo':
+          r += `<section>
+          <ul>
+          ${c.props.map(item => `<li>${item.todo}</li>`).join('')}
+            </ul>
+            </section>`;
+          break;
+        case 'note':
+          r += `<section>
+          <ol>
+          ${c.props.map((item, idx) => `<li>${item.value}</li>`).join('\n')}
+            </ol>
+            </section>`;
+          break;
+        default:
+          break;
+      }
+
+      return r;
+    }, '');
+    return result;
   };
+
   return {
     exportHTML,
     exportJSON,
