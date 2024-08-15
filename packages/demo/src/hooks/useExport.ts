@@ -122,12 +122,12 @@ const useExport = () => {
     download(data, `meme_${Date.now()}`, 'json');
   };
   const exportMD = async () => {
-    const data = new Blob([ConvertToMarkdown(await MemoSignal.getMemoList())], {
+    const data = new Blob([convertToMarkdown(await MemoSignal.getMemoList())], {
       type: 'text/plain',
     });
     download(data, `meme_${Date.now()}`, 'md');
   };
-  const ConvertToMarkdown = (data: Array<MemoListStateProps>) => {
+  const convertToMarkdown = (data: Array<MemoListStateProps>) => {
     const result = data.reduce((r, c) => {
       switch (c.type) {
         case 'memo':
