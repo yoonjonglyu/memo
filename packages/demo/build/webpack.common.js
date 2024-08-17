@@ -33,12 +33,13 @@ const config = {
         appName: 'Memo',
         appShortName: 'Memo',
         appDescription: 'crossplatform basic Planner Memo App',
+        start_url: './memo',
       },
     }),
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
-      maximumFileSizeToCacheInBytes: 5000000
+      maximumFileSizeToCacheInBytes: 5000000,
     }),
   ],
 };
