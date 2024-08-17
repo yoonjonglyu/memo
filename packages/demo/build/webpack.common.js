@@ -1,5 +1,6 @@
 const commonPaths = require('./common-paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const config = {
   entry: {},
@@ -23,6 +24,15 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       // favicon : 'public/favicon.ico'
+    }),
+
+    new FaviconsWebpackPlugin({
+      logo: 'public/memo.png',
+      favicons: {
+        appName: 'Memo',
+        appShortName: 'Memo',
+        appDescription: 'crossplatform basic Planner Memo App',
+      },
     }),
   ],
 };
