@@ -33,7 +33,7 @@ const config = {
         appName: 'Memo',
         appShortName: 'Memo',
         appDescription: 'crossplatform basic Planner Memo App',
-        start_url: './memo',
+        start_url: '/memo',
       },
     }),
     new WorkboxPlugin.GenerateSW({
