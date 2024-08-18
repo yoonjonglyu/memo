@@ -117,7 +117,7 @@ function useMemo() {
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index];
+    const change = state[index] = await MemoSignal.getMemoItem(index);;
     if (change.type === 'note') {
       change.props = [
         ...state[index].props.slice(0, cdx),
