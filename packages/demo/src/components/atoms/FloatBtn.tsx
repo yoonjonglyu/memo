@@ -13,7 +13,7 @@ const BtnContainer = styled.button`
 `;
 
 export interface FloatBtnProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   }
 
 const FloatBtn: React.FC<FloatBtnProps> = props => {
