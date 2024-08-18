@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareMinus } from '@fortawesome/free-solid-svg-icons';
 
 import MemoBox from '../atoms/MemoBox';
 import H1 from '../molecules/H1';
 import NoteNode from './NoteNode';
+import RemoveButton from '../molecules/RemoveButton';
 
 import type { FuncProps } from '../../hooks/useType';
 
@@ -21,16 +20,6 @@ const Body = styled.ul`
     width: 100%;
     margin-right: 2px;
   }
-`;
-const DelectBtn = styled.button`
-  height: 24px;
-  padding: 0;
-  margin: auto;
-  margin-right: 0;
-  background: none;
-  border: none;
-  border-radius: 2px;
-  font-size: 1.5rem;
 `;
 
 export interface NoteProps {
@@ -85,9 +74,7 @@ const Note: React.FC<NoteProps> = ({
                   Enter: () => func.Enter(idx + 2),
                 }}
               />
-              <DelectBtn onClick={() => deleteItemHandler(idx + 1)}>
-                <FontAwesomeIcon icon={faSquareMinus} />
-              </DelectBtn>
+              <RemoveButton onClick={() => deleteItemHandler(idx + 1)} />
             </li>
           );
         })}

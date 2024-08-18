@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import MemoBox from '../atoms/MemoBox';
+import RemoveButton from '../molecules/RemoveButton';
 
 const TodoInput = styled.input`
   float: left;
@@ -50,16 +51,6 @@ const TodoList = styled.ul`
   }
 `;
 const CheckedTodo = styled.input``;
-const DelectBtn = styled.button`
-  height: 24px;
-  padding: 0;
-  margin: auto;
-  margin-right: 0;
-  background: none;
-  border: none;
-  border-radius: 2px;
-  font-size:1.5rem;
-`;
 
 export interface TodoProps {
   todoItem: Array<TodoValueProps>;
@@ -113,9 +104,7 @@ const Todo: React.FC<TodoProps> = props => {
                 readOnly
               />
               {item.todo}
-              <DelectBtn onClick={() => deleteItemHandler(idx)}>
-                <FontAwesomeIcon icon={faSquareMinus} />
-              </DelectBtn>
+              <RemoveButton onClick={() => deleteItemHandler(idx)} />
             </li>
           );
         })}
