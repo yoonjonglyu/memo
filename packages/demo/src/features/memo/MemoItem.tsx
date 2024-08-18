@@ -46,6 +46,7 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
     handleDeleteTodo,
     handleNote,
     handleAddNoteItem,
+    handleDeleteNoteItem,
   } = useMemo();
 
   return (
@@ -73,6 +74,7 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
           func={{
             Enter: (idx: number) => handleAddNoteItem(index, idx, 'p'),
           }}
+          deleteItemHandler={idx => handleDeleteNoteItem(index, idx)}
         />
       )}
       {isEdit ? (

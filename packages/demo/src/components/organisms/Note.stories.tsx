@@ -23,5 +23,6 @@ export const Basic: Story = {
     ],
     setValue: () => {},
     func: { Enter: () => {} },
+    deleteItemHandler: idx => console.log(idx),
   },
 };
