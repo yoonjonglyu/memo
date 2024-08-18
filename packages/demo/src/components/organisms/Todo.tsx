@@ -7,8 +7,8 @@ import MemoBox from '../atoms/MemoBox';
 
 const TodoInput = styled.input`
   float: left;
-  width: calc(100% - 22px);
-  height: 21px;
+  width: calc(100% - 32px);
+  height: 28px;
   padding: 1px 2px;
   margin: 0 auto;
   font-size: 1rem;
@@ -17,8 +17,8 @@ const TodoInput = styled.input`
 `;
 const InputButton = styled.button`
   clear: both;
-  width: 20px;
-  height: 21px;
+  width: 30px;
+  height: 28px;
   padding: 0;
   margin: 0 auto;
   margin-left: 2px;
