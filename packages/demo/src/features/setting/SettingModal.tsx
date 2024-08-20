@@ -25,7 +25,10 @@ export interface SettingModalProps {
   closeModal: VoidFunction;
 }
 
-const SettingModal: React.FC<SettingModalProps> = ({ handleStep, closeModal }) => {
+const SettingModal: React.FC<SettingModalProps> = ({
+  handleStep,
+  closeModal,
+}) => {
   return (
     <ModalPortal>
       <Modal
@@ -43,6 +46,9 @@ const SettingModal: React.FC<SettingModalProps> = ({ handleStep, closeModal }) =
             </li>
             <li>
               <LargeButton onClick={() => handleStep(1)}>Export</LargeButton>
+            </li>
+            <li>
+              <LargeButton onClick={() => handleStep(2)}>Download</LargeButton>
             </li>
             <li>
               <p>

@@ -13,5 +13,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  args: {},
+  args: {
+    handleStep: (a: any) => console.log(a),
+  },
 };

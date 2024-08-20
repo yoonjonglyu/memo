@@ -17,9 +17,11 @@ const ModalList = styled.ul`
   }
 `;
 
-export interface SettingDownloadProps {}
+export interface SettingDownloadProps {
+  handleStep: Function;
+}
 
-const SettingDownload: React.FC<SettingDownloadProps> = () => {
+const SettingDownload: React.FC<SettingDownloadProps> = ({handleStep}) => {
   return (
     <Modal
       header="Download"
@@ -40,7 +42,7 @@ const SettingDownload: React.FC<SettingDownloadProps> = () => {
           </li>
         </ModalList>
       }
-      footer={<LargeButton>Cancel</LargeButton>}
+      footer={<LargeButton onClick={() => handleStep(0)}>Cancel</LargeButton>}
     />
   );
 };

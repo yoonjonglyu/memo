@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ModalPortal } from '../../providers/ModalProvider';
 import SettingModal from './SettingModal';
 import SettingExport from './SettingExport';
+import SettingDownload from './SettingDownload';
 
 export interface SettingFeatureProps {
   isModal: boolean;
@@ -18,7 +19,11 @@ const SettingFeature: React.FC<SettingFeatureProps> = ({
   return (
     <ModalPortal>
       {isModal ? (
-        <SettingContents isStep={isStep} handleStep={setIsStep} closeModal={closeModal} />
+        <SettingContents
+          isStep={isStep}
+          handleStep={setIsStep}
+          closeModal={closeModal}
+        />
       ) : null}
     </ModalPortal>
   );
@@ -40,6 +45,8 @@ const SettingContents: React.FC<SettingContentsProps> = ({
   switch (isStep) {
     case 1:
       return <SettingExport handleStep={handleStep} />;
+    case 2:
+      return <SettingDownload handleStep={handleStep} />;
     default:
       return <SettingModal handleStep={handleStep} closeModal={closeModal} />;
   }
