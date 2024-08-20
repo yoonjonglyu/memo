@@ -1,7 +1,6 @@
 const commonPaths = require('./common-paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config = {
   entry: {},
@@ -35,11 +34,6 @@ const config = {
         appDescription: 'crossplatform basic Planner Memo App',
         start_url: '/memo',
       },
-    }),
-    new WorkboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-      maximumFileSizeToCacheInBytes: 5000000,
     }),
   ],
 };

@@ -1,5 +1,6 @@
 const commonPaths = require('./common-paths');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config = {
   mode: 'production',
@@ -54,6 +55,11 @@ const config = {
       filename: 'css/styles.[hash].css',
       allChunks: true,
       sourceMap: true,
+    }),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+      maximumFileSizeToCacheInBytes: 5000000,
     }),
   ],
 };
