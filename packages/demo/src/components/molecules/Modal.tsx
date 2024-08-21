@@ -17,13 +17,14 @@ const Background = styled.div`
 
 const ModalContainer = styled.div`
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   max-width: 360px;
   width: 100%;
   min-height: 200px;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0.5px 0.5px black, 0.5px 0.5px black;
+  overflow: auto;
 `;
 const ModalHeader = styled.div`
   padding: 8px 0;
