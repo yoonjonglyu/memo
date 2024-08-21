@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import _ from 'lodash';
+import { debounce } from 'isa-util';
 
 import memoListState, { MemoListStateProps } from '../store/memo/memoListState';
 
@@ -13,15 +13,11 @@ import MemoApi from '../api/memoApi';
  * 보편적인 웹프로그램 개발 방법론과 유사하기에 여러모로 좋다.
  */
 const MemoSignal = new MemoApi();
-const handleSetMemo = _.debounce(
+const handleSetMemo = debounce(
   async args => await MemoSignal.setMemoList(args),
   500
 );
-const handleSetMemoItem = _.debounce(
-  async (index, value) => await MemoSignal.updateMemoItem(index, value),
-  500
-);
-const handleSetMemoContext = _.debounce(
+const handleSetMemoContext = debounce(
   async (index, value) => await MemoSignal.updateMemoContext(index, value),
   50
 );
@@ -117,7 +113,7 @@ function useMemo() {
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index] = await MemoSignal.getMemoItem(index);
+    const change = (state[index] = await MemoSignal.getMemoItem(index));
     if (change.type === 'note') {
       change.props = [
         ...state[index].props.slice(0, cdx),
