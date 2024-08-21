@@ -23,7 +23,9 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'public/index.html',
-      // favicon : 'public/favicon.ico'
+      meta: {
+        description: 'crossplatform basic Planner Memo App'
+      }
     }),
 
     new FaviconsWebpackPlugin({
