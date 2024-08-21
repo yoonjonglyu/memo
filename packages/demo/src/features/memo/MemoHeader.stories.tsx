@@ -21,8 +21,8 @@ export const Basic: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole('button', { name: '편집' }));
-    await userEvent.click(canvas.getByRole('button', { name: '설정' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'edit' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'setting' }));
     expect(handleEdit).toBeCalled();
     expect(handleSetting).toBeCalled();
   },

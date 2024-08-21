@@ -21,15 +21,19 @@ export const Basic: Story = {
     );
     await waitFor(async () => {
       // test edit mode
-      await expect(canvas.queryByText('삭제')).toBeNull(); // 꼼꼼함을 따지는건 좋지만 이런건 사실 체크할 필요가 있을까
-      await userEvent.click(canvas.getByRole('button', { name: '편집' }));
-      await expect(canvas.getAllByText('삭제')).toBeTruthy();
-      await userEvent.click(canvas.getByRole('button', { name: '편집' }));
-
+      await expect(canvas.queryByLabelText('delete')).toBeNull(); 
+      await userEvent.click(canvas.getByRole('button', { name: 'edit' }));
+      await expect(canvas.getAllByLabelText('delete')).toBeTruthy();
+      await userEvent.click(canvas.getByRole('button', { name: 'edit' }));
+      await expect(canvas.queryByLabelText('delete')).toBeNull();
+      await userEvent.click(canvas.getByRole('button', { name: 'setting' }));
+      await expect(canvas.queryByText('Export')).toBeTruthy();
+      await userEvent.click(canvas.getByRole('button', { name: 'Cancel' }));
+      await expect(canvas.queryByText('Export')).toBeNull();
       // test modal
       await userEvent.click(canvas.getByRole('button', { name: '+' }));
       expect(canvas.getByText('Add Memo')).toBeInTheDocument();
-      await userEvent.click(canvas.getByRole('button', { name: '취소' }));
+      await userEvent.click(canvas.getByRole('button', { name: 'Cancel' }));
       expect(canvas.queryByText('Add Memo')).toBeNull();
     });
   },

@@ -16,7 +16,7 @@ export const Basic: Story = {
     // open modal
     await userEvent.click(canvas.getByRole('button', { name: '+' }));
     expect(canvas.getByText('Add Memo')).toBeInTheDocument();
-    await userEvent.click(canvas.getByRole('button', { name: '취소' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'Cancel' }));
     expect(canvas.queryByText('Add Memo')).toBeNull();
   },
 };

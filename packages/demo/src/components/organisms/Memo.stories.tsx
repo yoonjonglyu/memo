@@ -26,20 +26,20 @@ type Story = StoryObj<typeof Memo>;
  */
 
 export const Basic: Story = {
-  args : {
+  args: {
     value: '메모를 해보자.',
   },
-  render : args => {
+  render: args => {
     const [value, setValue] = useState('');
-  
+
     return (
       <Memo {...args} value={value} onChange={e => setValue(e.target.value)} />
     );
   },
-  play : async ({ canvasElement }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    userEvent.type(canvas.getByRole('textbox'), '메모를 해보자.');
+    await userEvent.type(canvas.getByRole('textbox'), '메모를 해보자.');
+    
     expect(canvas.getByText('메모를 해보자.')).toBeInTheDocument();
-  }
-}
-
+  },
+};

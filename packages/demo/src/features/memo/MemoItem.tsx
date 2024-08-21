@@ -78,7 +78,7 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
         />
       )}
       {isEdit ? (
-        <Button onClick={() => handleDeleteMemo(index)}><FontAwesomeIcon icon={faTrashCan} /></Button>
+        <Button onClick={() => handleDeleteMemo(index)} aria-label="delete"><FontAwesomeIcon icon={faTrashCan} /></Button>
       ) : null}
     </ItemBox>
   );
