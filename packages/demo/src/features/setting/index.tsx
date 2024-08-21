@@ -17,6 +17,7 @@ const SettingFeature: React.FC<SettingFeatureProps> = ({
   closeModal,
 }) => {
   const [isStep, setIsStep] = useState(0);
+  useDownload();
 
   return (
     <ModalPortal>
@@ -44,7 +45,6 @@ const SettingContents: React.FC<SettingContentsProps> = ({
   handleStep,
   closeModal,
 }) => {
-  useDownload();
 
   switch (isStep) {
     case 1:
