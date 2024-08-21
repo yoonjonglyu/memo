@@ -1,27 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 let installPrompt: any = null;
 const useDownload = () => {
-  const [isAvail, setIsAvail] = useState(false);
-  const catchinstallEvent = (event: any) => {
+  const catchinstallEvent = async (event: any) => {
+    event.preventDefault();
     installPrompt = event;
-    setIsAvail(true);
   };
 
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', catchinstallEvent);
-    console.log(installPrompt);
     return () => {
       window.removeEventListener('beforeinstallprompt', catchinstallEvent);
     };
   }, []);
 
-  const donwloadWeb = async () => {
-    // @ts-ignore
-    await installPrompt.prompt();
-    setIsAvail(false);
+  const downloadWeb = async () => {
+    if (installPrompt === null)
+      return alert('was installed or This platform is not supported.');
+    const down = await installPrompt.prompt();
+    if (down.outcome === 'accepted') return alert('installed.');
   };
-  return { isAvail, donwloadWeb };
+  return { downloadWeb };
 };
 
 export default useDownload;

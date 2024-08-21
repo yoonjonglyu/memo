@@ -24,7 +24,7 @@ export interface SettingDownloadProps {
 }
 
 const SettingDownload: React.FC<SettingDownloadProps> = ({ handleStep }) => {
-  const { isAvail, donwloadWeb } = useDownload();
+  const { downloadWeb } = useDownload();
 
   return (
     <Modal
@@ -33,9 +33,7 @@ const SettingDownload: React.FC<SettingDownloadProps> = ({ handleStep }) => {
         <ModalList>
           <li>
             <LargeButton
-              onClick={donwloadWeb}
-              disabled={!isAvail}
-              style={{ opacity: isAvail ? '1' : '0.5' }}
+              onClick={downloadWeb}
             >
               Web
             </LargeButton>

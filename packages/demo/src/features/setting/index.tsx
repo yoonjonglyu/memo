@@ -5,6 +5,8 @@ import SettingModal from './SettingModal';
 import SettingExport from './SettingExport';
 import SettingDownload from './SettingDownload';
 
+import useDownload from '../../hooks/useDownload';
+
 export interface SettingFeatureProps {
   isModal: boolean;
   closeModal: VoidFunction;
@@ -42,6 +44,8 @@ const SettingContents: React.FC<SettingContentsProps> = ({
   handleStep,
   closeModal,
 }) => {
+  useDownload();
+
   switch (isStep) {
     case 1:
       return <SettingExport handleStep={handleStep} />;
