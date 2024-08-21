@@ -27,7 +27,7 @@ export interface MemoProps {
 const Memo: React.FC<MemoProps> = ({ value, onChange }) => {
   return (
     <MemoBox>
-      <Text value={value} onChange={onChange} />
+        <Text value={value} onChange={onChange} aria-label='memo' />
     </MemoBox>
   );
 };

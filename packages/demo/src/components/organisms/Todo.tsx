@@ -83,13 +83,14 @@ const Todo: React.FC<TodoProps> = props => {
 
   return (
     <MemoBox>
-      <TodoInput onKeyUp={handleInsert} />
+      <TodoInput onKeyUp={handleInsert} aria-label="todoinput" />
       <InputButton
         type="button"
         onClick={e => {
           const input = e.target as HTMLButtonElement;
           handleAddTodo(input.previousElementSibling as HTMLInputElement);
         }}
+        aria-label="add"
       >
         <FontAwesomeIcon icon={faPlus} />
       </InputButton>
@@ -98,6 +99,7 @@ const Todo: React.FC<TodoProps> = props => {
           return (
             <li key={idx}>
               <CheckedTodo
+                aria-label="check todo"
                 type="checkbox"
                 checked={item.isAvail}
                 onClick={() => checkItemHandler(idx)}

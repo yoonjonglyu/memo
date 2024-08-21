@@ -14,11 +14,12 @@ const DelectBtn = styled.button`
   font-size: 1.5rem;
 `;
 
-export interface RemoveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface RemoveButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const RemoveButton: React.FC<RemoveButtonProps> = (props) => {
+const RemoveButton: React.FC<RemoveButtonProps> = props => {
   return (
-    <DelectBtn {...props}>
+    <DelectBtn aria-label="remove" {...props}>
       <FontAwesomeIcon icon={faSquareMinus} />
     </DelectBtn>
   );

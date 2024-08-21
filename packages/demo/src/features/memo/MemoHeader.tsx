@@ -47,10 +47,10 @@ const MemoHeader: React.FC<MemoHeaderProps> = ({
     <Header>
       <Title>Memo</Title>
       <ToolBox>
-        <Button onClick={handleEdit}>
+        <Button onClick={handleEdit} aria-label="edit">
           <FontAwesomeIcon icon={faPenToSquare} />
         </Button>
-        <Button onClick={handleSetting}>
+        <Button onClick={handleSetting} aria-label="setting">
           <FontAwesomeIcon icon={faGear} />
         </Button>
       </ToolBox>
