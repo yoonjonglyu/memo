@@ -9,10 +9,13 @@
 3. 디자인 시스템 하위 오픈소스 패키지 제작
 
 ## 배포
+
 - [웹앱](https://yoonjonglyu.github.io/memo/)
 
 ## 버전로그 (feat: 스토리북)
-- [초기 버전](https://64105a493828b256671845d2-ijtzcntnsm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-ui-atoms-floatbtn--basic) 
+
+- [초기 버전](https://64105a493828b256671845d2-ijtzcntnsm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-ui-atoms-floatbtn--basic)
+- [v.1.0.1](https://64105a493828b256671845d2-pphrrzkvqx.chromatic.com/?path=/docs/%EB%A9%94%EB%AA%A8-page-index--docs)
 
 ## DIR STRUCTURE
 
