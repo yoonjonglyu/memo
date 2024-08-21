@@ -10,4 +10,8 @@ const meta: Meta<typeof InputWrap> = {
 export default meta;
 type Story = StoryObj<typeof InputWrap>;
 
-export const Basic: Story = {};
+export const Basic: Story = {
+  args: {
+    children: <input  value={'input wrap dumy input children'}/>
+  }
+};

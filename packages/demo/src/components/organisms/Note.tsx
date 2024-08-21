@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import MemoBox from '../atoms/MemoBox';
 import H1 from '../molecules/H1';
 import NoteNode from './NoteNode';
-import RemoveButton from '../molecules/RemoveButton';
+import InputWrap from '../molecules/InputWrap';
 
 import type { FuncProps } from '../../hooks/useType';
 
 const Header = styled.div``;
-const Body = styled.ul`
+const Body = styled.ol`
   padding: 0;
   margin: 0 auto;
   list-style: none;
@@ -18,7 +18,6 @@ const Body = styled.ul`
   }
   & li div {
     width: 100%;
-    margin-right: 2px;
   }
 `;
 
@@ -61,20 +60,25 @@ const Note: React.FC<NoteProps> = ({
         {article.map((item, idx) => {
           return (
             <li>
-              <NoteNode
-                key={`${item.idx}-${idx}`}
-                type={item.type}
-                value={item.value}
-                setValue={(state: string) => {
-                  const next = JSON.parse(JSON.stringify(value[idx + 1]));
-                  next.value = state;
-                  setValue(idx + 1, next);
+              <InputWrap
+                removeButtonProps={{
+                  onClick: () => deleteItemHandler(idx + 1),
                 }}
-                func={{
-                  Enter: () => func.Enter(idx + 2),
-                }}
-              />
-              <RemoveButton onClick={() => deleteItemHandler(idx + 1)} />
+              >
+                <NoteNode
+                  key={`${item.idx}-${idx}`}
+                  type={item.type}
+                  value={item.value}
+                  setValue={(state: string) => {
+                    const next = JSON.parse(JSON.stringify(value[idx + 1]));
+                    next.value = state;
+                    setValue(idx + 1, next);
+                  }}
+                  func={{
+                    Enter: () => func.Enter(idx + 2),
+                  }}
+                />
+              </InputWrap>
             </li>
           );
         })}
