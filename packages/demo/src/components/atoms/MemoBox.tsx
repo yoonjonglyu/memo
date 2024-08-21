@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Box = styled.section`
   max-width: 240px;
   width: 100%;
-  height: 200px;
+  height: 220px;
   margin: 0;
   padding: 4px;
   border: 1px solid;
@@ -18,6 +18,7 @@ const Box = styled.section`
   }
   @media screen and (max-width: 920px) {
     max-width: unset;
+    height: 250px;
   }
 `;
 export interface MemoBoxProps extends React.HTMLAttributes<HTMLElement> {}

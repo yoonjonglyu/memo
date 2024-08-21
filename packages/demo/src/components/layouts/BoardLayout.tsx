@@ -15,6 +15,9 @@ const Board = styled.main`
   border: 1px solid #9c9b9b4f;
   border-top: none;
   border-bottom: none;
+  @media screen and (max-width: 920px) {
+    gap: 16px;
+  }
 `;
 
 export interface BoardLayoutProps {
