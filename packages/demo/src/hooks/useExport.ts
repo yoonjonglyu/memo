@@ -60,6 +60,11 @@ const useExport = () => {
         overflow: hidden auto;
         box-sizing: border-box;
       }
+    @media screen and (max-width: 920px) {
+      section {
+        width: 100%;
+      }
+    }
       textarea {
         width: 100%;
         height: 100%;
@@ -122,9 +127,12 @@ const useExport = () => {
     download(data, `meme_${Date.now()}`, 'json');
   };
   const exportMD = async () => {
-    const data = new Blob([convertToMarkdown(await MemoSignal.getMemoList())], {
-      type: 'text/plain',
-    });
+    const data = new Blob(
+      ['\ufeff' + convertToMarkdown(await MemoSignal.getMemoList())],
+      {
+        type: 'text/plain',
+      }
+    );
     download(data, `meme_${Date.now()}`, 'md');
   };
   const convertToMarkdown = (data: Array<MemoListStateProps>) => {
