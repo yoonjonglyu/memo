@@ -44,7 +44,6 @@ const config = {
     port: port,
     historyApiFallback: true,
     open: true,
-    hot: true,
   },
 };
 

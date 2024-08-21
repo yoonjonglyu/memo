@@ -8,15 +8,14 @@ module.exports = {
     getAbsolutePath('@storybook/addon-interactions'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-webpack5-compiler-babel'),
+    '@chromatic-com/storybook'
   ],
   framework: {
     name: getAbsolutePath('@storybook/react-webpack5'),
     options: {},
   },
   staticDirs: ['../public'],
-  docs: {
-    autodocs: true,
-  },
+  docs: {},
 };
 
 function getAbsolutePath(value) {
