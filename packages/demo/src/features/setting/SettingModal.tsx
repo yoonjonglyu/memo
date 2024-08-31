@@ -5,6 +5,7 @@ import Modal from '../../components/molecules/Modal';
 import LargeButton from '../../components/atoms/LargeButton';
 
 import { ModalPortal } from '../../providers/ModalProvider';
+import useImport from '../../hooks/useImport';
 
 const ModalList = styled.ul`
   margin: 6px auto;
@@ -29,6 +30,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
   handleStep,
   closeModal,
 }) => {
+  const { importJSON } = useImport();
   return (
     <ModalPortal>
       <Modal
@@ -43,6 +45,9 @@ const SettingModal: React.FC<SettingModalProps> = ({
               >
                 Sync
               </LargeButton>
+            </li>
+            <li>
+              <LargeButton onClick={importJSON}>Import</LargeButton>
             </li>
             <li>
               <LargeButton onClick={() => handleStep(1)}>Export</LargeButton>

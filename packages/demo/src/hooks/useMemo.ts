@@ -31,11 +31,11 @@ function useMemo() {
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
   const initMemo = async () => {
     const data = await MemoSignal.getMemoList();
-    setMemo({list: data, date: Date.now()});
+    setMemo({ list: data, date: Date.now() });
   };
   const hanleNewMemo = async (memo: MemoListStateProps) => {
     const state = [...JSON.parse(JSON.stringify(memoList)), memo];
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemo(state);
   };
   const handleDeleteMemo = async (idx: number) => {
@@ -44,13 +44,13 @@ function useMemo() {
       ...state.slice(0, idx),
       ...state.slice(idx + 1, state.length),
     ];
-    setMemo({list: change, date: Date.now()});
+    setMemo({ list: change, date: Date.now() });
     await handleSetMemo(change);
   };
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
     state[index].props = value;
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, value);
   };
   const handleAddTodo = async (index: number, value: string) => {
@@ -62,7 +62,7 @@ function useMemo() {
         todo: value,
       });
     }
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, change.props);
   };
   const handleDeleteTodo = async (index: number, idx: number) => {
@@ -74,7 +74,7 @@ function useMemo() {
         ...state[index].props.slice(idx + 1, state[index].props.length),
       ];
     }
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, change.props);
   };
   const handleCheckTodo = async (index: number, idx: number) => {
@@ -83,7 +83,7 @@ function useMemo() {
     if (change.type === 'todo') {
       change.props[idx].isAvail = !change.props[idx].isAvail;
     }
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, change.props);
   };
   const handleNote = async (
@@ -112,19 +112,20 @@ function useMemo() {
         ...state[index].props.slice(cdx, state[index].props.length),
       ];
     }
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, change.props);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
+    const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = (state[index] = await MemoSignal.getMemoItem(index));
+    const change = (state[index] = data);
     if (change.type === 'note') {
       change.props = [
         ...state[index].props.slice(0, cdx),
         ...state[index].props.slice(cdx + 1, state[index].props.length),
       ];
     }
-    setMemo({list: state, date: Date.now()});
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, change.props);
   };
   return {
