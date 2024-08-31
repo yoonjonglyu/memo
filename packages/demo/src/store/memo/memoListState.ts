@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 interface MemoProps {
   idx: string;
@@ -18,9 +18,22 @@ interface NoteProps {
 
 export type MemoListStateProps = MemoProps | TodoProps | NoteProps;
 
-const memoListState = atom<Array<MemoListStateProps>>({
-  key: 'memoList',
-  default: [],
+export interface MemoStateProps {
+  list: Array<MemoListStateProps>;
+  date: number | null;
+}
+
+const MemoState = atom<MemoStateProps>({
+  key: 'memo',
+  default: { list: [], date: null },
 });
 
-export default memoListState;
+export const memoListState = selector<Array<MemoListStateProps>>({
+  key: 'memolist',
+  get: ({ get }) => {
+    const memo = get(MemoState);
+    return memo.list;
+  },
+});
+
+export default MemoState;
