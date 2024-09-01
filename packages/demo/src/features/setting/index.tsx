@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { ModalPortal } from '../../providers/ModalProvider';
 import SettingModal from './SettingModal';
+import SettingImport from './SettingImport';
 import SettingExport from './SettingExport';
 import SettingDownload from './SettingDownload';
 
@@ -48,8 +49,10 @@ const SettingContents: React.FC<SettingContentsProps> = ({
 
   switch (isStep) {
     case 1:
-      return <SettingExport handleStep={handleStep} />;
+      return <SettingImport handleStep={handleStep} />
     case 2:
+      return <SettingExport handleStep={handleStep} />;
+    case 3:
       return <SettingDownload handleStep={handleStep} />;
     default:
       return <SettingModal handleStep={handleStep} closeModal={closeModal} />;
