@@ -8,7 +8,6 @@ import LargeButton from '../../components/atoms/LargeButton';
 import { ModalPortal } from '../../providers/ModalProvider';
 import useMemo from '../../hooks/useMemo';
 
-
 export interface MemoModalProps {}
 
 const MemoModal: React.FC<MemoModalProps> = () => {
@@ -26,7 +25,9 @@ const MemoModal: React.FC<MemoModalProps> = () => {
           children={
             <ModalContents handleCloseModal={() => setIsModal(false)} />
           }
-          footer={<LargeButton onClick={() => setIsModal(false)}>Cancel</LargeButton>}
+          footer={
+            <LargeButton onClick={() => setIsModal(false)}>Cancel</LargeButton>
+          }
         />
       ) : null}
     </ModalPortal>
@@ -63,7 +64,7 @@ interface ModalContentsProps {
 }
 
 const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
-  const { hanleNewMemo } = useMemo();
+  const { handleNewMemo, handleNewTodo, handleNewNote } = useMemo();
   return (
     <>
       <SubText>Select Memo Type</SubText>
@@ -71,11 +72,7 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
         <li>
           <ModalButton
             onClick={() => {
-              hanleNewMemo({
-                idx: Date.now().toString(),
-                type: 'memo',
-                props: '',
-              });
+              handleNewMemo();
               handleCloseModal();
             }}
           >
@@ -85,11 +82,7 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
         <li>
           <ModalButton
             onClick={() => {
-              hanleNewMemo({
-                idx: Date.now().toString(),
-                type: 'todo',
-                props: [],
-              });
+              handleNewTodo();
               handleCloseModal();
             }}
           >
@@ -99,11 +92,7 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
         <li>
           <ModalButton
             onClick={() => {
-              hanleNewMemo({
-                idx: Date.now().toString(),
-                type: 'note',
-                props: [{ idx: Date.now(), type: 'h1', value: '' }],
-              });
+              handleNewNote();
               handleCloseModal();
             }}
           >

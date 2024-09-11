@@ -29,15 +29,41 @@ function useMemo() {
   const memoList = useRecoilValue(memoListState);
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
+
   const initMemo = async () => {
     const data = await MemoSignal.getMemoList();
     setMemo({ list: data, date: Date.now() });
   };
-  const hanleNewMemo = async (memo: MemoListStateProps) => {
+  const _ADDMemo = async (memo: MemoListStateProps) => {
     const state = [...JSON.parse(JSON.stringify(memoList)), memo];
     setMemo({ list: state, date: Date.now() });
     await handleSetMemo(state);
   };
+  const handleNewTodo = async () => {
+    await _ADDMemo({
+      idx: Date.now().toString(),
+      type: 'todo',
+      props: [],
+    });
+  };
+  const handleNewNote = async () => {
+    await _ADDMemo({
+      idx: Date.now().toString(),
+      type: 'note',
+      props: [
+        { idx: Date.now(), type: 'h1', value: '' },
+        { idx: Date.now() + 1, type: 'p', value: '' },
+      ],
+    });
+  };
+  const handleNewMemo = async () => {
+    await _ADDMemo({
+      idx: Date.now().toString(),
+      type: 'memo',
+      props: '',
+    });
+  };
+
   const handleDeleteMemo = async (idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = [
@@ -131,7 +157,9 @@ function useMemo() {
   return {
     memoList,
     initMemo,
-    hanleNewMemo,
+    handleNewMemo,
+    handleNewTodo,
+    handleNewNote,
     handleDeleteMemo,
     handleMemo,
     handleAddTodo,
