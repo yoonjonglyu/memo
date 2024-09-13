@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import MemoBox from '../atoms/MemoBox';
-import RemoveButton from '../molecules/RemoveButton';
+import SquareButton from '../molecules/SquareButton';
 
 const TodoInput = styled.input`
   float: left;
@@ -106,7 +106,10 @@ const Todo: React.FC<TodoProps> = props => {
                 readOnly
               />
               {item.todo}
-              <RemoveButton onClick={() => deleteItemHandler(idx)} />
+              <SquareButton
+                iconType="remove"
+                onClick={() => deleteItemHandler(idx)}
+              />
             </li>
           );
         })}
