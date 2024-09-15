@@ -49,6 +49,9 @@ const TodoList = styled.ul`
     background: #80808037;
     border-radius: 3px;
   }
+  & li button {
+    flex-shrink: 0;
+  }
 `;
 const CheckedTodo = styled.input``;
 
@@ -91,6 +94,7 @@ const Todo: React.FC<TodoProps> = props => {
           handleAddTodo(input.previousElementSibling as HTMLInputElement);
         }}
         aria-label="add"
+        
       >
         <FontAwesomeIcon icon={faPlus} />
       </InputButton>
