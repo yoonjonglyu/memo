@@ -22,7 +22,7 @@ const handleSetMemo = debounce(
 );
 const handleSetMemoContext = debounce(
   async (index, value) => await MemoSignal.updateMemoContext(index, value),
-  50
+  15
 );
 function useMemo() {
   const [memo, setMemo] = useRecoilState(memoState);
