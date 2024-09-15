@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useType, { FuncProps } from '../../hooks/useType';
 
 const Wrap = styled.div`
-  margin: 8px;
+  margin: 2px;
   border: 0.5px solid gray;
 `;
 const H = styled.h4`

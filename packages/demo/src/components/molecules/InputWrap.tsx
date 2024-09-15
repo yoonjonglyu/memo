@@ -15,7 +15,6 @@ const HandleBox = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   width: auto !important;
-  margin-left: 2px;
   gap: 2px;
 `;
 

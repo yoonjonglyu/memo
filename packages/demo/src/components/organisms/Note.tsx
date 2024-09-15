@@ -26,6 +26,7 @@ export interface NoteProps {
   setValue: (cdx: number, value: NoteValueProps) => void;
   func: FuncProps;
   deleteItemHandler: (idx: number) => void;
+  addItemHandler: (idx: number) => void;
 }
 export interface NoteValueProps {
   idx: number;
@@ -38,6 +39,7 @@ const Note: React.FC<NoteProps> = ({
   setValue,
   func,
   deleteItemHandler,
+  addItemHandler,
 }) => {
   const [title, ...article] = value;
 
@@ -61,6 +63,7 @@ const Note: React.FC<NoteProps> = ({
           return (
             <li>
               <InputWrap
+                addButtonProps={{ onClick: () => addItemHandler(idx + 1) }}
                 removeButtonProps={{
                   onClick: () => deleteItemHandler(idx + 1),
                 }}

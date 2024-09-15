@@ -74,11 +74,16 @@ const MemoItem: React.FC<MemoItemProps> = ({ index, type, props, isEdit }) => {
           func={{
             Enter: (idx: number) => handleAddNoteItem(index, idx, 'p'),
           }}
+          addItemHandler={idx => {
+            handleAddNoteItem(index, idx, 'p');
+          }}
           deleteItemHandler={idx => handleDeleteNoteItem(index, idx)}
         />
       )}
       {isEdit ? (
-        <Button onClick={() => handleDeleteMemo(index)} aria-label="delete"><FontAwesomeIcon icon={faTrashCan} /></Button>
+        <Button onClick={() => handleDeleteMemo(index)} aria-label="delete">
+          <FontAwesomeIcon icon={faTrashCan} />
+        </Button>
       ) : null}
     </ItemBox>
   );
