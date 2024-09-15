@@ -63,7 +63,7 @@ const Note: React.FC<NoteProps> = ({
           return (
             <li>
               <InputWrap
-                addButtonProps={{ onClick: () => addItemHandler(idx + 1) }}
+                addButtonProps={{ onClick: () => addItemHandler(idx + 2) }}
                 removeButtonProps={{
                   onClick: () => deleteItemHandler(idx + 1),
                 }}

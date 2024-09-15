@@ -39,10 +39,20 @@ const InputWrap: React.FC<InputWrapProps> = ({
     <Wrap>
       {children}
       <HandleBox>
-        <SquareButton iconType="menu" onClick={handleMenuOpen} />
-        {isOpen ? <SquareButton iconType="add" {...addButtonProps} /> : null}
+        <SquareButton
+          aria-label="menu"
+          iconType="menu"
+          onClick={handleMenuOpen}
+        />
         {isOpen ? (
-          <SquareButton iconType="remove" {...removeButtonProps} />
+          <SquareButton aria-label="add" iconType="add" {...addButtonProps} />
+        ) : null}
+        {isOpen ? (
+          <SquareButton
+            aria-label="remove"
+            iconType="remove"
+            {...removeButtonProps}
+          />
         ) : null}
       </HandleBox>
     </Wrap>

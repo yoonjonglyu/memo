@@ -94,7 +94,6 @@ const Todo: React.FC<TodoProps> = props => {
           handleAddTodo(input.previousElementSibling as HTMLInputElement);
         }}
         aria-label="add"
-        
       >
         <FontAwesomeIcon icon={faPlus} />
       </InputButton>
@@ -111,6 +110,7 @@ const Todo: React.FC<TodoProps> = props => {
               />
               {item.todo}
               <SquareButton
+                aria-label="remove"
                 iconType="remove"
                 onClick={() => deleteItemHandler(idx)}
               />
