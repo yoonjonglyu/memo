@@ -21,8 +21,8 @@ const HandleBox = styled.div`
 
 export interface InputWrapProps {
   children?: React.ReactNode;
-  addButtonProps?: SquareButtonProps;
-  removeButtonProps?: SquareButtonProps;
+  addButtonProps?: Omit<SquareButtonProps, 'iconType'>;
+  removeButtonProps?: Omit<SquareButtonProps, 'iconType'>;
 }
 
 const InputWrap: React.FC<InputWrapProps> = ({
