@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Modal from '../../components/molecules/Modal';
 import LargeButton from '../../components/atoms/LargeButton';
 
 import { ModalPortal } from '../../providers/ModalProvider';
+import useGPicker from '../../hooks/useGPicker';
 
 const ModalList = styled.ul`
   margin: 6px auto;
@@ -29,6 +30,9 @@ const SettingModal: React.FC<SettingModalProps> = ({
   handleStep,
   closeModal,
 }) => {
+  // @ts-ignore
+  const [handleOpenPicker] = useGPicker(googleCID, googleDevKey);
+  
   return (
     <ModalPortal>
       <Modal
@@ -36,13 +40,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
         children={
           <ModalList>
             <li>
-              <LargeButton
-                disabled={true}
-                style={{ opacity: '0.5' }}
-                aria-disabled="true"
-              >
-                Sync
-              </LargeButton>
+              <LargeButton onClick={handleOpenPicker}>Sync</LargeButton>
             </li>
             <li>
               <LargeButton onClick={() => handleStep(1)}>Import</LargeButton>
