@@ -1,7 +1,10 @@
 const commonPaths = require('./common-paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const dotenv = require('dotenv');
+const { DefinePlugin } = require('webpack');
 
+dotenv.config();
 const config = {
   entry: {},
   output: {
@@ -24,8 +27,8 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       meta: {
-        description: 'crossplatform basic Planner Memo App'
-      }
+        description: 'crossplatform basic Planner Memo App',
+      },
     }),
 
     new FaviconsWebpackPlugin({
@@ -36,6 +39,10 @@ const config = {
         appDescription: 'crossplatform basic Planner Memo App',
         start_url: '/memo',
       },
+    }),
+    new DefinePlugin({
+      googleCID: JSON.stringify(process.env.googleClientId),
+      googleDevKey: JSON.stringify(process.env.googleDevKey),
     }),
   ],
 };
