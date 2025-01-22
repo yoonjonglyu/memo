@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Modal from '../../components/molecules/Modal';
@@ -6,6 +6,7 @@ import LargeButton from '../../components/atoms/LargeButton';
 
 import { ModalPortal } from '../../providers/ModalProvider';
 import useGPicker from '../../hooks/useGPicker';
+import useMemo from '../../hooks/useMemo';
 
 const ModalList = styled.ul`
   margin: 6px auto;
@@ -30,9 +31,18 @@ const SettingModal: React.FC<SettingModalProps> = ({
   handleStep,
   closeModal,
 }) => {
+  const [syncId, setSyncID] = useState('');
+  const { initMemo } = useMemo();
   // @ts-ignore
-  const [handleOpenPicker] = useGPicker(googleCID, googleDevKey);
-  
+  const [openPicker, auth, downloadInfo] = useGPicker(googleCID, googleDevKey);
+  useEffect(() => {
+    if (syncId.length > 0) syncDriveMemo();
+  }, [syncId]);
+  const syncDriveMemo = async () => {
+    await downloadInfo(syncId, auth.access_token);
+    await initMemo();
+  };
+
   return (
     <ModalPortal>
       <Modal
@@ -40,7 +50,11 @@ const SettingModal: React.FC<SettingModalProps> = ({
         children={
           <ModalList>
             <li>
-              <LargeButton onClick={handleOpenPicker}>Sync</LargeButton>
+              <LargeButton
+                onClick={() => openPicker((id: string) => setSyncID(id))}
+              >
+                Sync
+              </LargeButton>
             </li>
             <li>
               <LargeButton onClick={() => handleStep(1)}>Import</LargeButton>
