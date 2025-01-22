@@ -7,13 +7,12 @@ const MemoSignal = new MemoApi();
 const useGPicker = (clientId: string, developerKey: string) => {
   const [openPicker, authResponse] = useDrivePicker();
 
-  const handleOpenPicker = (callback: (data: any) => void) => {
+  const handleOpenPicker = (callback: (id: string) => void) => {
     openPicker({
       clientId: clientId,
       developerKey: developerKey,
       viewId: 'DOCS',
-      showUploadView: true,
-      showUploadFolders: true,
+      showUploadView: false,
       supportDrives: true,
       multiselect: false,
       viewMimeTypes: 'application/json',
@@ -47,7 +46,11 @@ const useGPicker = (clientId: string, developerKey: string) => {
     await MemoSignal.setMemoList(jsonData);
   };
 
-  return [handleOpenPicker as any, authResponse, downloadInfo];
+  return [handleOpenPicker, authResponse, downloadInfo] as [
+    (callback: (id: string) => void) => void,
+    typeof authResponse,
+    typeof downloadInfo
+  ];
 };
 
 export default useGPicker;

@@ -35,10 +35,12 @@ const SettingModal: React.FC<SettingModalProps> = ({
   const { initMemo } = useMemo();
   // @ts-ignore
   const [openPicker, auth, downloadInfo] = useGPicker(googleCID, googleDevKey);
+
   useEffect(() => {
     if (syncId.length > 0) syncDriveMemo();
   }, [syncId]);
   const syncDriveMemo = async () => {
+    if (!auth) return;
     await downloadInfo(syncId, auth.access_token);
     await initMemo();
   };
