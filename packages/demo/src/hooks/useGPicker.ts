@@ -1,8 +1,10 @@
 import useDrivePicker from 'react-google-drive-picker';
 
 import MemoApi from '../api/memoApi';
+import GoogleApi from '../api/googleApi';
 
 const MemoSignal = new MemoApi();
+const GoogleSignal = new GoogleApi();
 
 const useGPicker = (clientId: string, developerKey: string) => {
   const [openPicker, authResponse] = useDrivePicker();
@@ -22,28 +24,14 @@ const useGPicker = (clientId: string, developerKey: string) => {
           console.log('User clicked cancel/close button');
         }
         if (data.action === 'picked') {
-          console.log(data.docs[0]);
           callback(data.docs[0].id);
         }
       },
     });
   };
   const downloadInfo = async (fileId: string, accessToken: string) => {
-    const response = await fetch(
-      `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch file from Google Drive');
-    }
-
-    const jsonData = await response.json();
-    await MemoSignal.setMemoList(jsonData);
+    const data: any = await GoogleSignal.getGDriveFile(fileId, accessToken);
+    await MemoSignal.setMemoList(data);
   };
 
   return [handleOpenPicker, authResponse, downloadInfo] as [
