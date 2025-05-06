@@ -28,6 +28,7 @@ const config = {
       template: 'public/index.html',
       meta: {
         description: 'crossplatform basic Planner Memo App',
+        keywords: 'memo, planner, app',
       },
     }),
 

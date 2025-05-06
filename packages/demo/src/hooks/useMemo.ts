@@ -18,12 +18,14 @@ import MemoApi from '../api/memoApi';
 const MemoSignal = new MemoApi();
 const handleSetMemo = debounce(
   async args => await MemoSignal.setMemoList(args),
-  500
+  200
 );
 const handleSetMemoContext = debounce(
   async (index, value) => await MemoSignal.updateMemoContext(index, value),
-  15
+  200
 );
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 function useMemo() {
   const [memo, setMemo] = useRecoilState(memoState);
   const memoList = useRecoilValue(memoListState);
@@ -117,6 +119,7 @@ function useMemo() {
     cdx: number,
     value: { idx: number; type: string; value: string }
   ) => {
+    await sleep(200);
     const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
@@ -128,6 +131,7 @@ function useMemo() {
     cdx: number,
     type: string
   ) => {
+    await sleep(200);
     const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
@@ -142,6 +146,7 @@ function useMemo() {
     await handleSetMemoContext(index, change.props);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
+    await sleep(200);
     const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
