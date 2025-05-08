@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { debounce } from 'isa-util';
+import { throttle } from 'isa-util';
 
 import memoState, {
   memoListState,
@@ -15,12 +15,13 @@ import MemoApi from '../api/memoApi';
  * 또 추가로 view model 또는 controller 정도 레이어에 해당하는 레이어를 기본적으로 가지는게
  * 보편적인 웹프로그램 개발 방법론과 유사하기에 여러모로 좋다.
  */
+
 const MemoSignal = new MemoApi();
-const handleSetMemo = debounce(
+const handleSetMemo = throttle(
   async args => await MemoSignal.setMemoList(args),
   200
 );
-const handleSetMemoContext = debounce(
+const handleSetMemoContext = throttle(
   async (index, value) => await MemoSignal.updateMemoContext(index, value),
   200
 );
@@ -39,17 +40,17 @@ function useMemo() {
   const _ADDMemo = async (memo: MemoListStateProps) => {
     const state = [...JSON.parse(JSON.stringify(memoList)), memo];
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemo(state);
+    handleSetMemo(state);
   };
   const handleNewTodo = async () => {
-    await _ADDMemo({
+    _ADDMemo({
       idx: Date.now().toString(),
       type: 'todo',
       props: [],
     });
   };
   const handleNewNote = async () => {
-    await _ADDMemo({
+    _ADDMemo({
       idx: Date.now().toString(),
       type: 'note',
       props: [
@@ -59,7 +60,7 @@ function useMemo() {
     });
   };
   const handleNewMemo = async () => {
-    await _ADDMemo({
+    _ADDMemo({
       idx: Date.now().toString(),
       type: 'memo',
       props: '',
@@ -73,13 +74,13 @@ function useMemo() {
       ...state.slice(idx + 1, state.length),
     ];
     setMemo({ list: change, date: Date.now() });
-    await handleSetMemo(change);
+    handleSetMemo(change);
   };
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
     state[index].props = value;
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, value);
+    handleSetMemoContext(index, value);
   };
   const handleAddTodo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -91,7 +92,7 @@ function useMemo() {
       });
     }
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    handleSetMemoContext(index, change.props);
   };
   const handleDeleteTodo = async (index: number, idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -103,7 +104,7 @@ function useMemo() {
       ];
     }
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    handleSetMemoContext(index, change.props);
   };
   const handleCheckTodo = async (index: number, idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
@@ -112,7 +113,7 @@ function useMemo() {
       change.props[idx].isAvail = !change.props[idx].isAvail;
     }
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    handleSetMemoContext(index, change.props);
   };
   const handleNote = async (
     index: number,
@@ -124,7 +125,7 @@ function useMemo() {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
     change.props[cdx] = value;
-    await handleSetMemoContext(index, change.props);
+    handleSetMemoContext(index, change.props);
   };
   const handleAddNoteItem = async (
     index: number,
@@ -143,7 +144,7 @@ function useMemo() {
       ];
     }
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    handleSetMemoContext(index, change.props);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
     await sleep(200);
@@ -157,7 +158,7 @@ function useMemo() {
       ];
     }
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    handleSetMemoContext(index, change.props);
   };
   return {
     memoList,
