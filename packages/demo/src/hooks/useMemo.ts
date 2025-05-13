@@ -17,13 +17,17 @@ import MemoApi from '../api/memoApi';
  */
 
 const MemoSignal = new MemoApi();
-const flushQueue = new FlushQueue({ debounceMs: 50 });
+const flushQueue = new FlushQueue({ debounceMs: 15 });
 // flushQueue는 api콜을 디바운스 처리하는데 사용된다.
 const handleSetMemo = async (args: any[]) =>
   flushQueue.add('setMemo', async () => await MemoSignal.setMemoList(args));
-const handleSetMemoContext = async (index: number, value: any) =>
+const handleSetMemoContext = async (
+  index: number,
+  value: any,
+  cdx: number = 999
+) =>
   flushQueue.add(
-    `setMemoContext${index}`,
+    `setMemoContext${index}/${cdx}`,
     async () => await MemoSignal.updateMemoContext(index, value)
   );
 
@@ -121,48 +125,49 @@ function useMemo() {
   // 개별 context를 갱신하는 방식으로 하니 디바운스과정에서 이전 작업의 state가 소실된다.
   // api콜을 최소화하면서 주고 받는 데이터 패킷의 크기를 줄일려면 api콜을 좀 더 복잡하게 관리해야한다.
   // flush queue 를 디테일하게 커스텀해서 처리하는게 적절한 해결방법이라고 판단된다.
+  // ** 좀 더 분석해보니 getMemoList를 호출하는 부분이 문제였다.
+  // 정확히는 post를 요청하는 것이 여러 단락으로 나뉘어져서 보내지는데 그 중간에 getMemoList를 호출하면 post로 요청을 보내기전에 입력된 value과
+  // getMemoList로 요청한 데이터가 섞여서 사라진다. get 요청과 post 요청의 순서를 보장 할 수 있어야함과 동시에 사용자 입력 이벤트의 순서를 보장 할 수 있어야함.
+  // 이건 진짜 복잡한 문제로 보인다. 구조적으로 잘못된 설계에 해당하는 것일지도. 단순 I/O로 시작한 프로젝트에 소켓통신에 가까운 구조가 필요해졌다.
   const handleNote = async (
     index: number,
     cdx: number,
     value: { idx: number; type: string; value: string }
   ) => {
-    const state = JSON.parse(JSON.stringify(memoList));
+    const data = await MemoSignal.getMemoList();
+    const state = [...data];
     const change = state[index];
-    if (change.type !== 'note') return;
-
     change.props[cdx] = value;
-
-    setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    await handleSetMemoContext(index, change.props, cdx);
   };
   const handleAddNoteItem = async (
     index: number,
     cdx: number,
     type: string
   ) => {
-    const state = JSON.parse(JSON.stringify(memoList));
+    const data = await MemoSignal.getMemoList();
+    const state = [...data];
     const change = state[index];
-    if (change.type !== 'note') return;
     change.props = [
-      ...state[index].props.slice(0, cdx),
+      ...data[index].props.slice(0, cdx),
       { idx: Date.now(), type: type, value: '' },
-      ...state[index].props.slice(cdx, state[index].props.length),
+      ...data[index].props.slice(cdx, data[index].props.length),
     ];
 
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    await handleSetMemoContext(index, change.props, cdx);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
-    const state = JSON.parse(JSON.stringify(memoList));
+    const data = await MemoSignal.getMemoList();
+    const state = [...data];
     const change = state[index];
-    if (change.type !== 'note') return;
     change.props = [
       ...state[index].props.slice(0, cdx),
       ...state[index].props.slice(cdx + 1, state[index].props.length),
     ];
 
     setMemo({ list: state, date: Date.now() });
-    await handleSetMemoContext(index, change.props);
+    await handleSetMemoContext(index, change.props, cdx);
   };
 
   return {
