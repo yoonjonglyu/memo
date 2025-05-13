@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { throttle } from 'isa-util';
+import { debounce } from 'isa-util';
 
 import memoState, {
   memoListState,
@@ -17,15 +17,15 @@ import MemoApi from '../api/memoApi';
  */
 
 const MemoSignal = new MemoApi();
-const handleSetMemo = throttle(
+
+const handleSetMemo = debounce(
   async args => await MemoSignal.setMemoList(args),
-  200
+  100
 );
-const handleSetMemoContext = throttle(
+const handleSetMemoContext = debounce(
   async (index, value) => await MemoSignal.updateMemoContext(index, value),
-  200
+  100
 );
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 function useMemo() {
   const [memo, setMemo] = useRecoilState(memoState);
@@ -33,6 +33,7 @@ function useMemo() {
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
 
+  // memoList를 초기화하고 새로운 타입의 memo를 추가하고 삭제하는는 함수들이다.
   const initMemo = async () => {
     const data = await MemoSignal.getMemoList();
     setMemo({ list: data, date: Date.now() });
@@ -66,7 +67,6 @@ function useMemo() {
       props: '',
     });
   };
-
   const handleDeleteMemo = async (idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = [
@@ -76,12 +76,14 @@ function useMemo() {
     setMemo({ list: change, date: Date.now() });
     handleSetMemo(change);
   };
+  // memo의 내용을 수정하는 함수이다.
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
     state[index].props = value;
     setMemo({ list: state, date: Date.now() });
     handleSetMemoContext(index, value);
   };
+  // todo의 내용을 수정하는 함수이다.
   const handleAddTodo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = state[index];
@@ -115,24 +117,26 @@ function useMemo() {
     setMemo({ list: state, date: Date.now() });
     handleSetMemoContext(index, change.props);
   };
+  // Note의 내용을 수정하는 함수이다.
+  // 개별 context를 갱신하는 방식으로 하니 디바운스과정에서 이전 작업의 state가 소실된다.
+  // api콜을 최소화하면서 주고 받는 데이터 패킷의 크기를 줄일려면 api콜을 좀 더 복잡하게 관리해야한다.
+  // flush queue 를 디테일하게 커스텀해서 처리하는게 적절한 해결방법이라고 판단된다.
   const handleNote = async (
     index: number,
     cdx: number,
     value: { idx: number; type: string; value: string }
   ) => {
-    await sleep(200);
     const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
     change.props[cdx] = value;
-    handleSetMemoContext(index, change.props);
+    await handleSetMemoContext(index, change.props);
   };
   const handleAddNoteItem = async (
     index: number,
     cdx: number,
     type: string
   ) => {
-    await sleep(200);
     const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
@@ -144,10 +148,9 @@ function useMemo() {
       ];
     }
     setMemo({ list: state, date: Date.now() });
-    handleSetMemoContext(index, change.props);
+    await MemoSignal.updateMemoContext(index, change.props);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
-    await sleep(200);
     const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
     const change = (state[index] = data);
@@ -158,8 +161,9 @@ function useMemo() {
       ];
     }
     setMemo({ list: state, date: Date.now() });
-    handleSetMemoContext(index, change.props);
+    await MemoSignal.updateMemoContext(index, change.props);
   };
+
   return {
     memoList,
     initMemo,
