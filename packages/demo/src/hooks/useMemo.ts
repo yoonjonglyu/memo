@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { debounce } from 'isa-util';
+import { FlushQueue } from 'isa-util';
 
 import memoState, {
   memoListState,
@@ -17,15 +17,15 @@ import MemoApi from '../api/memoApi';
  */
 
 const MemoSignal = new MemoApi();
-
-const handleSetMemo = debounce(
-  async args => await MemoSignal.setMemoList(args),
-  100
-);
-const handleSetMemoContext = debounce(
-  async (index, value) => await MemoSignal.updateMemoContext(index, value),
-  100
-);
+const flushQueue = new FlushQueue({ debounceMs: 50 });
+// flushQueue는 api콜을 디바운스 처리하는데 사용된다.
+const handleSetMemo = async (args: any[]) =>
+  flushQueue.add('setMemo', async () => await MemoSignal.setMemoList(args));
+const handleSetMemoContext = async (index: number, value: any) =>
+  flushQueue.add(
+    `setMemoContext${index}`,
+    async () => await MemoSignal.updateMemoContext(index, value)
+  );
 
 function useMemo() {
   const [memo, setMemo] = useRecoilState(memoState);
@@ -126,10 +126,13 @@ function useMemo() {
     cdx: number,
     value: { idx: number; type: string; value: string }
   ) => {
-    const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = (state[index] = data);
+    const change = state[index];
+    if (change.type !== 'note') return;
+
     change.props[cdx] = value;
+
+    setMemo({ list: state, date: Date.now() });
     await handleSetMemoContext(index, change.props);
   };
   const handleAddNoteItem = async (
@@ -137,31 +140,29 @@ function useMemo() {
     cdx: number,
     type: string
   ) => {
-    const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = (state[index] = data);
-    if (change.type === 'note') {
-      change.props = [
-        ...state[index].props.slice(0, cdx),
-        { idx: Date.now(), type: type, value: '' },
-        ...state[index].props.slice(cdx, state[index].props.length),
-      ];
-    }
+    const change = state[index];
+    if (change.type !== 'note') return;
+    change.props = [
+      ...state[index].props.slice(0, cdx),
+      { idx: Date.now(), type: type, value: '' },
+      ...state[index].props.slice(cdx, state[index].props.length),
+    ];
+
     setMemo({ list: state, date: Date.now() });
-    await MemoSignal.updateMemoContext(index, change.props);
+    await handleSetMemoContext(index, change.props);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
-    const data = await MemoSignal.getMemoItem(index);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = (state[index] = data);
-    if (change.type === 'note') {
-      change.props = [
-        ...state[index].props.slice(0, cdx),
-        ...state[index].props.slice(cdx + 1, state[index].props.length),
-      ];
-    }
+    const change = state[index];
+    if (change.type !== 'note') return;
+    change.props = [
+      ...state[index].props.slice(0, cdx),
+      ...state[index].props.slice(cdx + 1, state[index].props.length),
+    ];
+
     setMemo({ list: state, date: Date.now() });
-    await MemoSignal.updateMemoContext(index, change.props);
+    await handleSetMemoContext(index, change.props);
   };
 
   return {
