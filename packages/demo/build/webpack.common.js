@@ -35,6 +35,8 @@ const config = {
     new FaviconsWebpackPlugin({
       logo: 'public/memo.png',
       favicons: {
+        id:'memo',
+        scope: '/memo/',
         appName: 'Memo',
         appShortName: 'Memo',
         appDescription: 'crossplatform basic Planner Memo App',
