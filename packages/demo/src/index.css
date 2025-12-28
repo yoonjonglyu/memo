@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+@import 'tailwindcss/preflight';
+
+@theme {
+  /* 로고에서 추출한 테트리스 블록 컬러 */
+  --color-memo-m: #008b8b; /* Teal */
+  --color-memo-o: #5d6dff; /* Purple */
+  --color-memo-m2: #ff8c00; /* Orange */
+  --color-memo-e: #ff5f5f; /* Red */
+
+  /* 테트리스 느낌을 위한 각진 디자인 시스템 */
+  --radius-tetris: 2px;
+}
+
+/* 전역 폰트 및 배경 설정 */
+@layer base {
+  body {
+    @apply bg-gray-100 text-gray-900;
+  }
+}

@@ -21,16 +21,16 @@ const config = {
         },
       },
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: [
+          'style-loader',
+          'css-loader',
           {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
+            loader: 'postcss-loader',
             options: {
-              modules: true,
-              sourceMap: true,
+              postcssOptions: {
+                config: true, // 자동으로 postcss.config.js를 찾도록 설정
+              },
             },
           },
         ],

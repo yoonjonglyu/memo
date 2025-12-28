@@ -32,7 +32,14 @@ const config = {
             },
           },
           'css-loader',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                config: true, // 자동으로 postcss.config.js를 찾도록 설정
+              },
+            },
+          },
         ],
       },
     ],
