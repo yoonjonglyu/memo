@@ -14,7 +14,7 @@
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook --watch",
     "chromatic": "npx chromatic --project-token=17c2c6124865",
-    "predeploy": "npm run build",
+    "predeploy": "yarn run build",
     "deploy": "gh-pages -d dist",
     "dev:pc": "electron .",
     "start": "electron-forge start",
