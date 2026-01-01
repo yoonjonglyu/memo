@@ -14,6 +14,7 @@ out/
 
 # 빌드
 /dist
+/android
 
 # env
 .env
