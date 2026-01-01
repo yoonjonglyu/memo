@@ -1,60 +1,37 @@
 import React from 'react';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  max-width: 1232px;
-  width: 100%;
-  margin: 0 auto;
-`;
-const Title = styled.h1`
-  font-size: 1.3rem;
-  line-height: 1.5rem;
-  text-shadow: 0.5px 0.5px gray, 0.5px 0.5px gray;
-`;
-const ToolBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const Button = styled.button`
-  padding: 3px 12px;
-  border: 1px solid #5f7fe9;
-  border-radius: 3px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  background: #566bb0b2;
-  color: #eaeaea;
-  box-shadow: 0.5px 0.5px gray, 0.5px 0.5px gray;
-  & img {
-    width: 100%;
-    height: 22px;
-    margin: 0;
-  }
-`;
 export interface MemoHeaderProps {
   handleEdit: VoidFunction;
   handleSetting: VoidFunction;
 }
 
-const MemoHeader: React.FC<MemoHeaderProps> = ({
-  handleEdit,
-  handleSetting,
-}) => {
+const MemoHeader: React.FC<MemoHeaderProps> = ({ handleEdit, handleSetting }) => {
   return (
-    <Header>
-      <Title>Memo</Title>
-      <ToolBox>
-        <Button onClick={handleEdit} aria-label="edit">
+    <div className="flex justify-between items-center w-full px-6 py-4">
+      {/* 테트리스 블록 느낌의 타이틀 */}
+      <h1 className="text-2xl font-black tracking-tighter text-gray-800">
+        MEMO<span className="text-memo-m">.</span>
+      </h1>
+
+      <div className="flex gap-2">
+        <button 
+          onClick={handleEdit} 
+          className="w-10 h-10 flex items-center justify-center bg-white border-2 border-memo-m text-memo-m hover:bg-memo-m hover:text-white transition-colors rounded-tetris shadow-sm"
+          aria-label="edit"
+        >
           <FontAwesomeIcon icon={faPenToSquare} />
-        </Button>
-        <Button onClick={handleSetting} aria-label="setting">
+        </button>
+        <button 
+          onClick={handleSetting} 
+          className="w-10 h-10 flex items-center justify-center bg-white border-2 border-memo-o text-memo-o hover:bg-memo-o hover:text-white transition-colors rounded-tetris shadow-sm"
+          aria-label="setting"
+        >
           <FontAwesomeIcon icon={faGear} />
-        </Button>
-      </ToolBox>
-    </Header>
+        </button>
+      </div>
+    </div>
   );
 };
 

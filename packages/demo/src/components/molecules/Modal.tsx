@@ -1,50 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  z-index: 1000;
-  inset-inline: 0 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background-color: rgb(0, 0, 0, 0.45);
-`;
-
-const ModalContainer = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  max-width: 360px;
-  width: 100%;
-  min-height: 200px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0.5px 0.5px black, 0.5px 0.5px black;
-  overflow: auto;
-`;
-const ModalHeader = styled.div`
-  padding: 8px 0;
-  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-align: center;
-`;
-const ModalBody = styled.div`
-  flex: 1;
-  padding: 6px 8px;
-`;
-const ModalFooter = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  border-top: 1px solid rgb(0, 0, 0, 0.2);
-`;
 
 export interface ModalProps {
   header: React.ReactNode;
@@ -54,13 +8,22 @@ export interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ header, children, footer }) => {
   return (
-    <Background>
-      <ModalContainer>
-        <ModalHeader>{header}</ModalHeader>
-        <ModalBody>{children}</ModalBody>
-        <ModalFooter>{footer}</ModalFooter>
-      </ModalContainer>
-    </Background>
+    <div className="fixed inset-0 z-1000 flex flex-col justify-center items-center p-4 bg-black/45 backdrop-blur-sm overflow-hidden">
+      <div className="flex flex-col w-full max-w-90 min-h-50 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)] border-2 border-gray-800 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        {/* Modal Header */}
+        <div className="py-3 px-4 border-b-2 border-gray-100 font-black text-xl text-center tracking-tighter text-gray-800 italic uppercase">
+          {header}
+        </div>
+
+        {/* Modal Body */}
+        <div className="flex-1 p-4 overflow-y-auto">{children}</div>
+
+        {/* Modal Footer */}
+        <div className="p-4 bg-gray-50 flex flex-wrap justify-center items-center gap-2 border-t-2 border-gray-100">
+          {footer}
+        </div>
+      </div>
+    </div>
   );
 };
 

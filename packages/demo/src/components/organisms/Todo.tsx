@@ -1,65 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import MemoBox from '../atoms/MemoBox';
 import SquareButton from '../molecules/SquareButton';
 
-const TodoInput = styled.input`
-  float: left;
-  width: calc(100% - 32px);
-  height: 28px;
-  padding: 1px 2px;
-  margin: 0 auto;
-  font-size: 1rem;
-  border: 0.5px solid #00000053;
-  box-sizing: border-box;
-`;
-const InputButton = styled.button`
-  clear: both;
-  width: 30px;
-  height: 28px;
-  padding: 0;
-  margin: 0 auto;
-  margin-left: 2px;
-  font-size: 13px;
-  color: #222222d3;
-  vertical-align: top;
-  border: 0.5px solid #00000053;
-`;
-const TodoList = styled.ul`
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 3px;
-  margin: 3px auto;
-  padding: 0;
-  list-style: none;
-  overflow: none;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  & li {
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 3px;
-    font-size: 0.8rem;
-    background: #80808037;
-    border-radius: 3px;
-  }
-  & li button {
-    flex-shrink: 0;
-  }
-`;
-const CheckedTodo = styled.input``;
-
 export interface TodoProps {
   todoItem: Array<TodoValueProps>;
   addItemHandler: (todo: string) => void;
   checkItemHandler: (idx: number) => void;
   deleteItemHandler: (idx: number) => void;
+  blockColor?: 'm' | 'o' | 'm2' | 'e';
 }
 export interface TodoValueProps {
   isAvail: boolean;
@@ -67,8 +18,13 @@ export interface TodoValueProps {
 }
 
 const Todo: React.FC<TodoProps> = props => {
-  const { todoItem, addItemHandler, checkItemHandler, deleteItemHandler } =
-    props;
+  const {
+    todoItem,
+    addItemHandler,
+    checkItemHandler,
+    deleteItemHandler,
+    blockColor,
+  } = props;
   //상위 props로 state를 핸들링하기에 리렌더링시 동일한 함수가 계속 재생성됨
   // 보통 useCallback 훅을 사용해서 최적화한다.
   const handleInsert: React.KeyboardEventHandler<HTMLInputElement> = event => {
@@ -85,39 +41,48 @@ const Todo: React.FC<TodoProps> = props => {
   };
 
   return (
-    <MemoBox>
-      <TodoInput onKeyUp={handleInsert} aria-label="todoinput" />
-      <InputButton
-        type="button"
-        onClick={e => {
-          const input = e.target as HTMLButtonElement;
-          handleAddTodo(input.previousElementSibling as HTMLInputElement);
-        }}
-        aria-label="add"
-      >
-        <FontAwesomeIcon icon={faPlus} />
-      </InputButton>
-      <TodoList>
-        {todoItem?.map((item, idx) => {
-          return (
-            <li key={idx}>
-              <CheckedTodo
-                aria-label="check todo"
+    <MemoBox blockColor={blockColor}>
+      <div className="flex flex-col gap-3">
+        {/* 입력 영역 */}
+        <div className="flex gap-1">
+          <input
+            onKeyUp={handleInsert}
+            className="flex-1 px-2 py-1 text-sm border-2 border-gray-200 focus:border-memo-m outline-none transition-colors"
+          />
+          <button className="bg-gray-800 text-white px-3 py-1 text-xs">
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+        </div>
+
+        {/* 리스트 영역 */}
+        <ul className="space-y-1 overflow-y-auto max-h-37.5 scrollbar-hide">
+          {todoItem?.map((item, idx) => (
+            <li
+              key={idx}
+              className="flex items-center gap-2 p-2 bg-gray-50 hover:bg-gray-100 transition-colors"
+            >
+              <input
                 type="checkbox"
                 checked={item.isAvail}
-                onClick={() => checkItemHandler(idx)}
-                readOnly
+                onChange={() => checkItemHandler(idx)}
+                className="accent-memo-m w-4 h-4"
               />
-              {item.todo}
+              <span
+                className={`flex-1 text-xs ${
+                  item.isAvail ? 'line-through text-gray-400' : 'text-gray-700'
+                }`}
+              >
+                {item.todo}
+              </span>
               <SquareButton
                 aria-label="remove"
                 iconType="remove"
                 onClick={() => deleteItemHandler(idx)}
               />
             </li>
-          );
-        })}
-      </TodoList>
+          ))}
+        </ul>
+      </div>
     </MemoBox>
   );
 };

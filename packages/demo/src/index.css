@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'tailwindcss/preflight';
 
 @theme {
   /* 로고에서 추출한 테트리스 블록 컬러 */
@@ -14,7 +13,41 @@
 
 /* 전역 폰트 및 배경 설정 */
 @layer base {
-  body {
-    @apply bg-gray-100 text-gray-900;
+  
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+  button {
+    @apply cursor-pointer bg-transparent border-none p-0;
+  }
+
+  /* 모든 입력창의 아웃라인을 제거하고 박스 사이징 통일 */
+  input,
+  textarea {
+    @apply outline-none box-border;
+  }
+
+  /* 제목 태그들의 굵기와 크기 기본값 설정 */
+  h1,
+  h2,
+  h3 {
+    @apply font-bold leading-tight;
+  }
+  /* 1. 텍스트 선택 시 로고 컬러로 강조 (디테일) */
+  ::selection {
+    @apply bg-memo-m text-white;
+  }
+
+  /* 3. 테트리스 블록 느낌의 커스텀 스크롤바 (심플 & 모던) */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
   }
 }

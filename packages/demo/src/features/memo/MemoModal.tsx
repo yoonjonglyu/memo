@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
-import FloatBtn from '../../components/atoms/FloatBtn';
-import Modal from '../../components/molecules/Modal';
-import LargeButton from '../../components/atoms/LargeButton';
-
 import { ModalPortal } from '../../providers/ModalProvider';
 import useMemo from '../../hooks/useMemo';
+
+import FloatBtn from '../../components/atoms/FloatBtn';
 
 export interface MemoModalProps {}
 
@@ -16,91 +12,100 @@ const MemoModal: React.FC<MemoModalProps> = () => {
   return (
     <ModalPortal>
       <FloatBtn
-        style={{ position: 'fixed', bottom: 30, right: 30, zIndex: 999 }}
         onClick={() => setIsModal(true)}
+        className=" hover:translate-x-0.5 hover:translate-y-0.5 transition-all rounded-tetris flex items-center justify-center"
+        aria-label="add-memo"
       />
-      {isModal ? (
-        <Modal
-          header="Add Memo"
-          children={
-            <ModalContents handleCloseModal={() => setIsModal(false)} />
-          }
-          footer={
-            <LargeButton onClick={() => setIsModal(false)}>Cancel</LargeButton>
-          }
-        />
-      ) : null}
+
+      {/* 2. Modal Overlay & Content */}
+      {isModal && (
+        <div className="fixed inset-0 z-1000 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
+          <div className="w-full max-w-sm bg-white border-t-8 border-memo-o shadow-2xl rounded-sm animate-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="p-4 border-b border-gray-100">
+              <h2 className="text-xl font-black tracking-tight text-gray-800">
+                ADD NEW BLOCK
+              </h2>
+            </div>
+
+            {/* Contents */}
+            <div className="p-6">
+              <ModalContents handleCloseModal={() => setIsModal(false)} />
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 bg-gray-50 flex justify-end">
+              <button
+                onClick={() => setIsModal(false)}
+                className="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-800 transition-colors"
+              >
+                CANCEL
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </ModalPortal>
   );
 };
 
-const SubText = styled.strong`
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #4a4a4a;
-`;
-const ModalList = styled.ul`
-  margin: 6px auto;
-  padding: 0;
-  list-style: none;
-  & li {
-    margin: 8px 0;
-  }
-`;
-const ModalButton = styled(LargeButton)`
-  padding: 18px 8px;
-  font-size: 1.2rem;
-`;
-/**
- * 관심사 분리는 중요하다. 그렇다고 너무 세세하게 쪼개는 것은 역시 적절한 관심사 분리라고 보긴힘들다.
- * 결국 목적은 (이해하기 쉽고)유지보수하기 편한 코드를 작성하는 것이니 비슷한 관심사이며 재사용성이 낮을 경우
- * 같은 파일에서 관리 하는 것이 더 알아보기 쉽기 때문에 이런 구조를 취하기도한다. 렌더훅 같은 경우 성능적인 차이가 있어서 따로 컴포넌트로
- * 빼주는게 보통 더 좋기도 하다.
- * 이 경우는 위의 모달 컴포넌트는 플롯버튼 이벤트로 모달을 호출하는 관심사를 가지고 아래 컨텐츠는 그 모달의 내용에 해당한다.
- * 그리고 이 파일 자체는 MemoModal이라는 이름처럼 메모라는 도메인의 모달이라는 관심사를 가진다고 간략하게 설명 할 수 있다.
- */
 interface ModalContentsProps {
   handleCloseModal: VoidFunction;
 }
 
 const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
   const { handleNewMemo, handleNewTodo, handleNewNote } = useMemo();
+
+  // 각 타입별 로고 컬러 매핑
+  const types = [
+    {
+      label: 'Memo',
+      action: handleNewMemo,
+      color: 'bg-memo-m',
+      border: 'border-memo-m',
+    },
+    {
+      label: 'Todo',
+      action: handleNewTodo,
+      color: 'bg-memo-o',
+      border: 'border-memo-o',
+    },
+    {
+      label: 'Note',
+      action: handleNewNote,
+      color: 'bg-memo-m2',
+      border: 'border-memo-m2',
+    },
+  ];
+
   return (
-    <>
-      <SubText>Select Memo Type</SubText>
-      <ModalList>
-        <li>
-          <ModalButton
+    <div className="flex flex-col gap-4">
+      <strong className="text-xs uppercase tracking-widest text-gray-400 font-bold">
+        Select Type
+      </strong>
+      <div className="grid gap-3">
+        {types.map(t => (
+          <button
+            key={t.label}
             onClick={() => {
-              handleNewMemo();
+              t.action();
               handleCloseModal();
             }}
+            className={`
+              relative group overflow-hidden
+              p-4 text-left font-black text-lg uppercase
+              bg-white border-2 ${t.border} text-gray-800
+              shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]
+              active:shadow-none active:translate-x-1 active:translate-y-1
+              transition-all flex justify-between items-center
+            `}
           >
-            Memo
-          </ModalButton>
-        </li>
-        <li>
-          <ModalButton
-            onClick={() => {
-              handleNewTodo();
-              handleCloseModal();
-            }}
-          >
-            Todo
-          </ModalButton>
-        </li>
-        <li>
-          <ModalButton
-            onClick={() => {
-              handleNewNote();
-              handleCloseModal();
-            }}
-          >
-            Note
-          </ModalButton>
-        </li>
-      </ModalList>
-    </>
+            {t.label}
+            <div className={`w-3 h-3 ${t.color} rounded-full animate-pulse`} />
+          </button>
+        ))}
+      </div>
+    </div>
   );
 };
 
