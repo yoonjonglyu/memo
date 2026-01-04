@@ -2,15 +2,16 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-import MemoBox from '../../components/atoms/MemoBox';
 import Memo from '../../components/organisms/Memo';
 import Todo, { TodoValueProps } from '../../components/organisms/Todo';
 import Note, { NoteValueProps } from '../../components/organisms/Note';
+import Draft from '../../components/organisms/Draft';
+
 import useMemo from '../../hooks/useMemo';
 
 export interface MemoItemProps {
   index: number;
-  type: 'memo' | 'todo' | 'note';
+  type: 'memo' | 'todo' | 'note' | 'draft';
   props: string | Array<TodoValueProps> | Array<NoteValueProps>; // 보통 이런 예약어는 커스텀해서 안쓰는게 좋다.
   isEdit: boolean;
   blockColor?: string;
@@ -88,6 +89,12 @@ const MemoItem: React.FC<MemoItemProps> = ({
             }}
             deleteItemHandler={idx => handleDeleteNoteItem(index, idx)}
             blockColor={blockColor as keyof typeof borderColors}
+          />
+        )}
+        {type === 'draft' && (
+          <Draft
+            value={props as string}
+            onChange={e => handleMemo(index, e.target.value)}
           />
         )}
       </div>

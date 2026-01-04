@@ -149,6 +149,9 @@ const useExport = () => {
             .map((item, idx) => `${idx} ${item.value}`)
             .join('\n')}\n\n---\n\n`;
           break;
+        case 'draft':
+          r += `## Draft (초안)\n\n${c.props}\n\n---\n\n`;
+          break;
         default:
           break;
       }
@@ -176,6 +179,13 @@ const useExport = () => {
           ${c.props.map((item, idx) => `<li>${item.value}</li>`).join('\n')}
             </ol>
             </section>`;
+          break;
+        case 'draft':
+          r += `
+    <section class="draft-section" style="grid-column: 1 / -1; width: 100%; height: auto; min-height: 300px;">
+      <h3 style="color: #4dabf7;">📝 Draft</h3>
+      <div style="white-space: pre-wrap; font-size: 1.1rem; line-height: 1.8;">${c.props}</div>
+    </section>`;
           break;
         default:
           break;

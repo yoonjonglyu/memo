@@ -54,7 +54,8 @@ interface ModalContentsProps {
 }
 
 const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
-  const { handleNewMemo, handleNewTodo, handleNewNote } = useMemo();
+  const { handleNewMemo, handleNewTodo, handleNewNote, handleNewDraft } =
+    useMemo();
 
   // 각 타입별 로고 컬러 매핑
   const types = [
@@ -75,6 +76,12 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
       action: handleNewNote,
       color: 'bg-memo-m2',
       border: 'border-memo-m2',
+    },
+    {
+      label: 'Draft',
+      action: handleNewDraft,
+      color: 'bg-memo-e',
+      border: 'border-memo-e',
     },
   ];
 

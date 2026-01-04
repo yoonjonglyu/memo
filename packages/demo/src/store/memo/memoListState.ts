@@ -15,8 +15,13 @@ interface NoteProps {
   type: 'note';
   props: Array<{ idx: number; type: string; value: string }>;
 }
+interface DraftProps {
+  idx: string;
+  type: 'draft';
+  props: string;
+}
 
-export type MemoListStateProps = MemoProps | TodoProps | NoteProps;
+export type MemoListStateProps = MemoProps | TodoProps | NoteProps | DraftProps;
 
 export interface MemoStateProps {
   list: Array<MemoListStateProps>;

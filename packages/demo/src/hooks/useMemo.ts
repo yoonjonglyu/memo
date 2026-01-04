@@ -71,6 +71,13 @@ function useMemo() {
       props: '',
     });
   };
+  const handleNewDraft = async () => {
+    _ADDMemo({
+      idx: Date.now().toString(),
+      type: 'draft',
+      props: '',
+    })
+  }
   const handleDeleteMemo = async (idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = [
@@ -176,6 +183,7 @@ function useMemo() {
     handleNewMemo,
     handleNewTodo,
     handleNewNote,
+    handleNewDraft,
     handleDeleteMemo,
     handleMemo,
     handleAddTodo,
