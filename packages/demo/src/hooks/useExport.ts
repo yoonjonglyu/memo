@@ -1,4 +1,7 @@
-import { download } from 'isa-util';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+import { download } from 'isa-util'; // 기존 웹용 다운로드 유틸
 
 import MemoApi from '../api/memoApi';
 
@@ -118,13 +121,13 @@ const useExport = () => {
         type: 'text/plain',
       }
     );
-    download(data, `meme_${Date.now()}`, 'html');
+    saveAndShare(data, `meme_${Date.now()}`, 'html');
   };
   const exportJSON = async () => {
     const data = new Blob([JSON.stringify(await MemoSignal.getMemoList())], {
       type: 'text/plain',
     });
-    download(data, `meme_${Date.now()}`, 'json');
+    saveAndShare(data, `meme_${Date.now()}`, 'json');
   };
   const exportMD = async () => {
     const data = new Blob(
@@ -133,7 +136,7 @@ const useExport = () => {
         type: 'text/plain',
       }
     );
-    download(data, `meme_${Date.now()}`, 'md');
+    saveAndShare(data, `meme_${Date.now()}`, 'md');
   };
   const convertToMarkdown = (data: Array<MemoListStateProps>) => {
     const result = data.reduce((r, c) => {
@@ -184,6 +187,43 @@ const useExport = () => {
       return r;
     }, '');
     return result;
+  };
+  const blobToText = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsText(blob);
+    });
+  };
+  const saveAndShare = async (
+    content: Blob,
+    fileName: string,
+    mimeType: string
+  ) => {
+    // 현재 실행 환경이 네이티브(Android/iOS)인지 확인
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const textData = await blobToText(content);
+        const fullFileName = `${fileName}.${mimeType}`;
+
+        const result = await Filesystem.writeFile({
+          path: fullFileName,
+          data: textData,
+          directory: Directory.Cache,
+          encoding: Encoding.UTF8,
+        });
+
+        await Share.share({
+          title: 'Export Memo',
+          url: result.uri,
+        });
+      } catch (error) {
+        console.error('Native export failed', error);
+      }
+    } else {
+      download(content, fileName, mimeType);
+    }
   };
 
   return {

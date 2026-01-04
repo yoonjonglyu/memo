@@ -64,7 +64,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
             </div>
 
             <LargeButton className="!bg-memo-m2" onClick={() => handleStep(3)}>
-              Download Data
+              Download App
             </LargeButton>
           </div>
 

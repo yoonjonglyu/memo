@@ -25,8 +25,12 @@ const Todo: React.FC<TodoProps> = props => {
     deleteItemHandler,
     blockColor,
   } = props;
-  //상위 props로 state를 핸들링하기에 리렌더링시 동일한 함수가 계속 재생성됨
-  // 보통 useCallback 훅을 사용해서 최적화한다.
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
+    e.preventDefault();
+    const input = (e.target as HTMLFormElement)[0] as HTMLInputElement;
+    handleAddTodo(input);
+  };
   const handleInsert: React.KeyboardEventHandler<HTMLInputElement> = event => {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
@@ -44,15 +48,18 @@ const Todo: React.FC<TodoProps> = props => {
     <MemoBox blockColor={blockColor}>
       <div className="flex flex-col gap-3">
         {/* 입력 영역 */}
-        <div className="flex gap-1">
+        <form className="flex gap-1" onSubmit={handleSubmit}>
           <input
             onKeyUp={handleInsert}
             className="flex-1 px-2 py-1 text-sm border-2 border-gray-200 focus:border-memo-m outline-none transition-colors"
           />
-          <button className="bg-gray-800 text-white px-3 py-1 text-xs">
+          <button
+            className="bg-gray-800 text-white px-3 py-1 text-xs"
+            type="submit"
+          >
             <FontAwesomeIcon icon={faPlus} />
           </button>
-        </div>
+        </form>
 
         {/* 리스트 영역 */}
         <ul className="space-y-1 overflow-y-auto max-h-37.5 scrollbar-hide">
