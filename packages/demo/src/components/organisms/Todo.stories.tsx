@@ -64,16 +64,16 @@ export const Basic: Story = {
 
     // check Todo
     expect(
-      canvas.getByText('testTodo').querySelector('input')?.checked
+      canvas.getByText('testTodo')?.parentNode?.querySelector('input')?.checked
     ).toBeFalsy();
-    await userEvent.click(canvas.getByText('testTodo').children[0]);
+    await userEvent.click(canvas.getByText('testTodo')?.parentNode?.children[0] as Element);
     expect(
-      canvas.getByText('testTodo').querySelector('input')?.checked
+      canvas.getByText('testTodo')?.parentNode?.querySelector('input')?.checked
     ).toBeTruthy();
 
     // delect Todo
     expect(canvas.queryByText('testTodo')).toBeInTheDocument();
-    await userEvent.click(canvas.getByText('testTodo').children[1]);
+    await userEvent.click(canvas.getByText('testTodo')?.parentNode?.children[2] as Element);
     expect(canvas.queryByText('testTodo')).toBeNull();
   },
 };

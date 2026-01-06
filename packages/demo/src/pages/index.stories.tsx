@@ -21,20 +21,21 @@ export const Basic: Story = {
     );
     await waitFor(async () => {
       // test edit mode
-      await expect(canvas.queryByLabelText('delete')).toBeNull(); 
-      await userEvent.click(canvas.getByRole('button', { name: 'edit' }));
-      await expect(canvas.getAllByLabelText('delete')).toBeTruthy();
-      await userEvent.click(canvas.getByRole('button', { name: 'edit' }));
-      await expect(canvas.queryByLabelText('delete')).toBeNull();
+      const editButton = await canvas.findByRole('button', { name: 'edit' });
+      await userEvent.click(editButton);
+      const deleteButtons = await canvas.findAllByLabelText('delete-item');
+      expect(deleteButtons.length).toBeGreaterThan(0);
+      await userEvent.click(editButton);
+      await expect(canvas.queryByLabelText('delete-item')).toBeNull();
       await userEvent.click(canvas.getByRole('button', { name: 'setting' }));
-      await expect(canvas.queryByText('Export')).toBeTruthy();
+      await expect(canvas.queryByText('Setting')).toBeTruthy();
       await userEvent.click(canvas.getByRole('button', { name: 'Cancel' }));
-      await expect(canvas.queryByText('Export')).toBeNull();
+      await expect(canvas.queryByText('Setting')).toBeNull();
       // test modal
-      await userEvent.click(canvas.getByRole('button', { name: '+' }));
-      expect(canvas.getByText('Add Memo')).toBeInTheDocument();
-      await userEvent.click(canvas.getByRole('button', { name: 'Cancel' }));
-      expect(canvas.queryByText('Add Memo')).toBeNull();
+      await userEvent.click(canvas.getByRole('button', { name: 'add-memo' }));
+      expect(canvas.getByText('ADD NEW BLOCK')).toBeInTheDocument();
+      await userEvent.click(canvas.getByRole('button', { name: 'CANCEL' }));
+      expect(canvas.queryByText('ADD NEW BLOCK')).toBeNull();
     });
   },
 };

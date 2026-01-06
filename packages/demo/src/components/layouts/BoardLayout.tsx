@@ -8,7 +8,7 @@ const BoardLayout: React.FC<BoardLayoutProps> = ({ children }) => {
   return (
     <main
       role="main"
-      className="columns-1 sm:columns-2 lg:columns-3 gap-4 p-4 max-w-308 mx-auto"
+      className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full pb-20"
     >
       {children}
     </main>

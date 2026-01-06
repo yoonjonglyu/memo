@@ -5,7 +5,7 @@ import { within, userEvent, expect } from '@storybook/test';
 import Draft from './Draft';
 
 const meta: Meta<typeof Draft> = {
-  title: '메모/UI/Organisms/메모',
+  title: '메모/UI/Organisms/Draft',
   component: Draft,
 };
 export default meta;

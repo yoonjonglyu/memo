@@ -1,3 +1,4 @@
+import '../src/index.css'
 import { initialize, mswLoader } from 'msw-storybook-addon';
 import { RecoilRoot } from 'recoil';
 

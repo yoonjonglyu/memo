@@ -102,6 +102,7 @@ const MemoItem: React.FC<MemoItemProps> = ({
       {/* 삭제 버튼: 테트리스 블록이 파괴되는 느낌의 레드 */}
       {isEdit && (
         <button
+          aria-label='delete-item'
           onClick={() => handleDeleteMemo(index)}
           className="absolute -bottom-2 -right-2 w-10 h-10 bg-memo-e text-white border-2 border-gray-800 shadow-md rounded-none flex items-center justify-center hover:bg-red-600 transition-colors"
         >

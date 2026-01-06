@@ -17,13 +17,13 @@ export const Basic: Story = {
   args: {
     value: [
       { idx: 0, type: 'h1', value: 'test' },
-      { idx: 0, type: 'h2', value: 'test' },
-      { idx: 0, type: 'h3', value: 'test' },
+      { idx: 0, type: 'p', value: 'test' },
+      { idx: 0, type: 'p', value: 'test' },
       { idx: 0, type: 'p', value: 'test' },
     ],
     setValue: () => {},
     func: { Enter: () => {} },
-    addItemHandler: idx => console.log(idx),
-    deleteItemHandler: idx => console.log(idx),
+    addItemHandler: (idx:number) => console.log(idx),
+    deleteItemHandler: (idx: number) => console.log(idx),
   },
 };

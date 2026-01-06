@@ -14,9 +14,9 @@ export const Basic: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // open modal
-    await userEvent.click(canvas.getByRole('button', { name: '+' }));
-    expect(canvas.getByText('Add Memo')).toBeInTheDocument();
-    await userEvent.click(canvas.getByRole('button', { name: 'Cancel' }));
-    expect(canvas.queryByText('Add Memo')).toBeNull();
+    await userEvent.click(canvas.getByRole('button', { name: 'add-memo' }));
+    expect(canvas.getByText('ADD NEW BLOCK')).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('button', { name: 'CANCEL' }));
+    expect(canvas.queryByText('ADD NEW BLOCK')).toBeNull();
   },
 };
