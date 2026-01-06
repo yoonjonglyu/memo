@@ -61,24 +61,28 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
   const types = [
     {
       label: 'Memo',
+      description: 'Quick thought',
       action: handleNewMemo,
       color: 'bg-memo-m',
       border: 'border-memo-m',
     },
     {
       label: 'Todo',
+      description: 'Action item',
       action: handleNewTodo,
       color: 'bg-memo-o',
       border: 'border-memo-o',
     },
     {
       label: 'Note',
+      description: 'List up mind',
       action: handleNewNote,
       color: 'bg-memo-m2',
       border: 'border-memo-m2',
     },
     {
       label: 'Draft',
+      description: 'Unsorted idea',
       action: handleNewDraft,
       color: 'bg-memo-e',
       border: 'border-memo-e',
@@ -99,15 +103,21 @@ const ModalContents: React.FC<ModalContentsProps> = ({ handleCloseModal }) => {
               handleCloseModal();
             }}
             className={`
-              relative group overflow-hidden
-              p-4 text-left font-black text-lg uppercase
-              bg-white border-2 ${t.border} text-gray-800
-              shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]
-              active:shadow-none active:translate-x-1 active:translate-y-1
-              transition-all flex justify-between items-center
-            `}
+      relative group overflow-hidden
+      p-4 text-left
+      bg-white border-2 ${t.border} text-gray-800
+      shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]
+      active:shadow-none active:translate-x-1 active:translate-y-1
+      transition-all flex justify-between items-center
+    `}
           >
-            {t.label}
+            <div className="flex flex-col">
+              <span className="font-black text-lg uppercase">{t.label}</span>
+              <span className="text-xs text-gray-400 tracking-wide">
+                {t.description}
+              </span>
+            </div>
+
             <div className={`w-3 h-3 ${t.color} rounded-full animate-pulse`} />
           </button>
         ))}
