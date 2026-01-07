@@ -1,52 +1,112 @@
-# 📝 Memo: 휘발성 플래너
+# 📝 MemoFlow: Simple Memo & Volatile Planner
 
-**Memo**는 **단기적인 메모와 일정 관리**를 위한 **휘발성 플래너**입니다.  
-복잡한 기능 없이 빠르게 메모하고 필요할 때 쉽게 삭제할 수 있도록 설계되었습니다.
+> **"Fast to Record, Light to Manage"**
+> A **volatile planner** designed for instant memos and short-term scheduling without complex features.  
+> Experience seamless continuity across Android, Windows, and Web using Google Drive synchronization.
 
-## 🔹 주요 특징
+---
 
-✅ **빠른 메모 작성**
+## 🔹 Service Concept
 
-- 단순한 텍스트 메모
-- 할 일(Todo) 체크리스트
-- 간단한 노트 형식
+MemoFlow aims for 'lightness,' distinguishing itself from heavy calendars or bloated note-taking apps.
+* **Short-term Focus**: Perfect for managing volatile schedules that you record and delete quickly.
+* **Tetris Design**: A minimalist UI concept that reduces visual fatigue with a clean, block-style interface.
+* **Offline First**: Record instantly without a network connection using `@capacitor/filesystem` and `localStorage`, and sync when online.
 
-✅ **즉각적인 관리**
+---
 
-- 메모 추가 & 삭제
-- 리스트 항목 간편 편집
+## 🚀 Key Features
 
-✅ **데이터 동기화 & 백업**
+### 1. Multi-Platform Support
+* **Mobile**: Native experience on Android (powered by Capacitor 8).
+* **Desktop**: Standalone software for Windows (powered by Electron 23) and PWA support.
+* **Web**: Immediate access and usage through any modern web browser.
 
-- **Sync**: 기기 간 데이터 동기화
-- **Import / Export**: 메모 가져오기 및 내보내기
+### 2. Smart Sync & Backup
+* **Google Drive Sync**: Secure data synchronization and continuity using your personal Google Drive—no separate server required.
+* **Flexible Export/Import**: Export data in JSON, Markdown, or HTML formats, and restore via JSON import.
 
-✅ **PWA & 앱 지원**
+### 3. Modern UI/UX & Quality
+* **Tailwind CSS 4.0**: High-performance styling with the latest engine and a minimalist "Tetris-inspired" design.
+* **Storybook 8**: UI reliability ensured through component documentation and Interaction Testing (Play functions).
+* **MSW**: Robust verification of network scenarios using Mock Service Worker for API mocking.
 
-- **Download**: PWA(Progressive Web App) 설치 또는 Android/iOS 앱 다운로드 링크 제공
+---
 
-✅ **직관적인 UI**
+## 🛠 Tech Stack
 
-- 빠른 액세스를 위한 플로팅 버튼
-- 간결한 인터페이스로 즉시 사용 가능
+| Category | Tech Stack |
+| :--- | :--- |
+| **Core** | `React 18`, `Recoil` (State Management), `Babel` |
+| **Styling** | `Tailwind CSS 4`, `Styled-components`, `FontAwesome 6` |
+| **Build & Tool** | `Webpack 5` |
+| **Platform** | `Capacitor 8` (Android), `Electron 23` (Desktop) |
+| **Testing** | `Storybook 8`, `MSW`, `React Testing Library` |
 
-## 🚀 이런 분들에게 추천!
+---
 
-✔ 빠르게 기록하고 금방 지우는 스타일  
-✔ 단기 일정과 목표 관리가 필요한 경우  
-✔ 복잡한 캘린더 앱보다 가벼운 메모 도구를 원하는 경우
+## 📈 Version Log (via Storybook)
 
-📌 **Memo 바로가기 → [🔗 프로젝트 링크](https://yoonjonglyu.github.io/memo/)**
+Explore the evolution of our components through the following Chromatic links:
 
-## 버전로그 (feat: 스토리북)
+* [**Initial Version**](https://64105a493828b256671845d2-ijtzcntnsm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-ui-atoms-floatbtn--basic) : UI Atom-level design.
+* [**v1.0.1**](https://64105a493828b256671845d2-pphrrzkvqx.chromatic.com/?path=/docs/%EB%A9%94%EB%AA%A8-page-index--docs) : Implementation of page-level documentation.
+* [**v2.0.0**](https://64105a493828b256671845d2-kcsdeyunzi.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : Full interaction testing applied.
 
-- [초기 버전](https://64105a493828b256671845d2-ijtzcntnsm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-ui-atoms-floatbtn--basic)
-- [v.1.0.1](https://64105a493828b256671845d2-pphrrzkvqx.chromatic.com/?path=/docs/%EB%A9%94%EB%AA%A8-page-index--docs)
+---
 
-## LICENSE
+## 📦 Installation & Setup
 
-- MIT
+```bash
+# 1. Clone the repository
+git clone [https://github.com/yoonjonglyu/memo.git](https://github.com/yoonjonglyu/memo.git)
 
-## AUTHOR
+# 2. Install dependencies
+yarn install
 
-- ISA (yoonjonglyu)
+# 3. Configure environment variables (Create .env file)
+# GOOGLE_CID=your_google_client_id
+# GOOGLE_DEV_KEY=your_google_developer_key
+
+# 4. Run scripts
+yarn dev      # Launch Web development server
+yarn dev:pc   # Launch Electron desktop app
+yarn storybook # Launch UI component test environment
+yarn build    # Production build (outputs to dist folder)
+```
+
+---
+
+## 📁 Project Structure
+
+```txt
+src/
+├── components/     # Common UI & Atom components
+├── features/       # Main domain components (Memo, Setting)
+├── hooks/          # Core domain logic & custom hooks
+├── mocks/          # MSW handlers & mock data
+├── providers/      # Modal & Context configurations
+├── store/          # Recoil-based state models
+├── index.css       # Tailwind 4 global styles
+electron/           # Electron main/preload process settings
+android/            # Capacitor-based Android native project
+```
+
+---
+
+## 🚀 Recommended For...
+
+✔ Users who prefer writing quick notes and deleting them immediately.
+✔ Managing short-term schedules and goals.
+✔ Those looking for a lightweight memo tool instead of a complex calendar app.
+
+📌 **Go to MemoFlow → [🔗Project Link](https://yoonjonglyu.github.io/memo/)**
+
+---
+
+## 🤝 Contributing
+This project was developed for a personal portfolio and as a productivity tool. We welcome code reviews, feature suggestions, and bug reports through Issues!
+
+Author: ISA ([@yoonjonglyu](https://github.com/yoonjonglyu))
+
+License: MIT Licensed. Copyright © 2026 ISA.
