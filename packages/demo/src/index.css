@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+header {
+  /* 상태바/노치 높이만큼 동적으로 패딩 추가 */
+  padding-top: env(safe-area-inset-top, 20px);
+}
 @theme {
   /* 로고에서 추출한 테트리스 블록 컬러 */
   --color-memo-m: #008b8b; /* Teal */
