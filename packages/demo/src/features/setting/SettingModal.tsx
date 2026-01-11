@@ -51,7 +51,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
               onClick={() => openPicker((id: string) => setSyncID(id))}
               disabled
             >
-              Sync with Google(To Be updated)
+              Sync with Google(Coming Soon)
             </LargeButton>
 
             <div className="grid grid-cols-2 gap-2">

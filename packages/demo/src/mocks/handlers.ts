@@ -2,14 +2,44 @@ import { http, HttpResponse } from 'msw';
 
 const dumy = {
   MEMO_LIST: [
-    { idx: 'a1', type: 'memo', props: '여기다 메모를 작성해보세요.' },
     {
-      idx: 'a2',
+      idx: 'init-1',
+      type: 'memo',
+      props:
+        'Welcome to MemoFlow! 👋 Capture your thoughts instantly. This is a "Memo" card, perfect for quick snippets and reminders.',
+    },
+    {
+      idx: 'init-2',
       type: 'todo',
       props: [
-        { isAvail: true, todo: '메모장을 켜기' },
-        { isAvail: false, todo: '새로운 메모를 작성해보세요.' },
+        { isAvail: true, todo: 'Try adding a new memo' },
+        { isAvail: false, todo: 'Explore different card types' },
+        { isAvail: false, todo: 'Google Drive Sync (Coming Soon)' },
       ],
+    },
+    {
+      idx: 'init-3',
+      type: 'note',
+      props: [
+        { idx: 1, type: 'h1', value: 'Structured Thinking' },
+        {
+          idx: 2,
+          type: 'p',
+          value:
+            'Use "Note" cards to organize ideas with headers and paragraphs. Ideal for project outlines.',
+        },
+        {
+          idx: 3,
+          type: 'p',
+          value: 'You can edit as much as you want.',
+        },
+      ],
+    },
+    {
+      idx: 'init-4',
+      type: 'draft',
+      props:
+        'The "Draft" card is your canvas for long-form writing. Journal your day or brainstorm your next big project here. Your data is stored locally and securely. 🔒',
     },
   ],
 };
