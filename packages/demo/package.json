@@ -1,6 +1,6 @@
 {
   "name": "memo",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "크로스 플랫폼 메모",
   "main": "electron/main.js",
   "scripts": {
@@ -35,6 +35,7 @@
   },
   "homepage": "https://yoonjonglyu.github.io/memo/",
   "dependencies": {
+    "@capacitor/app": "^8.0.0",
     "@capacitor/core": "^8.0.0",
     "@capacitor/filesystem": "^8.0.0",
     "@capacitor/share": "^8.0.0",
