@@ -62,7 +62,6 @@
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.0.0",
     "@capacitor/splash-screen": "^8.0.0",
-    "@capacitor/status-bar": "^8.0.0",
     "@chromatic-com/storybook": "1",
     "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.5",
