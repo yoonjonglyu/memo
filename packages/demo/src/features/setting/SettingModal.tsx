@@ -76,7 +76,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
             <div className="text-[13px] leading-relaxed text-gray-600">
               <div className="flex justify-between">
                 <span className="font-bold text-gray-800">Version</span>
-                <span>v2.0.0</span>
+                <span>v2.0.2</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-bold text-gray-800">Support</span>
