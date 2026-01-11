@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
+
 import MemoHeader from '../features/memo/MemoHeader';
 import MemoFeature from '../features/memo';
 import SettingFeature from '../features/setting';
+import ExitModal from '../components/organisms/ExitModal';
+
+import useBackButton from '../hooks/useBackButton';
 
 export interface IndexPageProps {}
 
 const IndexPage: React.FC<IndexPageProps> = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
+  const [isExitModal, setIsExitModal] = useState(false);
 
-  const closeModal = () => setIsSetting(false);
+  const closeSettingModal = () => setIsSetting(false);
+  const closeExitModal = () => setIsExitModal(false);
+
+  useBackButton(() => {
+    if (isSetting) {
+      // 1순위: 설정 모달이 열려있다면 설정창부터 닫기
+      setIsSetting(false);
+    } else if (isEdit) {
+      // 2순위: 편집 모드라면 편집 모드 종료
+      setIsEdit(false);
+    } else {
+      // 3순위: 아무것도 열려있지 않은 메인 화면일 때만 종료 모달 표시
+      setIsExitModal(true);
+    }
+  });
 
   return (
     // 1. 전체 배경: 테트리스 그리드 느낌의 아주 연한 회색 배경
@@ -41,10 +60,9 @@ const IndexPage: React.FC<IndexPageProps> = () => {
 
       {/* 4. 설정 모달: 테트리스 블록이 겹쳐진 듯한 레이어링 처리 */}
       {isSetting && (
-        <SettingFeature isModal={isSetting} closeModal={closeModal} />
+        <SettingFeature isModal={isSetting} closeModal={closeSettingModal} />
       )}
-
-
+      {isExitModal && <ExitModal onClose={closeExitModal} />}
     </div>
   );
 };
