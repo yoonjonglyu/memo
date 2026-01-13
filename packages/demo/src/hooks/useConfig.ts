@@ -21,7 +21,10 @@ const useConfig = () => {
       sort: flag ?? (prev.sort === 'latest' ? 'oldest' : 'latest'),
     }));
 
-    MemoSignal.setMemoConfig(memoConfig);
+    MemoSignal.setMemoConfig({
+      ...memoConfig,
+      sort: flag ?? (memoConfig.sort === 'latest' ? 'oldest' : 'latest'),
+    });
   };
 
   return {
