@@ -1,5 +1,7 @@
 import { atom, selector } from 'recoil';
 
+import MemoConfigState from '../config/memoConfigState';
+
 interface MemoProps {
   idx: string;
   type: 'memo';
@@ -33,11 +35,29 @@ const MemoState = atom<MemoStateProps>({
   default: { list: [], date: null },
 });
 
-export const memoListState = selector<Array<MemoListStateProps>>({
+export const MemoListState = selector<Array<MemoListStateProps>>({
   key: 'memolist',
   get: ({ get }) => {
+    const { sort } = get(MemoConfigState);
     const memo = get(MemoState);
-    return memo.list;
+    const state = [...memo.list];
+
+    // 원본 보호를 위해 복사 후 정렬하여 UI에 반환
+    return sort === 'oldest' ? state : state.reverse();
+  },
+
+  set: ({ get, set }, newValue) => {
+    // newValue가 DefaultValue(초기화)인 경우를 대비한 가드
+    if (!(newValue instanceof Array)) return;
+    const { sort } = get(MemoConfigState);
+    const state = [...newValue];
+    const sortedToSave = sort === 'oldest' ? state : state.reverse();
+
+    set(MemoState, prev => ({
+      ...prev,
+      list: sortedToSave,
+      date: Date.now(),
+    }));
   },
 });
 

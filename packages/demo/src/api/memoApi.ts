@@ -1,6 +1,7 @@
 import client from './core';
 
 import type { MemoListStateProps } from '../store/memo/memoListState';
+import type { MemoConfigStateProps } from '../store/config/memoConfigState';
 /**
  * 굳이 클래스로 묶을 이유는 없지만 같은 유형끼리 API를 묶어서 관리하는 것은 유지보수하기 편리하다.
  * api 서버 주소가 달라짐에 따라서 url를 다르게 한다거나 개발 환경 서버 프로덕트 환경등 여러가지 조건을 컨트롤 하는 등
@@ -11,7 +12,29 @@ class MemoApi {
   constructor() {
     this.url = process.env.NODE_ENV === 'development' ? '' : 'product';
   }
-
+  async getMemoConfig() {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.get(`${this.url}/memo-config`);
+      return res;
+    } else {
+      const check = localStorage.getItem('MEMO_CONFIG');
+      if (check === null) {
+        const newData: MemoConfigStateProps = {
+          sort: 'oldest',
+        };
+        localStorage.setItem('MEMO_CONFIG', JSON.stringify(newData));
+        return newData;
+      } else return JSON.parse(check);
+    }
+  }
+  async setMemoConfig(config: MemoConfigStateProps) {
+    if (process.env.NODE_ENV === 'development') {
+      const res = await client.post(`${this.url}/memo-config`, config);
+      return res;
+    } else {
+      localStorage.setItem('MEMO_CONFIG', JSON.stringify(config));
+    }
+  }
   async getMemoList() {
     // msw를 활용하는 코드를 작성하기 위해서 api 호출을 흉내내지만 사실 해당 프로젝트는 벡엔드 서버는 사용하지 않는다.
     if (process.env.NODE_ENV === 'development') {

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MemoHeader from '../features/memo/MemoHeader';
 import MemoFeature from '../features/memo';
 import SettingFeature from '../features/setting';
 import ExitModal from '../components/organisms/ExitModal';
+import SortSwitch from '../components/molecules/SortSwitch';
 
 import useBackButton from '../hooks/useBackButton';
+import useConfig from '../hooks/useConfig';
 
 export interface IndexPageProps {}
 
@@ -13,6 +15,7 @@ const IndexPage: React.FC<IndexPageProps> = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
   const [isExitModal, setIsExitModal] = useState(false);
+  const { memoConfig, handleSort, initMemoConfig } = useConfig();
 
   const closeSettingModal = () => setIsSetting(false);
   const closeExitModal = () => setIsExitModal(false);
@@ -29,6 +32,9 @@ const IndexPage: React.FC<IndexPageProps> = () => {
       setIsExitModal(true);
     }
   });
+  useEffect(() => {
+    initMemoConfig();
+  }, []);
 
   return (
     // 1. 전체 배경: 테트리스 그리드 느낌의 아주 연한 회색 배경
@@ -45,14 +51,21 @@ const IndexPage: React.FC<IndexPageProps> = () => {
 
       {/* 3. 메인 컨텐츠: 테트리스 블록들이 쌓이는 스테이지(Well) */}
       <main className="flex-1 w-full max-w-5xl mx-auto p-4 md:p-6">
-        {/* 디자인 포인트: 로고의 4색을 활용한 작은 장식 요소들 (선택 사항) */}
-        <div className="flex gap-1 mb-6">
-          <div className="w-8 h-2 bg-memo-m" />
-          <div className="w-8 h-2 bg-memo-o" />
-          <div className="w-8 h-2 bg-memo-m2" />
-          <div className="w-8 h-2 bg-memo-e" />
-        </div>
+        {/* 디자인 포인트 & 정렬 스위치 영역 */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex gap-1">
+            <div className="w-8 h-2 bg-memo-m" />
+            <div className="w-8 h-2 bg-memo-o" />
+            <div className="w-8 h-2 bg-memo-m2" />
+            <div className="w-8 h-2 bg-memo-e" />
+          </div>
 
+          {/* 정렬 스위치 배치 */}
+          <SortSwitch
+            sortType={memoConfig.sort}
+            onToggle={() => handleSort()}
+          />
+        </div>
         <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           <MemoFeature isEdit={isEdit} />
         </section>

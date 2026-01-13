@@ -1,10 +1,8 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { FlushQueue } from 'isa-util';
 
-import memoState, {
-  memoListState,
-  MemoListStateProps,
-} from '../store/memo/memoListState';
+import { MemoListState, MemoListStateProps } from '../store/memo/memoListState';
+import MemoConfigState from '../store/config/memoConfigState';
 
 import MemoApi from '../api/memoApi';
 
@@ -32,19 +30,20 @@ const handleSetMemoContext = async (
   );
 
 function useMemo() {
-  const [memo, setMemo] = useRecoilState(memoState);
-  const memoList = useRecoilValue(memoListState);
+  const [memoList, setMemoList] = useRecoilState(MemoListState);
+  const memoConfig = useRecoilValue(MemoConfigState);
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
 
   // memoList를 초기화하고 새로운 타입의 memo를 추가하고 삭제하는는 함수들이다.
   const initMemo = async () => {
     const data = await MemoSignal.getMemoList();
-    setMemo({ list: data, date: Date.now() });
+    setMemoList(data);
   };
   const _ADDMemo = async (memo: MemoListStateProps) => {
-    const state = [...JSON.parse(JSON.stringify(memoList)), memo];
-    setMemo({ list: state, date: Date.now() });
+    const state =
+      memoConfig.sort === 'oldest' ? [...memoList, memo] : [memo, ...memoList];
+    setMemoList(state);
     handleSetMemo(state);
   };
   const handleNewTodo = async () => {
@@ -76,22 +75,22 @@ function useMemo() {
       idx: Date.now().toString(),
       type: 'draft',
       props: '',
-    })
-  }
+    });
+  };
   const handleDeleteMemo = async (idx: number) => {
     const state = JSON.parse(JSON.stringify(memoList));
     const change = [
       ...state.slice(0, idx),
       ...state.slice(idx + 1, state.length),
     ];
-    setMemo({ list: change, date: Date.now() });
+    setMemoList(change);
     handleSetMemo(change);
   };
   // memo의 내용을 수정하는 함수이다.
   const handleMemo = async (index: number, value: string) => {
     const state = JSON.parse(JSON.stringify(memoList));
     state[index].props = value;
-    setMemo({ list: state, date: Date.now() });
+    setMemoList(state);
     handleSetMemoContext(index, value);
   };
   // todo의 내용을 수정하는 함수이다.
@@ -104,7 +103,7 @@ function useMemo() {
         todo: value,
       });
     }
-    setMemo({ list: state, date: Date.now() });
+    setMemoList(state);
     handleSetMemoContext(index, change.props);
   };
   const handleDeleteTodo = async (index: number, idx: number) => {
@@ -116,7 +115,7 @@ function useMemo() {
         ...state[index].props.slice(idx + 1, state[index].props.length),
       ];
     }
-    setMemo({ list: state, date: Date.now() });
+    setMemoList(state);
     handleSetMemoContext(index, change.props);
   };
   const handleCheckTodo = async (index: number, idx: number) => {
@@ -125,7 +124,7 @@ function useMemo() {
     if (change.type === 'todo') {
       change.props[idx].isAvail = !change.props[idx].isAvail;
     }
-    setMemo({ list: state, date: Date.now() });
+    setMemoList(state);
     handleSetMemoContext(index, change.props);
   };
   // Note의 내용을 수정하는 함수이다.
@@ -161,7 +160,7 @@ function useMemo() {
       ...data[index].props.slice(cdx, data[index].props.length),
     ];
 
-    setMemo({ list: state, date: Date.now() });
+    setMemoList(state);
     await handleSetMemoContext(index, change.props, cdx);
   };
   const handleDeleteNoteItem = async (index: number, cdx: number) => {
@@ -173,7 +172,7 @@ function useMemo() {
       ...state[index].props.slice(cdx + 1, state[index].props.length),
     ];
 
-    setMemo({ list: state, date: Date.now() });
+    setMemoList(state);
     await handleSetMemoContext(index, change.props, cdx);
   };
 

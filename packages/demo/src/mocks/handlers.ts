@@ -42,6 +42,9 @@ const dumy = {
         'The "Draft" card is your canvas for long-form writing. Journal your day or brainstorm your next big project here. Your data is stored locally and securely. 🔒',
     },
   ],
+  MEMO_CONFIG: {
+    sort: 'oldest',
+  },
 };
 
 export const handlers = [
@@ -54,7 +57,7 @@ export const handlers = [
     return HttpResponse.text('success save memo', { status: 200 });
   }),
   http.get('/memoItem/:index', ({ params }) => {
-    const index = parseInt(params.index[0]);
+    const index = parseInt((params.index as string[])[0]);
     return HttpResponse.json(dumy.MEMO_LIST[index], { status: 200 });
   }),
   http.post('/memoItem', async ({ request }) => {
@@ -66,7 +69,7 @@ export const handlers = [
     return HttpResponse.text('success save memo', { status: 200 });
   }),
   http.get('/memoContext/:index', ({ params }) => {
-    const index = parseInt(params.index[0]);
+    const index = parseInt((params.index as string[])[0]);
     return HttpResponse.json(dumy.MEMO_LIST[index].props, { status: 200 });
   }),
   http.post('/memoContext', async ({ request }) => {
@@ -76,5 +79,13 @@ export const handlers = [
     };
     dumy.MEMO_LIST[index].props = value;
     return HttpResponse.text('success save memo', { status: 200 });
+  }),
+  http.get('/memo-config', () => {
+    return HttpResponse.json(dumy.MEMO_CONFIG, { status: 200 });
+  }),
+  http.post('/memo-config', async ({ request }) => {
+    const body = await request.json();
+    dumy['MEMO_CONFIG'] = body as (typeof dumy)['MEMO_CONFIG'];
+    return HttpResponse.text('success save Memo config', { status: 200 });
   }),
 ];
