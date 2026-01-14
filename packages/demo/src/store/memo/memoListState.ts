@@ -56,7 +56,7 @@ export const MemoListState = selector<Array<MemoListStateProps>>({
     set(MemoState, prev => ({
       ...prev,
       list: sortedToSave,
-      date: Date.now(),
+      date: performance.now(),
     }));
   },
 });

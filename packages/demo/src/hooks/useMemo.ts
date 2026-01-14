@@ -1,7 +1,10 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { FlushQueue } from 'isa-util';
 
-import { MemoListState, MemoListStateProps } from '../store/memo/memoListState';
+import MemoState, {
+  MemoListState,
+  MemoListStateProps,
+} from '../store/memo/memoListState';
 import MemoConfigState from '../store/config/memoConfigState';
 
 import MemoApi from '../api/memoApi';
@@ -30,150 +33,155 @@ const handleSetMemoContext = async (
   );
 
 function useMemo() {
+  const [_memo, set_Memo] = useRecoilState(MemoState);
   const [memoList, setMemoList] = useRecoilState(MemoListState);
   const memoConfig = useRecoilValue(MemoConfigState);
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
 
-  // memoList를 초기화하고 새로운 타입의 memo를 추가하고 삭제하는는 함수들이다.
+  // memoList를 초기화하고 새로운 타입의 memo를 추가하고 삭제하는 함수들이다.
   const initMemo = async () => {
     const data = await MemoSignal.getMemoList();
-    setMemoList(data);
+    set_Memo({ ..._memo, list: data });
+  };
+  const _getOriginalIndex = (viewIndex: number) => {
+    const targetIdx = memoList[viewIndex].idx;
+    return _memo.list.findIndex(m => m.idx === targetIdx);
   };
   const _ADDMemo = async (memo: MemoListStateProps) => {
     const state =
-      memoConfig.sort === 'oldest' ? [...memoList, memo] : [memo, ...memoList];
-    setMemoList(state);
+      memoConfig.sort === 'oldest' ? [...memoList, memo] : [memo, ...memoList].reverse();
+    set_Memo({ ..._memo, list: state });
     handleSetMemo(state);
   };
   const handleNewTodo = async () => {
     _ADDMemo({
-      idx: Date.now().toString(),
+      idx: performance.now().toString(),
       type: 'todo',
       props: [],
     });
   };
   const handleNewNote = async () => {
     _ADDMemo({
-      idx: Date.now().toString(),
+      idx: performance.now().toString(),
       type: 'note',
       props: [
-        { idx: Date.now(), type: 'h1', value: '' },
-        { idx: Date.now() + 1, type: 'p', value: '' },
+        { idx: performance.now(), type: 'h1', value: '' },
+        { idx: performance.now() + 1, type: 'p', value: '' },
       ],
     });
   };
   const handleNewMemo = async () => {
     _ADDMemo({
-      idx: Date.now().toString(),
+      idx: performance.now().toString(),
       type: 'memo',
       props: '',
     });
   };
   const handleNewDraft = async () => {
     _ADDMemo({
-      idx: Date.now().toString(),
+      idx: performance.now().toString(),
       type: 'draft',
       props: '',
     });
   };
-  const handleDeleteMemo = async (idx: number) => {
+  const handleDeleteMemo = async (viewIndex: number) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
+    if (originalIndex === -1) return;
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = [
-      ...state.slice(0, idx),
-      ...state.slice(idx + 1, state.length),
-    ];
-    setMemoList(change);
-    handleSetMemo(change);
+    state.splice(viewIndex, 1);
+    setMemoList(state);
+    handleSetMemo(state);
   };
   // memo의 내용을 수정하는 함수이다.
-  const handleMemo = async (index: number, value: string) => {
+  const handleMemo = async (viewIndex: number, value: string) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
+    if (originalIndex === -1) return;
+
     const state = JSON.parse(JSON.stringify(memoList));
-    state[index].props = value;
+    state[viewIndex].props = value;
+
     setMemoList(state);
-    handleSetMemoContext(index, value);
+    // API 호출 시에는 원본 배열 기준의 인덱스를 전달
+    handleSetMemoContext(originalIndex, value);
   };
   // todo의 내용을 수정하는 함수이다.
-  const handleAddTodo = async (index: number, value: string) => {
+  const handleAddTodo = async (viewIndex: number, value: string) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index];
+    const change = state[viewIndex];
+
     if (change.type === 'todo') {
-      change.props.push({
-        isAvail: false,
-        todo: value,
-      });
+      change.props.push({ isAvail: false, todo: value });
+      setMemoList(state);
+      handleSetMemoContext(originalIndex, change.props);
     }
-    setMemoList(state);
-    handleSetMemoContext(index, change.props);
   };
-  const handleDeleteTodo = async (index: number, idx: number) => {
+  const handleDeleteTodo = async (viewIndex: number, todoIdx: number) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index];
+    const change = state[viewIndex];
+
     if (change.type === 'todo') {
-      change.props = [
-        ...state[index].props.slice(0, idx),
-        ...state[index].props.slice(idx + 1, state[index].props.length),
-      ];
+      change.props.splice(todoIdx, 1);
+      setMemoList(state);
+      handleSetMemoContext(originalIndex, change.props);
     }
-    setMemoList(state);
-    handleSetMemoContext(index, change.props);
   };
-  const handleCheckTodo = async (index: number, idx: number) => {
+  const handleCheckTodo = async (viewIndex: number, todoIdx: number) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
     const state = JSON.parse(JSON.stringify(memoList));
-    const change = state[index];
+    const change = state[viewIndex];
+
     if (change.type === 'todo') {
-      change.props[idx].isAvail = !change.props[idx].isAvail;
+      change.props[todoIdx].isAvail = !change.props[todoIdx].isAvail;
+      setMemoList(state);
+      handleSetMemoContext(originalIndex, change.props);
     }
-    setMemoList(state);
-    handleSetMemoContext(index, change.props);
   };
   // Note의 내용을 수정하는 함수이다.
-  // 개별 context를 갱신하는 방식으로 하니 디바운스과정에서 이전 작업의 state가 소실된다.
-  // api콜을 최소화하면서 주고 받는 데이터 패킷의 크기를 줄일려면 api콜을 좀 더 복잡하게 관리해야한다.
-  // flush queue 를 디테일하게 커스텀해서 처리하는게 적절한 해결방법이라고 판단된다.
-  // ** 좀 더 분석해보니 getMemoList를 호출하는 부분이 문제였다.
-  // 정확히는 post를 요청하는 것이 여러 단락으로 나뉘어져서 보내지는데 그 중간에 getMemoList를 호출하면 post로 요청을 보내기전에 입력된 value과
-  // getMemoList로 요청한 데이터가 섞여서 사라진다. get 요청과 post 요청의 순서를 보장 할 수 있어야함과 동시에 사용자 입력 이벤트의 순서를 보장 할 수 있어야함.
-  // 이건 진짜 복잡한 문제로 보인다. 구조적으로 잘못된 설계에 해당하는 것일지도. 단순 I/O로 시작한 프로젝트에 소켓통신에 가까운 구조가 필요해졌다.
   const handleNote = async (
-    index: number,
+    viewIndex: number,
     cdx: number,
     value: { idx: number; type: string; value: string }
   ) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
     const data = await MemoSignal.getMemoList();
     const state = [...data];
-    const change = state[index];
-    change.props[cdx] = value;
-    await handleSetMemoContext(index, change.props, cdx);
+    const change = state[originalIndex];
+
+    if (change.type === 'note') {
+      change.props[cdx] = value;
+      await handleSetMemoContext(originalIndex, change.props, cdx);
+    }
   };
   const handleAddNoteItem = async (
-    index: number,
+    viewIndex: number,
     cdx: number,
     type: string
   ) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
     const data = await MemoSignal.getMemoList();
     const state = [...data];
-    const change = state[index];
-    change.props = [
-      ...data[index].props.slice(0, cdx),
-      { idx: Date.now(), type: type, value: '' },
-      ...data[index].props.slice(cdx, data[index].props.length),
-    ];
+    const change = state[originalIndex];
 
-    setMemoList(state);
-    await handleSetMemoContext(index, change.props, cdx);
+    if (change.type === 'note') {
+      change.props.splice(cdx, 0, { idx: Date.now(), type: type, value: '' });
+      set_Memo({ ..._memo, list: state });
+      await handleSetMemoContext(originalIndex, change.props, cdx);
+    }
   };
-  const handleDeleteNoteItem = async (index: number, cdx: number) => {
+  const handleDeleteNoteItem = async (viewIndex: number, cdx: number) => {
+    const originalIndex = _getOriginalIndex(viewIndex);
     const data = await MemoSignal.getMemoList();
     const state = [...data];
-    const change = state[index];
-    change.props = [
-      ...state[index].props.slice(0, cdx),
-      ...state[index].props.slice(cdx + 1, state[index].props.length),
-    ];
+    const change = state[originalIndex];
 
-    setMemoList(state);
-    await handleSetMemoContext(index, change.props, cdx);
+    if (change.type === 'note') {
+      change.props.splice(cdx, 1);
+      set_Memo({ ..._memo, list: state });
+      await handleSetMemoContext(originalIndex, change.props, cdx);
+    }
   };
 
   return {
