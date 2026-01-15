@@ -33,7 +33,9 @@ const handleSetMemoContext = async (
   );
 let noteSequencePromise = Promise.resolve();
 const addToNoteQueue = (task: () => Promise<any>) => {
-  noteSequencePromise = noteSequencePromise.then(() => task()).catch(console.error);
+  noteSequencePromise = noteSequencePromise
+    .then(() => task())
+    .catch(console.error);
   return noteSequencePromise;
 };
 let lastMyActionId: string | null = null;
@@ -146,7 +148,7 @@ function useMemo() {
     }
   };
   // Note의 내용을 수정하는 함수이다.
- // --- 핵심: 세션 기반 작업 처리 함수 ---
+  // --- 핵심: 세션 기반 작업 처리 함수 ---
   const processNoteTaskWithSession = async (
     viewIndex: number,
     updateLogic: (note: any) => void,
@@ -183,23 +185,47 @@ function useMemo() {
       }
     });
   };
-
-  const handleNote = async (viewIndex: number, cdx: number, value: { value: string }) => {
+  /**
+   * @description 리액트스러운 state 관리로는 절대 노션 같은 UX를 구현 할 수 없나?
+   * DOM을 직접 제어해서 컨트롤하는 방식으로 노션같은 UX를 구현하는 방법은 너무 쉽게 떠오르는데 React처럼 컴포넌트가 state를 관리하고 그거 기반으로 렌더링하는 방식으로는
+   * 어떤 기믹을 넣어도 state를 업데이트하면 리렌더링이 일어나기에 data와 UI가 따로 노는 현상이 있고, 아니면 사용자 UX가 박살난다.
+   */
+  const handleNote = async (
+    viewIndex: number,
+    cdx: number,
+    value: { value: string }
+  ) => {
     // 타이핑 시에는 절대로 UI를 리렌더링하지 않음 (shouldUpdateUI: false)
-    processNoteTaskWithSession(viewIndex, (note) => {
-      note.props[cdx] = { ...note.props[cdx], value: value.value };
-    }, false); 
+    processNoteTaskWithSession(
+      viewIndex,
+      note => {
+        note.props[cdx] = { ...note.props[cdx], value: value.value };
+      },
+      false
+    );
   };
-  const handleAddNoteItem = async (viewIndex: number, cdx: number, type: string) => {
+  const handleAddNoteItem = async (
+    viewIndex: number,
+    cdx: number,
+    type: string
+  ) => {
     // 구조 변경 시에는 UI 갱신 필요
-    await processNoteTaskWithSession(viewIndex, (note) => {
-      note.props.splice(cdx, 0, { idx: Date.now(), type, value: '' });
-    }, true);
+    await processNoteTaskWithSession(
+      viewIndex,
+      note => {
+        note.props.splice(cdx, 0, { idx: Date.now(), type, value: '' });
+      },
+      true
+    );
   };
   const handleDeleteNoteItem = async (viewIndex: number, cdx: number) => {
-    await processNoteTaskWithSession(viewIndex, (note) => {
-      note.props.splice(cdx, 1);
-    }, true);
+    await processNoteTaskWithSession(
+      viewIndex,
+      note => {
+        note.props.splice(cdx, 1);
+      },
+      true
+    );
   };
 
   return {
