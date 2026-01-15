@@ -31,6 +31,12 @@ const handleSetMemoContext = async (
     `setMemoContext${index}/${cdx}`,
     async () => await MemoSignal.updateMemoContext(index, value)
   );
+let noteSequencePromise = Promise.resolve();
+const addToNoteQueue = (task: () => Promise<any>) => {
+  noteSequencePromise = noteSequencePromise.then(() => task()).catch(console.error);
+  return noteSequencePromise;
+};
+let lastMyActionId: string | null = null;
 
 function useMemo() {
   const [_memo, set_Memo] = useRecoilState(MemoState);
@@ -140,49 +146,62 @@ function useMemo() {
     }
   };
   // Note의 내용을 수정하는 함수이다.
-  const handleNote = async (
+ // --- 핵심: 세션 기반 작업 처리 함수 ---
+  const processNoteTaskWithSession = async (
     viewIndex: number,
-    cdx: number,
-    value: { idx: number; type: string; value: string }
+    updateLogic: (note: any) => void,
+    shouldUpdateUI: boolean = true // handleNote(타이핑)는 false로 전달
   ) => {
-    const originalIndex = _getOriginalIndex(viewIndex);
-    const data = await MemoSignal.getMemoList();
-    const state = [...data];
-    const change = state[originalIndex];
+    const actionId = crypto.randomUUID();
+    lastMyActionId = actionId;
 
-    if (change.type === 'note') {
-      change.props[cdx] = value;
-      await handleSetMemoContext(originalIndex, change.props, cdx);
-    }
+    await addToNoteQueue(async () => {
+      // 1. 서버 데이터를 가져옴
+      const data = await MemoSignal.getMemoList();
+      const originalIndex = _getOriginalIndex(viewIndex);
+      if (originalIndex === -1) return;
+
+      const state = [...data];
+      const change = { ...state[originalIndex] };
+
+      if (change.type === 'note') {
+        const newProps = [...change.props];
+        updateLogic({ ...change, props: newProps });
+        change.props = newProps;
+        state[originalIndex] = change;
+
+        await MemoSignal.updateMemoContext(originalIndex, change.props);
+
+        // 3. UI 업데이트 결정
+        // 내가 마지막으로 일으킨 액션이 맞을 때만 상태를 반영하여 커서 튐 방지
+        if (shouldUpdateUI && lastMyActionId === actionId) {
+          set_Memo({ ..._memo, list: state });
+        } else {
+          // 타이핑 중일 때는 메모리 상의 원본 데이터만 동기화 (리렌더링 X)
+          _memo.list[originalIndex].props = newProps;
+        }
+      }
+    });
   };
-  const handleAddNoteItem = async (
-    viewIndex: number,
-    cdx: number,
-    type: string
-  ) => {
-    const originalIndex = _getOriginalIndex(viewIndex);
-    const data = await MemoSignal.getMemoList();
-    const state = [...data];
-    const change = state[originalIndex];
 
-    if (change.type === 'note') {
-      change.props.splice(cdx, 0, { idx: Date.now(), type: type, value: '' });
-      set_Memo({ ..._memo, list: state });
-      await handleSetMemoContext(originalIndex, change.props, cdx);
-    }
+  const handleNote = async (viewIndex: number, cdx: number, value: { value: string }) => {
+    // 타이핑 시에는 절대로 UI를 리렌더링하지 않음 (shouldUpdateUI: false)
+    processNoteTaskWithSession(viewIndex, (note) => {
+      note.props[cdx] = { ...note.props[cdx], value: value.value };
+    }, false); 
+  };
+  const handleAddNoteItem = async (viewIndex: number, cdx: number, type: string) => {
+    // 구조 변경 시에는 UI 갱신 필요
+    await processNoteTaskWithSession(viewIndex, (note) => {
+      note.props.splice(cdx, 0, { idx: Date.now(), type, value: '' });
+    }, true);
   };
   const handleDeleteNoteItem = async (viewIndex: number, cdx: number) => {
-    const originalIndex = _getOriginalIndex(viewIndex);
-    const data = await MemoSignal.getMemoList();
-    const state = [...data];
-    const change = state[originalIndex];
-
-    if (change.type === 'note') {
-      change.props.splice(cdx, 1);
-      set_Memo({ ..._memo, list: state });
-      await handleSetMemoContext(originalIndex, change.props, cdx);
-    }
+    await processNoteTaskWithSession(viewIndex, (note) => {
+      note.props.splice(cdx, 1);
+    }, true);
   };
+
   return {
     memoList,
     initMemo,
