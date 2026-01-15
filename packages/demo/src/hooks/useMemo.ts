@@ -50,9 +50,9 @@ function useMemo() {
   };
   const _ADDMemo = async (memo: MemoListStateProps) => {
     const state =
-      memoConfig.sort === 'oldest' ? [...memoList, memo] : [memo, ...memoList].reverse();
-    set_Memo({ ..._memo, list: state });
-    handleSetMemo(state);
+      memoConfig.sort === 'oldest' ? [...memoList, memo] : [memo, ...memoList];
+    setMemoList(state);
+    handleSetMemo(memoConfig.sort === 'oldest' ? state : state.reverse());
   };
   const handleNewTodo = async () => {
     _ADDMemo({
@@ -91,7 +91,7 @@ function useMemo() {
     const state = JSON.parse(JSON.stringify(memoList));
     state.splice(viewIndex, 1);
     setMemoList(state);
-    handleSetMemo(state);
+    handleSetMemo(memoConfig.sort === 'oldest' ? state : state.reverse());
   };
   // memo의 내용을 수정하는 함수이다.
   const handleMemo = async (viewIndex: number, value: string) => {
@@ -183,7 +183,6 @@ function useMemo() {
       await handleSetMemoContext(originalIndex, change.props, cdx);
     }
   };
-
   return {
     memoList,
     initMemo,
