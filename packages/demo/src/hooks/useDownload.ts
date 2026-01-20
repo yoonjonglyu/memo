@@ -1,26 +1,35 @@
-import { useEffect } from 'react';
+import { Browser } from '@capacitor/browser';
 
-let installPrompt: any = null;
+const url = {
+  web: 'https://yoonjonglyu.github.io/memo/',
+  and: 'https://play.google.com/store/apps/details?id=com.yoonjongryu.memo',
+};
+
 const useDownload = () => {
-  const catchinstallEvent = async (event: any) => {
-    event.preventDefault();
-    installPrompt = event;
+  /**
+   * 외부 링크를 안전하게 여는 함수
+   * @param url 이동할 목적지 주소
+   */
+  const openExternalLink = async (url: string) => {
+    try {
+      await Browser.open({
+        url: url,
+        windowName: '_blank', // 웹 환경 대응
+        toolbarColor: '#ffffff', // 인앱 브라우저 상단 바 색상 (앱 테마에 맞게 수정)
+      });
+    } catch (error) {
+      alert('Failed to open link: ' + error);
+    }
   };
-
-  useEffect(() => {
-    window.addEventListener('beforeinstallprompt', catchinstallEvent);
-    return () => {
-      window.removeEventListener('beforeinstallprompt', catchinstallEvent);
-    };
-  }, []);
 
   const downloadWeb = async () => {
-    if (installPrompt === null)
-      return alert('was installed or This platform is not supported.');
-    const down = await installPrompt.prompt();
-    if (down.outcome === 'accepted') return alert('installed.');
+    openExternalLink(url.web);
   };
-  return { downloadWeb };
+  const downloadAnd = async () => {
+    openExternalLink(url.and);
+  };
+
+  return { downloadWeb, downloadAnd };
 };
 
 export default useDownload;

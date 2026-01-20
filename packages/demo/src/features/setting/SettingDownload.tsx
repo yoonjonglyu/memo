@@ -24,22 +24,21 @@ export interface SettingDownloadProps {
 }
 
 const SettingDownload: React.FC<SettingDownloadProps> = ({ handleStep }) => {
-  const { downloadWeb } = useDownload();
+  const { downloadWeb, downloadAnd } = useDownload();
 
   const waitUpdate = () => alert('To be updated');
 
   return (
     <Modal
-      header="Download"
+      header="Platform"
       children={
         <ModalList>
           <li>
-            <LargeButton onClick={downloadWeb}>Web</LargeButton>
+            <LargeButton onClick={() => downloadWeb()}>Web</LargeButton>
           </li>
           <li>
             <LargeButton
-              style={{ opacity: '0.5' }}
-              onClick={waitUpdate}
+              onClick={() => downloadAnd()}
             >
               And
             </LargeButton>
