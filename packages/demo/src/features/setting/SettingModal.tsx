@@ -47,11 +47,10 @@ const SettingModal: React.FC<SettingModalProps> = ({
           {/* 주요 액션 버튼 그룹 */}
           <div className="grid grid-cols-1 gap-2">
             <LargeButton
-              // className="!bg-memo-m"
+              className="!bg-memo-m"
               onClick={() => openPicker((id: string) => setSyncID(id))}
-              disabled
             >
-              Sync with Google(Update Coming Soon)
+              Sync with Google
             </LargeButton>
 
             <div className="grid grid-cols-2 gap-2">
@@ -81,6 +80,17 @@ const SettingModal: React.FC<SettingModalProps> = ({
               <div className="flex justify-between">
                 <span className="font-bold text-gray-800">Support</span>
                 <span className="text-[11px]">yunjonglyu@gmail.com</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-bold text-gray-800">Privacy</span>
+                <a
+                  href="https://yoonjonglyu.github.io/privacy/memo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  MemoFlow Privacy Policy
+                </a>
               </div>
             </div>
           </div>
