@@ -1,7 +1,6 @@
 import { useRef } from 'react';
+import { GoogleSignIn } from '@capawesome/capacitor-google-sign-in';
 import { Capacitor } from '@capacitor/core';
-import { Browser } from '@capacitor/browser';
-import { App } from '@capacitor/app';
 import { loadCDN } from 'isa-util';
 
 declare global {
@@ -13,22 +12,10 @@ declare global {
 // @ts-ignore
 const WEB_CLIENT_ID = googleCID;
 // @ts-ignore
-const ANDROID_CLIENT_ID = googleClientIdAndroid;
-const CLIENT_ID = Capacitor.isNativePlatform() ? ANDROID_CLIENT_ID : WEB_CLIENT_ID;
+// const ANDROID_CLIENT_ID = googleClientIdAndroid;
+// const REDIRECT_URI = 'com.yoonjongryu.memo:/oauth2redirect'; //an android scheme need a backend server.
+const CLIENT_ID = WEB_CLIENT_ID; //Capacitor.isNativePlatform() ? ANDROID_CLIENT_ID : WEB_CLIENT_ID;
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
-const REDIRECT_URI = 'com.yoonjongryu.memo:/oauth2redirect';
-
-const buildAuthUrl = () => {
-  const params = new URLSearchParams({
-    client_id: CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
-    response_type: 'token',
-    scope: SCOPES,
-    include_granted_scopes: 'true',
-  });
-
-  return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-};
 
 const loadGoogleScript = (): Promise<void> => {
   return new Promise(resolve => {
@@ -47,27 +34,27 @@ const useGoogleAuth = () => {
   const tokenClient = useRef<any>(null);
   const isNative = Capacitor.isNativePlatform();
 
+  const initialize = async () => {
+    await GoogleSignIn.initialize({
+      clientId: CLIENT_ID,
+      scopes: [SCOPES],
+    });
+  };
+
   const signIn = async (): Promise<string | null> => {
     // ======================
     // 🤖 Android (Native)
     // ======================
     if (isNative) {
+      await initialize();
       return new Promise(async resolve => {
-        const url = buildAuthUrl();
-
-        const listener = await App.addListener('appUrlOpen', async data => {
-          if (data.url.startsWith(REDIRECT_URI)) {
-            await Browser.close();
-
-            const hash = data.url.split('#')[1];
-            const params = new URLSearchParams(hash);
-            const accessToken = params.get('access_token');
-
-            resolve(accessToken);
-          }
-        });
-
-        await Browser.open({ url });
+        // This will return null if there is no redirect result to handle
+        const result = await GoogleSignIn.signIn();
+        if (result.accessToken) {
+          resolve(result.accessToken);
+        } else {
+          resolve(null);
+        }
       });
     }
 

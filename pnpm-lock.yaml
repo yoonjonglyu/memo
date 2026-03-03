@@ -29,6 +29,9 @@ importers:
       '@capacitor/share':
         specifier: ^8.0.0
         version: 8.0.1(@capacitor/core@8.1.0)
+      '@capawesome/capacitor-google-sign-in':
+        specifier: ^0.1.1
+        version: 0.1.1(@capacitor/core@8.1.0)
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.6.0
         version: 6.7.2
@@ -995,6 +998,11 @@ packages:
 
   '@capacitor/synapse@1.0.4':
     resolution: {integrity: sha512-/C1FUo8/OkKuAT4nCIu/34ny9siNHr9qtFezu4kxm6GY1wNFxrCFWjfYx5C1tUhVGz3fxBABegupkpjXvjCHrw==}
+
+  '@capawesome/capacitor-google-sign-in@0.1.1':
+    resolution: {integrity: sha512-9A5X57CeOSzTEz4LvAopABBH4YAfA/3NgW2PgUQ4WwrkzZVcolWA+v0d2earoA3kiwPfvOgzb948WWUS0oHv+w==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
 
   '@chromatic-com/storybook@1.9.0':
     resolution: {integrity: sha512-vYQ+TcfktEE3GHnLZXHCzXF/sN9dw+KivH8a5cmPyd9YtQs7fZtHrEgsIjWpYycXiweKMo1Lm1RZsjxk8DH3rA==}
@@ -9990,6 +9998,10 @@ snapshots:
 
   '@capacitor/synapse@1.0.4': {}
 
+  '@capawesome/capacitor-google-sign-in@0.1.1(@capacitor/core@8.1.0)':
+    dependencies:
+      '@capacitor/core': 8.1.0
+
   '@chromatic-com/storybook@1.9.0(react@18.3.1)':
     dependencies:
       chromatic: 11.29.0
@@ -13165,7 +13177,7 @@ snapshots:
       promise-inflight: 1.0.1
       rimraf: 3.0.2
       ssri: 9.0.1
-      tar: 6.1.11
+      tar: 6.2.1
       unique-filename: 2.0.1
     transitivePeerDependencies:
       - bluebird
@@ -19794,7 +19806,7 @@ snapshots:
 
   write-file-atomic@2.4.3:
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
