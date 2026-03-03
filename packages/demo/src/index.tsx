@@ -7,11 +7,14 @@ async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/memo/service-worker.js').then(registration => {
-          console.log('SW registered: ', registration);
-        }).catch(registrationError => {
-          console.log('SW registration failed: ', registrationError);
-        });
+        navigator.serviceWorker
+          .register('/memo/service-worker.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
       });
     }
     return;
@@ -21,7 +24,9 @@ async function enableMocking() {
 
   // `worker.start()` returns a Promise that resolves
   // once the Service Worker is up and ready to intercept requests.
-  return worker.start();
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+  });
 }
 
 const Root = document.querySelector('#app');
