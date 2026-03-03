@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import MemoApi from '../api/memoApi';
 import {
@@ -14,13 +14,9 @@ const MemoSignal = new MemoApi();
 
 const useGoogleDrive = () => {
   const { initMemo } = useMemo();
-  const { scriptLoaded, signIn } = useGoogleAuth();
+  const { signIn } = useGoogleAuth();
   const [connected, setConnected] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    scriptLoaded();
-  }, [scriptLoaded]);
 
   const connect = async () => {
     const token = await signIn();
