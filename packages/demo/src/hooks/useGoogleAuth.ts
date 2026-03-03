@@ -11,7 +11,10 @@ declare global {
 }
 
 // @ts-ignore
-const CLIENT_ID = googleCID;
+const WEB_CLIENT_ID = googleCID;
+// @ts-ignore
+const ANDROID_CLIENT_ID = googleClientIdAndroid;
+const CLIENT_ID = Capacitor.isNativePlatform() ? ANDROID_CLIENT_ID : WEB_CLIENT_ID;
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 const REDIRECT_URI = 'com.yoonjongryu.memo:/oauth2redirect';
 

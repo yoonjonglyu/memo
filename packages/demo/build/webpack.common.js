@@ -46,6 +46,7 @@ const config = {
     new DefinePlugin({
       googleCID: JSON.stringify(process.env.googleClientId),
       googleDevKey: JSON.stringify(process.env.googleDevKey),
+      googleClientIdAndroid: JSON.stringify(process.env.googleClientIdAndroid),
     }),
   ],
 };
