@@ -43,12 +43,14 @@ const useGoogleDrive = () => {
     }
     await MemoSignal.setMemoList(downloadId as any);
     await initMemo();
+    alert('Backup data loaded from Google Drive.');
   };
 
   const upload = async () => {
     if (!token) return;
 
     uploadFlow(token, await MemoSignal.getMemoList());
+    alert('Backup data uploaded to Google Drive.');
   };
 
   return {
