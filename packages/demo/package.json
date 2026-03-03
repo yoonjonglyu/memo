@@ -1,6 +1,6 @@
 {
   "name": "memo-flow",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "크로스 플랫폼 메모",
   "main": "electron/main.js",
   "scripts": {
@@ -46,11 +46,10 @@
     "@tailwindcss/postcss": "^4.1.18",
     "axios": "^1.3.3",
     "electron-squirrel-startup": "^1.0.0",
-    "isa-util": "^1.0.18",
+    "isa-util": "^1.0.26",
     "postcss": "^8.5.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-drive-picker": "^1.2.2",
     "recoil": "^0.7.6",
     "styled-components": "^5.3.6"
   },
