@@ -61,7 +61,8 @@ Explore the evolution of our components through the following Chromatic links:
 - [**Initial Version**](https://64105a493828b256671845d2-ijtzcntnsm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-ui-atoms-floatbtn--basic) : UI Atom-level design.
 - [**v1.0.1**](https://64105a493828b256671845d2-pphrrzkvqx.chromatic.com/?path=/docs/%EB%A9%94%EB%AA%A8-page-index--docs) : Implementation of page-level documentation.
 - [**v2.0.0**](https://64105a493828b256671845d2-kcsdeyunzi.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : Full interaction testing applied.
-- [**v2.0.2**](https://64105a493828b256671845d2-wlfyjvsxmm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : onboard tutorial + App edge + App Back Exit UX
+- [**v2.0.2**](https://64105a493828b256671845d2-wlfyjvsxmm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : Onboard Tutorial + App edge + App Back Exit UX
+- [**v2.0.6**](https://64105a493828b256671845d2-upakptadnq.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : Sort Memo + Google Drive Sync
 
 ---
 
@@ -97,6 +98,7 @@ src/
 ├── mocks/          # MSW handlers & mock data
 ├── providers/      # Modal & Context configurations
 ├── store/          # Recoil-based state models
+├── services/       # heavy domain logic Services
 ├── index.css       # Tailwind 4 global styles
 electron/           # Electron main/preload process settings
 android/            # Capacitor-based Android native project
@@ -110,7 +112,8 @@ android/            # Capacitor-based Android native project
 ✔ Managing short-term schedules and goals.
 ✔ Those looking for a lightweight memo tool instead of a complex calendar app.
 
-📌 **Go to MemoFlow → [🔗Project Link](https://yoonjonglyu.github.io/memo/)**
+📌 **Go to MemoFlow(Web) → [🔗Project Link](https://yoonjonglyu.github.io/memo/)**
+📌 **Go to MemoFlow(Android) → [🔗AppStore Link](https://play.google.com/store/apps/details?id=com.yoonjongryu.memo)**
 
 ---
 

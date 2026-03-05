@@ -62,6 +62,7 @@
 - [**v1.0.1**](https://64105a493828b256671845d2-pphrrzkvqx.chromatic.com/?path=/docs/%EB%A9%94%EB%AA%A8-page-index--docs) : 페이지 단위 문서화 적용
 - [**v2.0.0**](https://64105a493828b256671845d2-kcsdeyunzi.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : 최신 인터랙션 테스트 적용 완료
 - [**v2.0.2**](https://64105a493828b256671845d2-wlfyjvsxmm.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : 온보딩 튜토리얼 + App BACK EXIT 모달
+- [**v2.0.6**](https://64105a493828b256671845d2-upakptadnq.chromatic.com/?path=/story/%EB%A9%94%EB%AA%A8-page-index--basic) : 메모 정렬 + 구글드라이브 sync + 정책고시
 
 ---
 
@@ -97,6 +98,7 @@ src/
 ├── mocks/          # MSW 핸들러 및 모의 데이터
 ├── providers/      # Modal 및 Context 설정
 ├── store/          # Recoil 기반 상태 모델 (State model)
+├── services/        # GoogleDrive Service 레이어(hook이 너무 해비해지면 따로 서비스나 도메인등을 준다.)
 ├── index.css       # Tailwind 4 메인 스타일 설정
 electron/           # Electron 메인/프리로드 프로세스 설정
 android/            # Capacitor 기반 안드로이드 네이티브 프로젝트
@@ -110,7 +112,8 @@ android/            # Capacitor 기반 안드로이드 네이티브 프로젝트
 ✔ 단기 일정과 목표 관리가 필요한 경우  
 ✔ 복잡한 캘린더 앱보다 가벼운 메모 도구를 원하는 경우
 
-📌 **MemoFlow 바로가기 → [🔗프로젝트 링크](https://yoonjonglyu.github.io/memo/)**
+📌 **MemoFlow(Web) 바로가기 → [🔗프로젝트 링크](https://yoonjonglyu.github.io/memo/)**
+📌 **MemoFlow(Android) 바로가기 → [🔗구글플레이스토어 링크](https://play.google.com/store/apps/details?id=com.yoonjongryu.memo)**
 
 ---
 
