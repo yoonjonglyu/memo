@@ -32,7 +32,7 @@ const MemoBox: React.FC<MemoBoxProps> = ({
         
         /* 테트리스의 입체감을 주는 딱딱한 그림자 (Hard Shadow) */
         shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)]
-        hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.15)]
+        hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.15)]
         hover:-translate-y-1
         
         /* 텍스트 및 스크롤 설정 */

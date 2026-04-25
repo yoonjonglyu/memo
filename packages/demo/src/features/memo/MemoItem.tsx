@@ -56,8 +56,8 @@ const MemoItem: React.FC<MemoItemProps> = ({
         bg-white border-l-8 ${
           borderColors[blockColor as keyof typeof borderColors]
         } 
-        p-2 min-h-30 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] 
-        hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.15)] rounded-sm
+        p-1 min-h-30 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] 
+        hover:shadow-[4px_4px_2px_2px_rgba(0,0,0,0.15)] rounded-sm
       `}
       >
         {type === 'memo' && (
