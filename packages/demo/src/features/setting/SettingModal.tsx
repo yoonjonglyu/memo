@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Modal from '../../components/molecules/Modal';
 import LargeButton from '../../components/atoms/LargeButton';
@@ -16,10 +16,51 @@ const SettingModal: React.FC<SettingModalProps> = ({
   closeModal,
 }) => {
   const { connect, upload, download, connected } = useGoogleDrive();
+  // 업로드/다운로드 확인 상태 관리
+  const [confirmType, setConfirmType] = useState<'upload' | 'download' | null>(
+    null
+  );
+
+  const handleConfirmAction = async () => {
+    if (confirmType === 'upload') await upload();
+    else if (confirmType === 'download') await download();
+    setConfirmType(null);
+  };
 
   return (
     <ModalPortal>
-      <Modal
+      {confirmType ? (
+        /* 동기화 확인 모달 */
+        <Modal
+          header={confirmType === 'upload' ? 'Upload Sync' : 'Download Sync'}
+          footer={
+            <div className="grid grid-cols-2 gap-2">
+              <LargeButton
+                onClick={() => setConfirmType(null)}
+                className="bg-gray-400!"
+              >
+                Back
+              </LargeButton>
+              <LargeButton
+                className={confirmType === 'upload' ? 'bg-memo-m!' : 'bg-memo-e!'}
+                onClick={handleConfirmAction}
+              >
+                Proceed
+              </LargeButton>
+            </div>
+          }
+        >
+          <div className="py-8 text-center px-4">
+            <div className="text-4xl mb-4">{confirmType === 'upload' ? '📤' : '📥'}</div>
+            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+              {confirmType === 'upload'
+                ? "Do you want to upload your current device's notes to Google Drive?\nExisting data stored on the drive disappears."
+                : "Do you want to download notes from Google Drive to your current device?\nExisting notes on your device will be overwritten."}
+            </p>
+          </div>
+        </Modal>
+      ) : (
+        <Modal
         header="Setting"
         footer={
           <LargeButton onClick={closeModal} className="bg-gray-400!">
@@ -37,10 +78,16 @@ const SettingModal: React.FC<SettingModalProps> = ({
               </LargeButton>
             ) : (
               <>
-                <LargeButton className="bg-memo-m!" onClick={upload}>
+                <LargeButton
+                    className="bg-memo-m!"
+                    onClick={() => setConfirmType('upload')}
+                  >
                   Upload to Drive
                 </LargeButton>
-                <LargeButton className="bg-memo-e!" onClick={download}>
+                <LargeButton
+                    className="bg-memo-e!"
+                    onClick={() => setConfirmType('download')}
+                  >
                   Download from Drive
                 </LargeButton>
               </>
@@ -88,6 +135,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
           </div>
         </div>
       </Modal>
+      )}
     </ModalPortal>
   );
 };
