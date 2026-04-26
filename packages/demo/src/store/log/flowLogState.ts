@@ -68,13 +68,15 @@ export const VisibleLogsSelector = selector<FlowLog[]>({
     const validLogs = logs.filter(
       (log) => log.category === 'status' || now - log.timestamp < SEVEN_DAYS_MS
     );
+    
+    // 안드로이드 저사양 기기 대응: 렌더링 시마다 sort를 수행하므로 logs의 길이가 크면 성능 저하 가능
+    // 이미 추가할 때(useLog.ts) 최신순으로 unshift 하도록 설계했으므로 추가 sort를 방어적으로 처리
+    const sortedLogs = [...validLogs].sort((a, b) => b.timestamp - a.timestamp);
 
     // 2. 카테고리 필터링
     if (filter === 'all') {
-      return [...validLogs].sort((a, b) => b.timestamp - a.timestamp);
+      return sortedLogs;
     }
-    return validLogs
-      .filter(log => log.category === filter)
-      .sort((a, b) => b.timestamp - a.timestamp);
+    return sortedLogs.filter(log => log.category === filter);
   },
 });
