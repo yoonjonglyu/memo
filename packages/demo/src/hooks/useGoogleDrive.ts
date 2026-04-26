@@ -9,11 +9,13 @@ import {
 
 import useGoogleAuth from './useGoogleAuth';
 import useMemo from './useMemo';
+import useLog from './useLog';
 
 const MemoSignal = new MemoApi();
 
 const useGoogleDrive = () => {
   const { initMemo } = useMemo();
+  const { addActivityLog } = useLog();
   const { signIn } = useGoogleAuth();
   const [connected, setConnected] = useState(false);
   const [token, setToken] = useState<string | null>(null);
@@ -40,6 +42,7 @@ const useGoogleDrive = () => {
     await MemoSignal.setMemoList(downloadId as any);
     await initMemo();
     alert('Backup data loaded from Google Drive.');
+    addActivityLog('Backup downloaded from Google Drive', 'sync', 'system', 'm2');
   };
 
   const upload = async () => {
@@ -47,6 +50,7 @@ const useGoogleDrive = () => {
 
     uploadFlow(token, await MemoSignal.getMemoList());
     alert('Backup data uploaded to Google Drive.');
+    addActivityLog('Backup uploaded to Google Drive', 'sync', 'system', 'm');
   };
 
   return {

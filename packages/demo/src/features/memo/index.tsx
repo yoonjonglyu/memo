@@ -10,9 +10,10 @@ import useMemo from '../../hooks/useMemo';
 
 export interface MemoFeatureProps {
   isEdit: boolean;
+  isLog: boolean;
 }
 
-const MemoFeature: React.FC<MemoFeatureProps> = ({ isEdit }) => {
+const MemoFeature: React.FC<MemoFeatureProps> = ({ isEdit, isLog }) => {
   const { memoList, initMemo } = useMemo();
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const MemoFeature: React.FC<MemoFeatureProps> = ({ isEdit }) => {
       ) : (
         <EmptyMemo />
       )}
-      <MemoModal />
+      {!isLog && <MemoModal />}
     </BoardLayout>
   );
 };

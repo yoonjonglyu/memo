@@ -1,13 +1,14 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faPenToSquare, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 export interface MemoHeaderProps {
   handleEdit: VoidFunction;
   handleSetting: VoidFunction;
+  handleLog: VoidFunction;
 }
 
-const MemoHeader: React.FC<MemoHeaderProps> = ({ handleEdit, handleSetting }) => {
+const MemoHeader: React.FC<MemoHeaderProps> = ({ handleEdit, handleSetting, handleLog }) => {
   return (
     <div className="flex justify-between items-center w-full px-6 py-4">
       {/* 테트리스 블록 느낌의 타이틀 */}
@@ -16,6 +17,13 @@ const MemoHeader: React.FC<MemoHeaderProps> = ({ handleEdit, handleSetting }) =>
       </h1>
 
       <div className="flex gap-2">
+        <button 
+          onClick={handleLog} 
+          className="w-10 h-10 flex items-center justify-center bg-white border-2 border-memo-m2 text-memo-m2 hover:bg-memo-m2 hover:text-white transition-colors rounded-tetris shadow-sm"
+          aria-label="log"
+        >
+          <FontAwesomeIcon icon={faClockRotateLeft} />
+        </button>
         <button 
           onClick={handleEdit} 
           className="w-10 h-10 flex items-center justify-center bg-white border-2 border-memo-m text-memo-m hover:bg-memo-m hover:text-white transition-colors rounded-tetris shadow-sm"

@@ -7,6 +7,7 @@ import MemoState, {
 } from '../store/memo/memoListState';
 import MemoConfigState from '../store/config/memoConfigState';
 
+import useLog from './useLog';
 import MemoApi from '../api/memoApi';
 
 /**
@@ -44,6 +45,7 @@ function useMemo() {
   const [_memo, set_Memo] = useRecoilState(MemoState);
   const [memoList, setMemoList] = useRecoilState(MemoListState);
   const memoConfig = useRecoilValue(MemoConfigState);
+  const { addActivityLog } = useLog();
   // API 호출 역시 UI보다는 데이터 흐름에 대한 영역이다
   // 보통 swr이나 react-query + 그래프큐엘을 쓰게될텐데 해당 도구들 역시 커스텀훅에 가깝게 처리해서 쓰면된다.
 
@@ -68,6 +70,7 @@ function useMemo() {
       type: 'todo',
       props: [],
     });
+    addActivityLog('New Todo list created', 'add', 'todo', 'm');
   };
   const handleNewNote = async () => {
     _ADDMemo({
@@ -78,6 +81,7 @@ function useMemo() {
         { idx: performance.now() + 1, type: 'p', value: '' },
       ],
     });
+    addActivityLog('New Note created', 'add', 'note', 'm2');
   };
   const handleNewMemo = async () => {
     _ADDMemo({
@@ -85,6 +89,7 @@ function useMemo() {
       type: 'memo',
       props: '',
     });
+    addActivityLog('New Memo created', 'add', 'memo', 'o');
   };
   const handleNewDraft = async () => {
     _ADDMemo({
@@ -92,14 +97,17 @@ function useMemo() {
       type: 'draft',
       props: '',
     });
+    addActivityLog('New Draft created', 'add', 'draft', 'e');
   };
   const handleDeleteMemo = async (viewIndex: number) => {
     const originalIndex = _getOriginalIndex(viewIndex);
     if (originalIndex === -1) return;
+    const target = memoList[viewIndex];
     const state = JSON.parse(JSON.stringify(memoList));
     state.splice(viewIndex, 1);
     setMemoList(state);
     handleSetMemo(memoConfig.sort === 'oldest' ? state : state.reverse());
+    addActivityLog(`${target.type.toUpperCase()} block deleted`, 'delete', target.type as any, 'e');
   };
   // memo의 내용을 수정하는 함수이다.
   const handleMemo = async (viewIndex: number, value: string) => {
@@ -123,6 +131,7 @@ function useMemo() {
       change.props.push({ isAvail: false, todo: value });
       setMemoList(state);
       handleSetMemoContext(originalIndex, change.props);
+      addActivityLog(`Added todo: ${value}`, 'add', 'todo', 'm');
     }
   };
   const handleDeleteTodo = async (viewIndex: number, todoIdx: number) => {
@@ -134,6 +143,7 @@ function useMemo() {
       change.props.splice(todoIdx, 1);
       setMemoList(state);
       handleSetMemoContext(originalIndex, change.props);
+      addActivityLog('Todo item removed', 'delete', 'todo', 'm');
     }
   };
   const handleCheckTodo = async (viewIndex: number, todoIdx: number) => {
@@ -142,9 +152,13 @@ function useMemo() {
     const change = state[viewIndex];
 
     if (change.type === 'todo') {
-      change.props[todoIdx].isAvail = !change.props[todoIdx].isAvail;
+      const targetTodo = change.props[todoIdx];
+      targetTodo.isAvail = !targetTodo.isAvail;
       setMemoList(state);
       handleSetMemoContext(originalIndex, change.props);
+      
+      const status = targetTodo.isAvail ? 'completed' : 'uncompleted';
+      addActivityLog(`"${targetTodo.todo}" marked as ${status}`, 'check', 'todo', 'm');
     }
   };
   // Note의 내용을 수정하는 함수이다.
@@ -217,6 +231,7 @@ function useMemo() {
       },
       true
     );
+    addActivityLog(`Added ${type} block to note`, 'add', 'note', 'm2');
   };
   const handleDeleteNoteItem = async (viewIndex: number, cdx: number) => {
     await processNoteTaskWithSession(
@@ -226,6 +241,7 @@ function useMemo() {
       },
       true
     );
+    addActivityLog('Note block removed', 'delete', 'note', 'm2');
   };
 
   return {
